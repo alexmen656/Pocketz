@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { Preferences } from '@capacitor/preferences'
 import { BarcodeScanner, BarcodeFormat } from '@capacitor-mlkit/barcode-scanning'
 import { useI18n } from 'vue-i18n'
+import { detectBarcodeFormat, mapMLKitFormatToString, type BarcodeFormatType } from '@/utils/barcodeUtils'
 
 const { t } = useI18n()
 
@@ -19,6 +20,7 @@ interface Company {
 
 interface Card extends Company {
     barcode?: string
+    barcodeFormat?: BarcodeFormatType
     cardNumber?: string
     memberNumber?: string
     isCustomCard?: boolean
@@ -28,6 +30,7 @@ const router = useRouter()
 const step = ref<'select-company' | 'enter-barcode' | 'custom-card'>('select-company')
 const selectedCompany = ref<Company | null>(null)
 const barcode = ref('')
+const barcodeFormat = ref<BarcodeFormatType>('CODE128')
 const isScanning = ref(false)
 const searchQuery = ref('')
 const customCompanyName = ref('')
@@ -223,6 +226,27 @@ async function startScanning() {
 
         if (nextValue) {
             barcode.value = nextValue
+
+            if (detectedValue?.format !== undefined) {
+                const formatMapping: Record<BarcodeFormat, BarcodeFormatType> = {
+                    [BarcodeFormat.Code128]: 'CODE128',
+                    [BarcodeFormat.Code39]: 'CODE39',
+                    [BarcodeFormat.Code93]: 'CODE93',
+                    [BarcodeFormat.Ean13]: 'EAN13',
+                    [BarcodeFormat.Ean8]: 'EAN8',
+                    [BarcodeFormat.UpcA]: 'UPC_A',
+                    [BarcodeFormat.UpcE]: 'UPC_E',
+                    [BarcodeFormat.Itf]: 'ITF',
+                    [BarcodeFormat.Pdf417]: 'PDF417',
+                    [BarcodeFormat.QrCode]: 'QR_CODE',
+                    [BarcodeFormat.Aztec]: 'AZTEC',
+                    [BarcodeFormat.DataMatrix]: 'DATA_MATRIX',
+                    [BarcodeFormat.Codabar]: 'CODABAR',
+                }
+                barcodeFormat.value = formatMapping[detectedValue.format] || 'CODE128'
+            } else {
+                barcodeFormat.value = detectBarcodeFormat(nextValue)
+            }
         } else {
             console.warn('Scan completed but no readable value was returned', barcodes)
         }
@@ -237,6 +261,7 @@ function goBack() {
     if (step.value === 'enter-barcode') {
         step.value = 'select-company'
         barcode.value = ''
+        barcodeFormat.value = 'CODE128'
         selectedCompany.value = null
     } else if (step.value === 'custom-card') {
         step.value = 'select-company'
@@ -254,6 +279,10 @@ async function saveCard() {
     const cardNumber = barcode.value;
     const memberNumber = `${Math.floor(Math.random() * 900 + 100)} ${Math.floor(Math.random() * 900 + 100)} ${Math.floor(Math.random() * 9000 + 1000)}`
 
+    if (barcodeFormat.value === 'CODE128' && barcode.value) {
+        barcodeFormat.value = detectBarcodeFormat(barcode.value)
+    }
+
     const newCard: any = {
         id: Date.now(),
         name: selectedCompany.value.name,
@@ -261,6 +290,7 @@ async function saveCard() {
         bgColor: selectedCompany.value.bgColor,
         textColor: selectedCompany.value.textColor,
         barcode: barcode.value.replace(/\s+/g, ''),
+        barcodeFormat: barcodeFormat.value,
         cardNumber: cardNumber,
         memberNumber: memberNumber,
         isCustomCard: isCustomCard,

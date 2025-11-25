@@ -196,9 +196,27 @@ async function generatePass(cardData) {
     );
 
     if (cardData.barcode) {
+        const formatMap = {
+            'CODE128': 'PKBarcodeFormatCode128',
+            'CODE39': 'PKBarcodeFormatCode39',
+            'CODE93': 'PKBarcodeFormatCode93',
+            'EAN13': 'PKBarcodeFormatEAN13',
+            'EAN8': 'PKBarcodeFormatEAN8',
+            'UPC_A': 'PKBarcodeFormatPDF417',
+            'UPC_E': 'PKBarcodeFormatPDF417',
+            'ITF': 'PKBarcodeFormatITF14',
+            'PDF417': 'PKBarcodeFormatPDF417',
+            'QR_CODE': 'PKBarcodeFormatQR',
+            'AZTEC': 'PKBarcodeFormatAztec',
+            'DATA_MATRIX': 'PKBarcodeFormatPDF417',
+            'CODABAR': 'PKBarcodeFormatCode128',
+        };
+
+        const appleFormat = formatMap[cardData.barcodeFormat] || 'PKBarcodeFormatCode128';
+
         pass.setBarcodes({
             message: cardData.barcode,
-            format: 'PKBarcodeFormatCode128',
+            format: appleFormat,
             messageEncoding: 'iso-8859-1',
         });
     }

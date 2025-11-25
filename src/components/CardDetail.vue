@@ -9,6 +9,7 @@ import { useI18n } from 'vue-i18n';
 import nacl from 'tweetnacl';
 import naclUtil from 'tweetnacl-util';
 import QRCode from 'qrcode';
+import { detectBarcodeFormat, getVueBarcodeFormat, type BarcodeFormatType } from '@/utils/barcodeUtils'
 
 const { t } = useI18n();
 
@@ -23,6 +24,7 @@ interface Props {
         bgColor: string
         textColor: string
         barcode?: string
+        barcodeFormat?: BarcodeFormatType
         cardNumber?: string
         memberNumber?: string
         photoFront?: string
@@ -90,6 +92,17 @@ const emit = defineEmits<{
 }>()
 
 const barcodePattern = ref(props.card.barcode)
+const barcodeFormatToUse = computed(() => {
+    if (props.card.barcodeFormat) {
+        return getVueBarcodeFormat(props.card.barcodeFormat)
+    }
+
+    if (props.card.barcode) {
+        const detected = detectBarcodeFormat(props.card.barcode)
+        return getVueBarcodeFormat(detected)
+    }
+    return 'CODE128'
+})
 const showMenu = ref(false)
 const showPhotosSection = ref(false)
 const showShareScreen = ref(false)
@@ -113,12 +126,16 @@ async function generateShareLink() {
     try {
         const key = nacl.randomBytes(nacl.secretbox.keyLength)
 
+        const barcodeValue = props.card.barcode || cardNumber.value.replace(/\s/g, '')
+        const format = props.card.barcodeFormat || detectBarcodeFormat(barcodeValue)
+
         const cardData = {
             name: props.card.name,
             logo: props.card.logo,
             bgColor: props.card.bgColor,
             textColor: props.card.textColor,
-            barcode: props.card.barcode || cardNumber.value.replace(/\s/g, ''),
+            barcode: barcodeValue,
+            barcodeFormat: format,
             cardNumber: cardNumber.value,
             isCustomCard: props.card.isCustomCard
         }
@@ -605,7 +622,7 @@ function getInitials(name: string): string {
                     <div class="barcode-section">
                         <div class="barcode">
                             <vue-barcode :value="barcodePattern"
-                                :options="{ format: 'CODE128', lineColor: '#000', width: 2, height: 70, displayValue: false }"
+                                :options="{ format: barcodeFormatToUse, lineColor: '#000', width: 2, height: 70, displayValue: false }"
                                 class="barcode-svg" />
                         </div>
                         <div class="card-number">{{ cardNumber }}</div>

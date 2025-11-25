@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { Preferences } from '@capacitor/preferences'
 import nacl from 'tweetnacl'
 import naclUtil from 'tweetnacl-util'
 import VueBarcode from '@chenfengyuan/vue-barcode'
+import { detectBarcodeFormat, getVueBarcodeFormat, type BarcodeFormatType } from '@/utils/barcodeUtils'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -17,6 +18,7 @@ interface CardData {
     bgColor: string
     textColor: string
     barcode: string
+    barcodeFormat?: BarcodeFormatType
     cardNumber: string
     isCustomCard?: boolean
 }
@@ -24,6 +26,18 @@ interface CardData {
 const cardData = ref<CardData | null>(null)
 const error = ref('')
 const loading = ref(true)
+
+const barcodeFormatToUse = computed(() => {
+    if (cardData.value?.barcodeFormat) {
+        return getVueBarcodeFormat(cardData.value.barcodeFormat)
+    }
+
+    if (cardData.value?.barcode) {
+        const detected = detectBarcodeFormat(cardData.value.barcode)
+        return getVueBarcodeFormat(detected)
+    }
+    return 'CODE128'
+})
 
 onMounted(async () => {
     try {
@@ -88,6 +102,8 @@ async function saveCardToPreferences() {
             ? Math.max(...existingCards.map((c: any) => c.id)) + 1
             : 1
 
+        const barcodeFormat = cardData.value.barcodeFormat || detectBarcodeFormat(cardData.value.barcode)
+
         const newCard = {
             id: newId,
             name: cardData.value.name,
@@ -95,6 +111,7 @@ async function saveCardToPreferences() {
             bgColor: cardData.value.bgColor,
             textColor: cardData.value.textColor,
             barcode: cardData.value.barcode,
+            barcodeFormat: barcodeFormat,
             cardNumber: cardData.value.cardNumber,
             isCustomCard: cardData.value.isCustomCard || false
         }
@@ -187,7 +204,7 @@ function getInitials(name: string): string {
                 <!-- Barcode Section -->
                 <div class="barcode-section">
                     <vue-barcode :value="cardData.barcode"
-                        :options="{ format: 'CODE128', lineColor: '#000', width: 2, height: 60, displayValue: false }"
+                        :options="{ format: barcodeFormatToUse, lineColor: '#000', width: 2, height: 60, displayValue: false }"
                         class="barcode" />
                     <span class="barcode-number">{{ cardData.cardNumber }}</span>
                 </div>
