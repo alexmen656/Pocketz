@@ -46,7 +46,8 @@
     "cardName": "Nombre de la tarjeta",
     "cardNumber": "Número de tarjeta",
     "save": "Guardar",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "generatingPass": "Preparando pass..."
   },
   "shareReceive": {
     "decrypting": "Descifrando tarjeta...",

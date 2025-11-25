@@ -46,7 +46,8 @@
     "cardName": "Názov karty",
     "cardNumber": "Číslo karty",
     "save": "Uložiť",
-    "cancel": "Zrušiť"
+    "cancel": "Zrušiť",
+    "generatingPass": "Pass sa pripravuje..."
   },
   "shareReceive": {
     "decrypting": "Dešifrovanie karty...",

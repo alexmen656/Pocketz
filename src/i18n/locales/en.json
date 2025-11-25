@@ -46,7 +46,8 @@
     "cardName": "Card Name",
     "cardNumber": "Card Number",
     "save": "Save",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "generatingPass": "Preparing pass..."
   },
   "shareReceive": {
     "decrypting": "Decrypting card...",

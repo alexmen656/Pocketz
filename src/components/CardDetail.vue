@@ -44,6 +44,7 @@ function blobToBase64(blob: Blob): Promise<string | ArrayBuffer | null> {
 
 async function addToWallet() {
     try {
+        isGeneratingPass.value = true
         const cardPayload = {
             name: props.card.name,
             logo: props.card.logo,
@@ -77,6 +78,8 @@ async function addToWallet() {
     } catch (error) {
         console.error('Error adding to wallet:', error);
         alert(t('cardDetail.failedToAddToWallet'));
+    } finally {
+        isGeneratingPass.value = false
     }
 }
 
@@ -103,6 +106,7 @@ const cardNumber = ref(props.card.cardNumber || '')
 const isEditMode = ref(false)
 const editedName = ref(props.card.name)
 const editedCardNumber = ref(props.card.cardNumber || '')
+const isGeneratingPass = ref(false)
 //const memberNumber = ref(props.card.memberNumber || '')
 
 async function generateShareLink() {
@@ -651,6 +655,14 @@ function getInitials(name: string): string {
                 </div>
             </div>
         </div>
+        <transition name="fade">
+            <div v-if="isGeneratingPass" class="loading-overlay">
+                <div class="loading-popup">
+                    <div class="spinner"></div>
+                    <p>{{ t('cardDetail.generatingPass') }}</p>
+                </div>
+            </div>
+        </transition>
     </div>
 </template>
 
@@ -664,6 +676,82 @@ function getInitials(name: string): string {
 .add-to-wallet-btn {
     border: none;
     background-color: transparent;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading-popup {
+    background: white;
+    border-radius: 16px;
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    text-align: center;
+    color: #333;
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid #F0F0F0;
+    border-top-color: #667eea;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-popup p {
+    font-size: 16px;
+    font-weight: 500;
+    color: inherit;
+    margin: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+    .loading-popup {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+    }
+
+    .loading-popup p {
+        color: var(--text-primary);
+    }
+
+    .spinner {
+        border-color: var(--border-color);
+        border-top-color: #667eea;
+    }
 }
 
 .card-detail-overlay {

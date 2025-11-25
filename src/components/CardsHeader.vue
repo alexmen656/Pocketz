@@ -50,5 +50,6 @@ const { isDarkMode } = useDarkMode()
 
 .add-button-dark {
     background-color: var(--bg-secondary);
+    color: var(--text-primary);
 }
 </style>

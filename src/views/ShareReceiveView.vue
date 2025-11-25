@@ -130,53 +130,74 @@ function getInitials(name: string): string {
 
 <template>
     <div class="share-receive-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                    <rect width="24" height="24" rx="6" fill="#0066FF" />
+                    <rect x="6" y="8" width="12" height="2" rx="1" fill="white" />
+                    <rect x="6" y="11" width="8" height="2" rx="1" fill="white" />
+                    <rect x="6" y="14" width="10" height="2" rx="1" fill="white" />
+                </svg>
+                <span class="logo-text">Pocketz</span>
+            </div>
+        </header>
+
         <div class="content">
-            <div v-if="loading" class="loading-state">
+            <!-- Loading State -->
+            <div v-if="loading" class="state-container">
                 <div class="spinner"></div>
-                <p>{{ t('shareReceive.decrypting') }}</p>
+                <p class="state-text">{{ t('shareReceive.decrypting') }}</p>
             </div>
 
-            <div v-else-if="error" class="error-state">
-                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="12" r="10" stroke="#FF4444" stroke-width="2" />
-                    <path d="M12 8v4M12 16h.01" stroke="#FF4444" stroke-width="2" stroke-linecap="round" />
-                </svg>
-                <h2>{{ t('shareReceive.errorTitle') }}</h2>
-                <p>{{ error }}</p>
-                <button class="back-btn" @click="router.push('/')">
+            <!-- Error State -->
+            <div v-else-if="error" class="state-container">
+                <div class="error-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="10" stroke="#FF3B30" stroke-width="2" />
+                        <path d="M12 8v4M12 16h.01" stroke="#FF3B30" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </div>
+                <h2 class="state-title">{{ t('shareReceive.errorTitle') }}</h2>
+                <p class="state-description">{{ error }}</p>
+                <button class="btn btn-secondary" @click="router.push('/')">
                     {{ t('shareReceive.backToHome') }}
                 </button>
             </div>
 
-            <div v-else-if="cardData" class="success-state">
-                <h1>{{ t('shareReceive.cardReceived') }}</h1>
-                <p class="subtitle">{{ t('shareReceive.cardReceivedDescription') }}</p>
+            <!-- Success State -->
+            <div v-else-if="cardData" class="state-container">
+                <h1 class="page-title">{{ t('shareReceive.cardReceived') }}</h1>
+                <p class="page-subtitle">{{ t('shareReceive.cardReceivedDescription') }}</p>
 
-                <div class="card-preview" :style="{ backgroundColor: cardData.bgColor, color: cardData.textColor }">
-                    <div class="card-logo">
-                        <div v-if="cardData.isCustomCard" class="logo-initials">
-                            {{ getInitials(cardData.name) }}
+                <!-- Card Preview -->
+                <div class="card-wrapper">
+                    <div class="card-preview" :style="{ backgroundColor: cardData.bgColor, color: cardData.textColor }">
+                        <div class="card-content">
+                            <div v-if="cardData.isCustomCard" class="card-initials">
+                                {{ getInitials(cardData.name) }}
+                            </div>
+                            <img v-else :src="'https://api.pocketz.app/logo/' + cardData.logo" :alt="cardData.name"
+                                class="card-logo" />
+                            <span class="card-name">{{ cardData.name }}</span>
                         </div>
-                        <div v-else class="logo-placeholder">
-                            <img :src="'https://cdn.brandfetch.io/' + cardData.logo + '?c=1idPcHNqxG9p9gPyoFm'" alt=""
-                                style="max-width: 120px; max-height: 100px; object-fit: contain;">
-                        </div>
-                        <div class="card-brand-name">{{ cardData.name }}</div>
                     </div>
                 </div>
 
-                <div class="barcode-preview">
+                <!-- Barcode Section -->
+                <div class="barcode-section">
                     <vue-barcode :value="cardData.barcode"
-                        :options="{ format: 'CODE128', lineColor: '#000', width: 2, height: 70, displayValue: false }"
-                        class="barcode-svg" />
-                    <div class="card-number">{{ cardData.cardNumber }}</div>
+                        :options="{ format: 'CODE128', lineColor: '#000', width: 2, height: 60, displayValue: false }"
+                        class="barcode" />
+                    <span class="barcode-number">{{ cardData.cardNumber }}</span>
                 </div>
 
-                <div class="action-buttons">
-                    <button class="save-btn" @click="saveCard">
+                <!-- Actions -->
+                <div class="actions">
+                    <button class="btn btn-primary" @click="saveCard">
                         {{ t('shareReceive.saveCard') }}
                     </button>
-                    <button class="cancel-btn" @click="router.push('/')">
+                    <button class="btn btn-ghost" @click="router.push('/')">
                         {{ t('shareReceive.cancel') }}
                     </button>
                 </div>
@@ -188,41 +209,96 @@ function getInitials(name: string): string {
 <style scoped>
 .share-receive-container {
     min-height: 100vh;
-    background-color: var(--bg-primary);
+    background-color: #FAFAFA;
     display: flex;
     flex-direction: column;
-    padding: 20px;
-    padding-top: calc(20px + max(0px, env(safe-area-inset-top)));
 }
 
+/* Header */
+.header {
+    padding: 16px 24px;
+    padding-top: calc(16px + max(0px, env(safe-area-inset-top)));
+    background: white;
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-text {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1A1A1A;
+    letter-spacing: -0.5px;
+}
+
+/* Content */
 .content {
     flex: 1;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    max-width: 500px;
-    margin: 0 auto;
-    width: 100%;
+    align-items: flex-start;
+    padding: 40px 24px;
 }
 
-.loading-state,
-.error-state,
-.success-state {
+.state-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
+    max-width: 400px;
+    width: 100%;
+}
+
+/* Typography */
+.page-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1A1A1A;
+    margin: 0;
+    letter-spacing: -0.5px;
     text-align: center;
 }
 
+.page-subtitle {
+    font-size: 16px;
+    color: #6B6B6B;
+    margin: 0 0 8px 0;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.state-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1A1A1A;
+    margin: 8px 0 0 0;
+}
+
+.state-description {
+    font-size: 15px;
+    color: #6B6B6B;
+    margin: 0;
+    text-align: center;
+}
+
+.state-text {
+    font-size: 15px;
+    color: #6B6B6B;
+    margin: 0;
+}
+
+/* Spinner */
 .spinner {
-    width: 50px;
-    height: 50px;
-    border: 4px solid var(--border-color);
-    border-top-color: #667eea;
+    width: 40px;
+    height: 40px;
+    border: 3px solid #F0F0F0;
+    border-top-color: #0066FF;
     border-radius: 50%;
-    animation: spin 1s linear infinite;
+    animation: spin 0.8s linear infinite;
 }
 
 @keyframes spin {
@@ -231,154 +307,204 @@ function getInitials(name: string): string {
     }
 }
 
-.error-state svg {
-    margin-bottom: 10px;
+/* Error Icon */
+.error-icon {
+    padding: 16px;
+    background: #FFF5F5;
+    border-radius: 50%;
 }
 
-.error-state h2 {
-    font-size: 24px;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin: 0;
-}
-
-.error-state p {
-    font-size: 16px;
-    color: var(--text-secondary);
-    margin: 0;
-}
-
-.back-btn,
-.cancel-btn {
-    padding: 12px 24px;
-    background: var(--bg-secondary);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.back-btn:hover,
-.cancel-btn:hover {
-    background: var(--border-subtle);
-}
-
-.success-state h1 {
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin: 0;
-}
-
-.subtitle {
-    font-size: 16px;
-    color: var(--text-secondary);
-    margin: 0;
+/* Card Preview */
+.card-wrapper {
+    width: 100%;
+    margin: 16px 0;
 }
 
 .card-preview {
     border-radius: 16px;
-    padding: 40px 30px;
-    box-shadow: 0 4px 12px var(--shadow-medium);
-    min-height: 220px;
-    width: 100%;
+    padding: 48px 24px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 20px 0;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
 }
 
 .card-logo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+    max-width: 100px;
+    max-height: 80px;
+    object-fit: contain;
 }
 
-.logo-placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.logo-initials {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 48px;
+.card-initials {
+    font-size: 40px;
     font-weight: 700;
-    width: 120px;
-    height: 120px;
-    border-radius: 12px;
-    background-color: rgba(255, 255, 255, 0.2);
-    text-align: center;
+    opacity: 0.9;
 }
 
-.card-brand-name {
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-align: center;
-}
-
-.barcode-preview {
-    background-color: var(--bg-secondary);
-    border-radius: 16px;
-    padding: 30px 20px;
-    box-shadow: 0 2px 8px var(--shadow-light);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    width: 100%;
-}
-
-.barcode-svg {
-    width: 100%;
-    max-width: 300px;
-    height: 80px;
-}
-
-.card-number {
-    font-size: 20px;
+.card-name {
+    font-size: 22px;
     font-weight: 600;
-    color: var(--text-primary);
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
-.action-buttons {
+/* Barcode Section */
+.barcode-section {
+    width: 100%;
+    background: white;
+    border-radius: 12px;
+    padding: 24px 16px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    width: 100%;
-    margin-top: 20px;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid #F0F0F0;
 }
 
-.save-btn {
-    padding: 15px 30px;
-    background: #667eea;
-    color: white;
-    border: none;
-    border-radius: 10px;
+.barcode {
+    width: 100%;
+    max-width: 280px;
+}
+
+.barcode-number {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1A1A1A;
+    letter-spacing: 2px;
+}
+
+/* Actions */
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    margin-top: 8px;
+}
+
+/* Buttons */
+.btn {
+    padding: 14px 24px;
+    border-radius: 12px;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: all 0.2s ease;
+    border: none;
+    width: 100%;
 }
 
-.save-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+.btn-primary {
+    background: #0066FF;
+    color: white;
 }
 
-@media (min-width: 768px) {
-    .action-buttons {
+.btn-primary:hover {
+    background: #0052CC;
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+.btn-secondary {
+    background: #1A1A1A;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #333;
+}
+
+.btn-ghost {
+    background: transparent;
+    color: #6B6B6B;
+}
+
+.btn-ghost:hover {
+    background: #F0F0F0;
+    color: #1A1A1A;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .share-receive-container {
+        background-color: #0A0A0A;
+    }
+
+    .header {
+        background: #1A1A1A;
+        border-bottom-color: #2A2A2A;
+    }
+
+    .logo-text {
+        color: #FFFFFF;
+    }
+
+    .page-title,
+    .state-title {
+        color: #FFFFFF;
+    }
+
+    .page-subtitle,
+    .state-description,
+    .state-text {
+        color: #8B8B8B;
+    }
+
+    .spinner {
+        border-color: #2A2A2A;
+        border-top-color: #0066FF;
+    }
+
+    .error-icon {
+        background: rgba(255, 59, 48, 0.1);
+    }
+
+    .card-preview {
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .barcode-section {
+        background: #1A1A1A;
+        border-color: #2A2A2A;
+    }
+
+    .barcode-number {
+        color: #FFFFFF;
+    }
+
+    .btn-ghost {
+        color: #8B8B8B;
+    }
+
+    .btn-ghost:hover {
+        background: #2A2A2A;
+        color: #FFFFFF;
+    }
+}
+
+/* Responsive */
+@media (min-width: 640px) {
+    .content {
+        align-items: center;
+        padding: 60px 24px;
+    }
+
+    .actions {
         flex-direction: row;
-        justify-content: center;
+    }
+
+    .btn {
+        width: auto;
+        flex: 1;
     }
 }
 </style>

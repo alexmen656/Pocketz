@@ -5,13 +5,11 @@ const isDarkMode = ref(false)
 
 export const useDarkMode = () => {
   const initDarkMode = async () => {
-    // Check for saved preference
     const { value } = await Preferences.get({ key: 'darkMode' })
 
     if (value !== null) {
       isDarkMode.value = value === 'true'
     } else {
-      // Check system preference
       isDarkMode.value = window.matchMedia('(prefers-color-scheme: dark)').matches
     }
 
@@ -36,11 +34,11 @@ export const useDarkMode = () => {
     }
   }
 
-  // Watch for system theme changes
-  onMounted(() => {
+  onMounted(async () => {
+    const { value } = await Preferences.get({ key: 'darkMode' })
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
     const handleChange = (e: MediaQueryListEvent) => {
-      if (!localStorage.getItem('darkMode')) {
+      if (value === null) {
         isDarkMode.value = e.matches
         applyDarkMode(e.matches)
       }
