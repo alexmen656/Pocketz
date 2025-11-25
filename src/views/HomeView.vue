@@ -86,7 +86,8 @@ onMounted(async () => {
 <template>
   <div class="app-container">
     <CardsHeader />
-    <div class="section-title">{{ t('home.allCards') }}</div>
+    <div class="new-section-title"></div>
+    <!-- <div class="section-title">{{ t('home.allCards') }}</div>-->
     <div class="cards-grid">
       <div v-for="card in cards" :key="card.id" class="card"
         :style="{ backgroundColor: card.bgColor, color: card.textColor }" @click="openCard(card)">
@@ -125,6 +126,11 @@ onMounted(async () => {
   width: 100%;
   box-sizing: border-box;
   overflow-x: hidden;
+}
+
+.new-section-title {
+  height: 16px;
+  width: 100%;
 }
 
 .section-title {
