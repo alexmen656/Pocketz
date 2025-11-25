@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
+import { useDarkMode } from '@/composables/useDarkMode'
 const { t } = useI18n()
+const { isDarkMode } = useDarkMode()
 </script>
 
 <template>
     <header class="header">
         <h1 class="title">{{ t('home.title') }}</h1>
-        <button class="add-button" @click="$router.push('/create-card')">+</button>
+        <button :class="['add-button', { 'add-button-dark': isDarkMode }]"
+            @click="$router.push('/create-card')">+</button>
     </header>
 </template>
 
@@ -32,7 +35,7 @@ const { t } = useI18n()
     width: 42px;
     height: 42px;
     border: none;
-    color: gray;
+    color: var(--text-muted);
     font-size: 28px;
     cursor: pointer;
     line-height: 1;
@@ -43,5 +46,9 @@ const { t } = useI18n()
     border-radius: 50%;
     transition: all 0.3s ease;
     text-align: center;
+}
+
+.add-button-dark {
+    background-color: var(--bg-secondary);
 }
 </style>

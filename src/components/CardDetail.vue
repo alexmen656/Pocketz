@@ -415,8 +415,7 @@ function getInitials(name: string): string {
             <header class="detail-header">
                 <button class="back-button" @click="emit('close')">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15 18L9 12L15 6" stroke="#000" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
+                        <path d="M15 18L9 12L15 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </button>
                 <h1 class="detail-title">{{ card.name }}</h1>
@@ -728,6 +727,12 @@ function getInitials(name: string): string {
     align-items: center;
     justify-content: center;
     padding: 0;
+    color: var(--text-primary);
+}
+
+.back-button svg,
+.menu-button svg {
+    stroke: var(--text-primary);
 }
 
 .menu-wrapper {

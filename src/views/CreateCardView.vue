@@ -328,8 +328,7 @@ async function saveCard() {
         <header class="header">
             <button class="back-button" @click="goBack">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M15 18L9 12L15 6" stroke="#000" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" />
+                    <path d="M15 18L9 12L15 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
             </button>
             <h1 class="title">{{
@@ -473,6 +472,10 @@ async function saveCard() {
     color: var(--text-primary);
 }
 
+.back-button svg {
+    stroke: var(--text-primary);
+}
+
 .title {
     font-size: 18px;
     font-weight: 600;
@@ -519,7 +522,7 @@ async function saveCard() {
     font-size: 14px;
     font-weight: 600;
     color: #FF6B6B;
-    background-color: #FFFFFF;
+    background-color: var(--bg-secondary);
     border: 2px solid #FF6B6B;
     border-radius: 8px;
     cursor: pointer;
@@ -533,7 +536,7 @@ async function saveCard() {
 
 .custom-card-button:active {
     transform: scale(0.98);
-    background-color: #FFF5F5;
+    background-color: var(--border-subtle);
 }
 
 .companies-list {
@@ -649,7 +652,7 @@ async function saveCard() {
     font-size: 14px;
     font-weight: 600;
     color: #FF6B6B;
-    background-color: #FFFFFF;
+    background-color: var(--bg-secondary);
     border: 2px solid #FF6B6B;
     border-radius: 8px;
     cursor: pointer;
@@ -704,13 +707,13 @@ async function saveCard() {
 }
 
 .btn-secondary {
-    background-color: #FFFFFF;
+    background-color: var(--bg-secondary);
     color: #FF6B6B;
     border: 2px solid #FF6B6B;
 }
 
 .btn-secondary:active {
-    background-color: #FFF5F5;
+    background-color: var(--border-subtle);
 }
 
 @media (min-width: 768px) {
