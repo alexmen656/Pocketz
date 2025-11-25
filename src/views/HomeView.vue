@@ -8,6 +8,8 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
+const API_BASE_URL = 'https://api.pocketz.app'
+
 interface Card {
   id: number
   name: string
@@ -18,41 +20,7 @@ interface Card {
   deleted?: boolean
 }
 
-const extractColorFromImage = (logoUrl: string): Promise<string> => {
-  return new Promise((resolve) => {
-    const img = new Image()
-    img.crossOrigin = 'anonymous'
-    img.onload = () => {
-      const canvas = document.createElement('canvas')
-      canvas.width = img.width
-      canvas.height = img.height
-      const ctx = canvas.getContext('2d')
-      if (ctx) {
-        ctx.drawImage(img, 0, 0)
-        const x = Math.floor(img.width - 10)
-        const y = Math.floor(img.height / 2)
-        const imageData = ctx.getImageData(x, y, 10, 10)
-        const data = imageData.data
-        const color = `rgb(${data[0]}, ${data[1]}, ${data[2]})`
-        resolve(color)
-      }
-    }
-    img.onerror = () => {
-      resolve('#E53935')
-    }
-    img.src = logoUrl
-  })
-}
-
-const getTextColor = (rgbColor: string): string => {
-  const match = rgbColor.match(/\d+/g)
-  if (!match || match.length < 3) return '#FFFFFF'
-  const r = parseInt(match[0]!)
-  const g = parseInt(match[1]!)
-  const b = parseInt(match[2]!)
-  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
-  return luminance > 0.5 ? '#000000' : '#FFFFFF'
-}
+const getLogoUrl = (domain: string) => `${API_BASE_URL}/logo/${domain}`
 
 const getInitials = (name: string): string => {
   const trimmed = name.trim()
@@ -104,25 +72,10 @@ async function saveCards() {
   });
 }
 
-const API_BASE_URL = 'https://api.pocketz.app'
-
-const getLogoUrl = (domain: string) => `${API_BASE_URL}/logo/${domain}`
-
 const getCards = async (): Promise<Card[]> => {
   const { value } = await Preferences.get({ key: 'cards' });
   if (!value) return []
-  const cardsData = JSON.parse(value)
-
-  for (const card of cardsData) {
-    if (!card.isCustomCard && card.logo) {
-      const logoUrl = getLogoUrl(card.logo)
-      const bgColor = await extractColorFromImage(logoUrl)
-      card.bgColor = bgColor
-      card.textColor = getTextColor(bgColor)
-    }
-  }
-
-  return cardsData;
+  return JSON.parse(value)
 };
 
 onMounted(async () => {

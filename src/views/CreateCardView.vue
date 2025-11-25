@@ -119,55 +119,15 @@ const getInitials = (name: string): string => {
     return words.map(w => w.charAt(0)).join('').toUpperCase().substring(0, 2)
 }
 
-const extractColorFromImage = (logoUrl: string): Promise<string> => {
-    return new Promise((resolve) => {
-        const img = new Image()
-        img.crossOrigin = 'anonymous'
-        img.onload = () => {
-            const canvas = document.createElement('canvas')
-            canvas.width = img.width
-            canvas.height = img.height
-            const ctx = canvas.getContext('2d')
-            if (ctx) {
-                ctx.drawImage(img, 0, 0)
-                const x = Math.floor(img.width - 10)
-                const y = Math.floor(img.height / 2)
-                const imageData = ctx.getImageData(x, y, 10, 10)
-                const data = imageData.data
-                const color = `rgb(${data[0]}, ${data[1]}, ${data[2]})`
-                resolve(color)
-            }
-        }
-        img.onerror = () => {
-            resolve('#E53935')
-        }
-        img.src = logoUrl
-    })
-}
-
-const getTextColor = (rgbColor: string): string => {
-    const match = rgbColor.match(/\d+/g)
-    if (!match || match.length < 3) return '#FFFFFF'
-    const r = parseInt(match[0]!)
-    const g = parseInt(match[1]!)
-    const b = parseInt(match[2]!)
-    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
-    return luminance > 0.5 ? '#000000' : '#FFFFFF'
-}
-
 const companies = ref<Company[]>([]);
-const isLoadingCompanies = ref(true);
 
 const fetchCompanies = async () => {
     try {
-        isLoadingCompanies.value = true;
         const response = await fetch(`${API_BASE_URL}/companies`);
         if (!response.ok) throw new Error('Failed to fetch companies');
         companies.value = await response.json();
     } catch (error) {
         console.error('Error fetching companies:', error);
-    } finally {
-        isLoadingCompanies.value = false;
     }
 };
 
@@ -213,12 +173,6 @@ const isFormValid = computed(() => {
 
 onMounted(async () => {
     await fetchCompanies();
-    for (const company of companies.value) {
-        const logoUrl = getLogoUrl(company.logo)
-        const bgColor = await extractColorFromImage(logoUrl)
-        company.bgColor = bgColor
-        company.textColor = getTextColor(bgColor)
-    }
 })
 
 onUnmounted(() => {
@@ -295,27 +249,17 @@ function goBack() {
 async function saveCard() {
     if (!selectedCompany.value || !barcode.value.trim()) return
 
-    let bgColor = selectedCompany.value.bgColor
-    let textColor = selectedCompany.value.textColor
-    let isCustomCard = false
+    const isCustomCard = !selectedCompany.value.logo
 
-    if (selectedCompany.value.logo) {
-        const logoUrl = getLogoUrl(selectedCompany.value.logo)
-        bgColor = await extractColorFromImage(logoUrl)
-        textColor = getTextColor(bgColor)
-    } else {
-        isCustomCard = true
-    }
-
-    const cardNumber = barcode.value; //`${Math.floor(Math.random() * 900 + 100)} ${Math.floor(Math.random() * 900 + 100)} ${Math.floor(Math.random() * 900 + 100)} ${Math.floor(Math.random() * 900 + 100)}`
+    const cardNumber = barcode.value;
     const memberNumber = `${Math.floor(Math.random() * 900 + 100)} ${Math.floor(Math.random() * 900 + 100)} ${Math.floor(Math.random() * 9000 + 1000)}`
 
     const newCard: any = {
         id: Date.now(),
         name: selectedCompany.value.name,
         logo: selectedCompany.value.logo,
-        bgColor: bgColor,
-        textColor: textColor,
+        bgColor: selectedCompany.value.bgColor,
+        textColor: selectedCompany.value.textColor,
         barcode: barcode.value.replace(/\s+/g, ''),
         cardNumber: cardNumber,
         memberNumber: memberNumber,
