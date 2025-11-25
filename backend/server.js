@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import pkg from 'passkit-generator';
 const { PKPass } = pkg;
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import sharp from 'sharp';
@@ -19,6 +19,17 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+app.use('/logos', express.static(join(__dirname, 'logos')));
+
+const loadCompanies = () => {
+    try {
+        const companiesPath = join(__dirname, 'companies.json');
+        return JSON.parse(readFileSync(companiesPath, 'utf-8'));
+    } catch (error) {
+        console.error('Error loading companies:', error);
+        return [];
+    }
+};
 
 const loadCertificates = () => {
     try {
@@ -277,10 +288,64 @@ app.get('/health', (req, res) => {
     res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
+app.get('/companies', (req, res) => {
+    try {
+        const companies = loadCompanies();
+        res.json(companies);
+    } catch (error) {
+        console.error('Error fetching companies:', error);
+        res.status(500).json({ error: 'Failed to load companies' });
+    }
+});
+
+app.get('/companies/:id', (req, res) => {
+    try {
+        const companies = loadCompanies();
+        const company = companies.find(c => c.id === parseInt(req.params.id));
+
+        if (!company) {
+            return res.status(404).json({ error: 'Company not found' });
+        }
+
+        res.json(company);
+    } catch (error) {
+        console.error('Error fetching company:', error);
+        res.status(500).json({ error: 'Failed to load company' });
+    }
+});
+
+app.get('/logo/:domain', async (req, res) => {
+    try {
+        const domain = req.params.domain;
+        const localLogoPath = join(__dirname, 'logos', `${domain.replace(/\./g, '_')}.png`);
+
+        if (existsSync(localLogoPath)) {
+            res.setHeader('Content-Type', 'image/png');
+            res.setHeader('Cache-Control', 'public, max-age=31536000');
+            return res.sendFile(localLogoPath);
+        }
+
+        const logoBuffer = await fetchBrandLogo(domain);
+
+        if (logoBuffer) {
+            res.setHeader('Content-Type', 'image/png');
+            res.setHeader('Cache-Control', 'public, max-age=86400');
+            return res.send(logoBuffer);
+        }
+
+        res.status(404).json({ error: 'Logo not found' });
+    } catch (error) {
+        console.error('Error fetching logo:', error);
+        res.status(500).json({ error: 'Failed to fetch logo' });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`✅ Passkit Express Server running on port ${PORT}`);
     console.log(`📱 Generate pass at: POST http://localhost:${PORT}/generate-pass`);
     console.log(`❤️  Health check at: http://localhost:${PORT}/health`);
+    console.log(`🏢 Companies at: http://localhost:${PORT}/companies`);
+    console.log(`🖼️  Logos at: http://localhost:${PORT}/logo/:domain`);
     console.log(`\n📝 Expected POST body format:`);
     console.log(`{
   "name": "Store Name",
