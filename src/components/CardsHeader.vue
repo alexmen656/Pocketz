@@ -18,9 +18,9 @@ const { isDarkMode } = useDarkMode()
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 20px 0px 20px;
+    padding: 0 20px;
     background-color: var(--bg-secondary);
-    padding-top: calc(20px + max(0px, env(safe-area-inset-top)));
+    padding-top: calc(14px + max(0px, env(safe-area-inset-top)));
     background-color: var(--bg-primary);
 }
 

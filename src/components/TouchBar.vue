@@ -56,7 +56,7 @@ const { t } = useI18n()
 }
 
 .nav-item.active {
-    color: #FF6B6B;
+    color: #236ed7;
 }
 
 .nav-item svg {

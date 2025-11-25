@@ -196,7 +196,7 @@ function proceedWithCustomCard() {
         id: Date.now(),
         name: customCompanyName.value.trim(),
         logo: '',
-        bgColor: '#FF6B6B',
+        bgColor: '#236ed7',
         textColor: '#FFFFFF',
     }
     step.value = 'enter-barcode'
@@ -469,7 +469,7 @@ async function saveCard() {
 
 .search-input:focus {
     outline: none;
-    border-color: #FF6B6B;
+    border-color: #236ed7;
     box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
 }
 
@@ -478,9 +478,9 @@ async function saveCard() {
     padding: 14px;
     font-size: 14px;
     font-weight: 600;
-    color: #FF6B6B;
+    color: #236ed7;
     background-color: var(--bg-secondary);
-    border: 2px solid #FF6B6B;
+    border: 2px solid #236ed7;
     border-radius: 8px;
     cursor: pointer;
     display: flex;
@@ -510,7 +510,7 @@ async function saveCard() {
 .section-header {
     font-size: 18px;
     font-weight: 700;
-    color: #FF6B6B;
+    color: #236ed7;
     margin-bottom: 12px;
     padding-left: 4px;
 }
@@ -593,7 +593,7 @@ async function saveCard() {
 
 .form-input:focus {
     outline: none;
-    border-color: #FF6B6B;
+    border-color: #236ed7;
     box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
 }
 
@@ -608,9 +608,9 @@ async function saveCard() {
     padding: 14px;
     font-size: 14px;
     font-weight: 600;
-    color: #FF6B6B;
+    color: #236ed7;
     background-color: var(--bg-secondary);
-    border: 2px solid #FF6B6B;
+    border: 2px solid #236ed7;
     border-radius: 8px;
     cursor: pointer;
     display: flex;
@@ -650,7 +650,7 @@ async function saveCard() {
 }
 
 .btn-primary {
-    background-color: #FF6B6B;
+    background-color: #236ed7;
     color: #FFFFFF;
 }
 
@@ -665,8 +665,8 @@ async function saveCard() {
 
 .btn-secondary {
     background-color: var(--bg-secondary);
-    color: #FF6B6B;
-    border: 2px solid #FF6B6B;
+    color: #236ed7;
+    border: 2px solid #236ed7;
 }
 
 .btn-secondary:active {
