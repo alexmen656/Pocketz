@@ -3,15 +3,15 @@
     "id": 1,
     "name": "REWE",
     "logo": "rewe.de",
-    "bgColor": "rgb(204, 23, 26)",
+    "bgColor": "rgb(204, 22, 26)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 2,
     "name": "Payback",
     "logo": "payback.de",
-    "bgColor": "rgb(0, 60, 177)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 3,
@@ -24,7 +24,7 @@
     "id": 4,
     "name": "IKEA Family",
     "logo": "ikea.com",
-    "bgColor": "rgb(169, 190, 162)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
@@ -38,21 +38,21 @@
     "id": 6,
     "name": "Rossmann",
     "logo": "rossmann.de",
-    "bgColor": "rgb(205, 68, 89)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 7,
     "name": "Media Markt",
     "logo": "mediamarkt.de",
-    "bgColor": "rgb(254, 249, 249)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 8,
     "name": "Saturn",
     "logo": "saturn.de",
-    "bgColor": "rgb(72, 74, 74)",
+    "bgColor": "rgb(8, 10, 12)",
     "textColor": "#FFFFFF"
   },
   {
@@ -66,28 +66,28 @@
     "id": 10,
     "name": "Thalia",
     "logo": "thalia.de",
-    "bgColor": "rgb(192, 192, 231)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 11,
     "name": "Douglas",
     "logo": "douglas.de",
-    "bgColor": "rgb(200, 239, 238)",
+    "bgColor": "rgb(195, 235, 235)",
     "textColor": "#000000"
   },
   {
     "id": 12,
     "name": "Decathlon",
     "logo": "decathlon.de",
-    "bgColor": "rgb(244, 245, 251)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 13,
     "name": "Budni",
     "logo": "budni.de",
-    "bgColor": "rgb(255, 242, 233)",
+    "bgColor": "rgb(254, 254, 254)",
     "textColor": "#000000"
   },
   {
@@ -101,7 +101,7 @@
     "id": 15,
     "name": "Galeria",
     "logo": "galeria.de",
-    "bgColor": "rgb(24, 108, 120)",
+    "bgColor": "rgb(2, 97, 109)",
     "textColor": "#FFFFFF"
   },
   {
@@ -136,7 +136,7 @@
     "id": 20,
     "name": "Penny",
     "logo": "penny.de",
-    "bgColor": "rgb(206, 15, 18)",
+    "bgColor": "rgb(207, 20, 21)",
     "textColor": "#FFFFFF"
   },
   {
@@ -150,64 +150,64 @@
     "id": 22,
     "name": "Norma",
     "logo": "norma-online.de",
-    "bgColor": "rgb(243, 176, 175)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 23,
     "name": "Toom",
     "logo": "toom.de",
-    "bgColor": "rgb(253, 217, 220)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 24,
     "name": "OBI",
     "logo": "obi.de",
-    "bgColor": "rgb(232, 227, 223)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 25,
     "name": "Bauhaus",
     "logo": "bauhaus.info",
-    "bgColor": "rgb(237, 30, 39)",
+    "bgColor": "rgb(237, 29, 38)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 26,
     "name": "Hornbach",
     "logo": "hornbach.de",
-    "bgColor": "rgb(195, 0, 121)",
+    "bgColor": "rgb(197, 1, 115)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 27,
     "name": "Dehner",
     "logo": "dehner.de",
-    "bgColor": "rgb(135, 190, 34)",
+    "bgColor": "rgb(135, 189, 37)",
     "textColor": "#000000"
   },
   {
     "id": 28,
     "name": "Fressnapf",
     "logo": "fressnapf.de",
-    "bgColor": "rgb(19, 22, 22)",
+    "bgColor": "rgb(8, 10, 11)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 29,
     "name": "Futterhaus",
     "logo": "futterhaus.de",
-    "bgColor": "rgb(229, 12, 33)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 30,
     "name": "Zoo Zajac",
     "logo": "zoo-zajac.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 31,
@@ -220,14 +220,14 @@
     "id": 32,
     "name": "Reno",
     "logo": "reno.de",
-    "bgColor": "rgb(232, 183, 196)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 33,
     "name": "Runners Point",
     "logo": "runnerspoint.de",
-    "bgColor": "rgb(242, 250, 251)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
@@ -248,15 +248,15 @@
     "id": 36,
     "name": "Görtz 17",
     "logo": "goertz17.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 37,
     "name": "Sport Scheck",
     "logo": "sportscheck.com",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 38,
@@ -269,15 +269,15 @@
     "id": 39,
     "name": "Sport 2000",
     "logo": "sport2000.de",
-    "bgColor": "rgb(73, 66, 66)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 40,
     "name": "Karstadt Sports",
     "logo": "karstadt-sports.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 41,
@@ -290,43 +290,43 @@
     "id": 42,
     "name": "Zoo & Co",
     "logo": "zooplus.de",
-    "bgColor": "rgb(28, 127, 0)",
+    "bgColor": "rgb(40, 134, 4)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 43,
     "name": "Fressnapf Friends",
     "logo": "fressnapf.de",
-    "bgColor": "rgb(19, 22, 22)",
+    "bgColor": "rgb(8, 10, 11)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 44,
     "name": "Das Futterhaus",
     "logo": "futterhaus.de",
-    "bgColor": "rgb(229, 12, 33)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 45,
     "name": "Bäckerei Kamps",
     "logo": "kamps.de",
-    "bgColor": "rgb(249, 230, 193)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 46,
     "name": "Ditsch",
     "logo": "ditsch.de",
-    "bgColor": "rgb(244, 235, 226)",
+    "bgColor": "rgb(244, 236, 228)",
     "textColor": "#000000"
   },
   {
     "id": 47,
     "name": "Dat Backhus",
     "logo": "datbackhus.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 48,
@@ -367,7 +367,7 @@
     "id": 53,
     "name": "Aral Supercard",
     "logo": "aral.de",
-    "bgColor": "rgb(247, 249, 249)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
@@ -381,57 +381,57 @@
     "id": 55,
     "name": "BayWa",
     "logo": "baywa.de",
-    "bgColor": "rgb(137, 204, 172)",
+    "bgColor": "rgb(254, 254, 253)",
     "textColor": "#000000"
   },
   {
     "id": 56,
     "name": "Mayersche",
     "logo": "mayersche.de",
-    "bgColor": "rgb(194, 194, 194)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 57,
     "name": "Hugendubel",
     "logo": "hugendubel.de",
-    "bgColor": "rgb(110, 20, 7)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 58,
     "name": "Weltbild",
     "logo": "weltbild.de",
-    "bgColor": "rgb(251, 245, 245)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 59,
     "name": "Spielwaren Kurtz",
     "logo": "spielwarenkurtz.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 60,
     "name": "Spielzeugring",
     "logo": "spielzeugring.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 61,
     "name": "Idee Creativmarkt",
     "logo": "idee-shop.com",
-    "bgColor": "rgb(254, 255, 255)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 62,
     "name": "Vedes",
     "logo": "vedes.com",
-    "bgColor": "rgb(37, 68, 133)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 63,
@@ -444,8 +444,8 @@
     "id": 64,
     "name": "BabyOne",
     "logo": "babyone.de",
-    "bgColor": "rgb(226, 190, 162)",
-    "textColor": "#000000"
+    "bgColor": "rgb(229, 1, 19)",
+    "textColor": "#FFFFFF"
   },
   {
     "id": 65,
@@ -458,14 +458,14 @@
     "id": 66,
     "name": "CITTI",
     "logo": "citti.de",
-    "bgColor": "rgb(198, 198, 198)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 67,
     "name": "Diska",
     "logo": "diska.de",
-    "bgColor": "rgb(239, 245, 250)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
@@ -479,36 +479,36 @@
     "id": 69,
     "name": "Fristo",
     "logo": "fristo.de",
-    "bgColor": "rgb(68, 79, 89)",
+    "bgColor": "rgb(79, 83, 89)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 70,
     "name": "Getränke Quelle",
     "logo": "getraenke-quelle.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 71,
     "name": "Hol'ab",
     "logo": "holab.de",
-    "bgColor": "rgb(221, 223, 232)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 72,
     "name": "Rebell",
     "logo": "rebell-reutlingen.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 73,
     "name": "Nah & Frisch",
     "logo": "nah-und-frisch.at",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 74,
@@ -521,14 +521,14 @@
     "id": 75,
     "name": "Billa",
     "logo": "billa.at",
-    "bgColor": "rgb(255, 209, 0)",
+    "bgColor": "rgb(255, 211, 1)",
     "textColor": "#000000"
   },
   {
     "id": 76,
     "name": "Merkur",
     "logo": "merkurmarkt.at",
-    "bgColor": "rgb(255, 209, 0)",
+    "bgColor": "rgb(255, 211, 1)",
     "textColor": "#000000"
   },
   {
@@ -549,14 +549,14 @@
     "id": 79,
     "name": "Woolworth",
     "logo": "woolworth.de",
-    "bgColor": "rgb(249, 209, 216)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 80,
     "name": "TEDi",
     "logo": "tedi.com",
-    "bgColor": "rgb(231, 221, 126)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
@@ -570,28 +570,28 @@
     "id": 82,
     "name": "Takko",
     "logo": "takko.com",
-    "bgColor": "rgb(252, 248, 250)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 83,
     "name": "NKD",
     "logo": "nkd.com",
-    "bgColor": "rgb(252, 252, 252)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 84,
     "name": "Ernsting's family",
     "logo": "ernstings-family.de",
-    "bgColor": "rgb(254, 255, 255)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 85,
     "name": "Penny Markt",
     "logo": "penny.de",
-    "bgColor": "rgb(206, 15, 18)",
+    "bgColor": "rgb(207, 20, 21)",
     "textColor": "#FFFFFF"
   },
   {
@@ -605,35 +605,35 @@
     "id": 87,
     "name": "Wasgau",
     "logo": "wasgau.de",
-    "bgColor": "rgb(196, 198, 138)",
+    "bgColor": "rgb(247, 247, 247)",
     "textColor": "#000000"
   },
   {
     "id": 88,
     "name": "Plaza",
     "logo": "plaza-online.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 89,
     "name": "Möbel Höffner",
     "logo": "hoeffner.de",
-    "bgColor": "rgb(244, 157, 167)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 90,
     "name": "Möbel Boss",
     "logo": "moebel-boss.de",
-    "bgColor": "rgb(0, 7, 4)",
+    "bgColor": "rgb(8, 10, 11)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 91,
     "name": "Roller",
     "logo": "roller.de",
-    "bgColor": "rgb(6, 107, 180)",
+    "bgColor": "rgb(3, 105, 179)",
     "textColor": "#FFFFFF"
   },
   {
@@ -654,21 +654,21 @@
     "id": 94,
     "name": "Segmüller",
     "logo": "segmueller.de",
-    "bgColor": "rgb(255, 92, 93)",
-    "textColor": "#000000"
+    "bgColor": "rgb(255, 31, 31)",
+    "textColor": "#FFFFFF"
   },
   {
     "id": 95,
     "name": "Dänisches Bettenlager",
     "logo": "daenischesbettenlager.de",
-    "bgColor": "rgb(13, 76, 146)",
+    "bgColor": "rgb(4, 71, 148)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 96,
     "name": "Jysk",
     "logo": "jysk.de",
-    "bgColor": "rgb(13, 76, 146)",
+    "bgColor": "rgb(4, 71, 148)",
     "textColor": "#FFFFFF"
   },
   {
@@ -696,63 +696,63 @@
     "id": 100,
     "name": "WMF",
     "logo": "wmf.com",
-    "bgColor": "rgb(254, 254, 254)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 101,
     "name": "Villeroy & Boch",
     "logo": "villeroy-boch.de",
-    "bgColor": "rgb(24, 26, 27)",
+    "bgColor": "rgb(8, 10, 12)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 102,
     "name": "Rosenthal",
     "logo": "rosenthal.de",
-    "bgColor": "rgb(254, 255, 254)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 103,
     "name": "Nespresso Club",
     "logo": "nespresso.com",
-    "bgColor": "rgb(27, 24, 27)",
+    "bgColor": "rgb(26, 23, 26)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 104,
     "name": "Alnatura",
     "logo": "alnatura.de",
-    "bgColor": "rgb(251, 248, 227)",
+    "bgColor": "rgb(255, 252, 230)",
     "textColor": "#000000"
   },
   {
     "id": 105,
     "name": "Bio Company",
     "logo": "biocompany.de",
-    "bgColor": "rgb(67, 127, 76)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 106,
     "name": "Denn's Biomarkt",
     "logo": "denns-biomarkt.de",
-    "bgColor": "rgb(170, 201, 1)",
+    "bgColor": "rgb(170, 201, 2)",
     "textColor": "#000000"
   },
   {
     "id": 107,
     "name": "Basic",
     "logo": "basic-ag.de",
-    "bgColor": "rgb(20, 5, 3)",
+    "bgColor": "rgb(10, 3, 3)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 108,
     "name": "Reformhaus",
     "logo": "reformhaus.de",
-    "bgColor": "rgb(91, 170, 216)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
@@ -766,35 +766,35 @@
     "id": 110,
     "name": "Easyapotheke",
     "logo": "easyapotheke.de",
-    "bgColor": "rgb(200, 215, 48)",
+    "bgColor": "rgb(198, 213, 49)",
     "textColor": "#000000"
   },
   {
     "id": 111,
     "name": "Zur Rose",
     "logo": "zurrose.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 112,
     "name": "Parfümerie Pieper",
     "logo": "pieper.de",
-    "bgColor": "rgb(244, 244, 244)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 113,
     "name": "Parfümerie Becker",
     "logo": "parfuemerie-becker.de",
-    "bgColor": "rgb(39, 40, 39)",
+    "bgColor": "rgb(0, 0, 0)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 114,
     "name": "The Body Shop",
     "logo": "thebodyshop.com",
-    "bgColor": "rgb(15, 74, 57)",
+    "bgColor": "rgb(4, 66, 49)",
     "textColor": "#FFFFFF"
   },
   {
@@ -815,7 +815,7 @@
     "id": 117,
     "name": "Kodi",
     "logo": "kodi.de",
-    "bgColor": "rgb(251, 225, 239)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
@@ -829,21 +829,21 @@
     "id": 119,
     "name": "Nanu-Nana",
     "logo": "nanu-nana.de",
-    "bgColor": "rgb(247, 191, 209)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 120,
     "name": "Juwelier Wempe",
     "logo": "wempe.de",
-    "bgColor": "rgb(202, 146, 149)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 121,
     "name": "Juwelier Kraemer",
     "logo": "juwelier-kraemer.de",
-    "bgColor": "rgb(176, 120, 177)",
+    "bgColor": "rgb(242, 250, 254)",
     "textColor": "#000000"
   },
   {
@@ -864,63 +864,63 @@
     "id": 124,
     "name": "Six",
     "logo": "six-accessoires.com",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 125,
     "name": "Fielmann",
     "logo": "fielmann.de",
-    "bgColor": "rgb(228, 228, 228)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 126,
     "name": "Apollo Optik",
     "logo": "apollo.de",
-    "bgColor": "rgb(14, 101, 192)",
+    "bgColor": "rgb(0, 91, 187)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 127,
     "name": "Optik Sagawe",
     "logo": "sagawe.de",
-    "bgColor": "rgb(124, 107, 80)",
+    "bgColor": "rgb(72, 54, 44)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 128,
     "name": "Pearle",
     "logo": "pearle.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 129,
     "name": "Kieser Training",
     "logo": "kieser-training.de",
-    "bgColor": "rgb(18, 52, 86)",
+    "bgColor": "rgb(20, 53, 88)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 130,
     "name": "Mrs. Sporty",
     "logo": "mrssporty.de",
-    "bgColor": "rgb(230, 0, 104)",
+    "bgColor": "rgb(230, 0, 105)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 131,
     "name": "Fitness Company",
     "logo": "fitness-company.de",
-    "bgColor": "rgb(249, 249, 248)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 132,
     "name": "Injoy",
     "logo": "injoy.de",
-    "bgColor": "rgb(238, 238, 237)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
@@ -934,21 +934,21 @@
     "id": 134,
     "name": "BackWerk",
     "logo": "backwerk.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 135,
     "name": "Backshop",
     "logo": "backshop.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 136,
     "name": "Backfactory",
     "logo": "back-factory.de",
-    "bgColor": "rgb(195, 197, 202)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
@@ -962,22 +962,22 @@
     "id": 138,
     "name": "Steinecke",
     "logo": "steinecke.info",
-    "bgColor": "rgb(187, 16, 16)",
+    "bgColor": "rgb(188, 20, 18)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 139,
     "name": "Wiener Feinbäcker",
     "logo": "wiener-feinbaecker.com",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 140,
     "name": "Schäfershop",
     "logo": "schaefershop.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 141,
@@ -990,42 +990,42 @@
     "id": 142,
     "name": "Lyreco",
     "logo": "lyreco.de",
-    "bgColor": "rgb(249, 253, 235)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 143,
     "name": "Staples",
     "logo": "staples.de",
-    "bgColor": "rgb(246, 222, 222)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 144,
     "name": "McPaper",
     "logo": "mcpaper.de",
-    "bgColor": "rgb(255, 18, 40)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 145,
     "name": "Libro",
     "logo": "libro.at",
-    "bgColor": "rgb(217, 91, 92)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 146,
     "name": "Adler Modemärkte",
     "logo": "adlermode.com",
-    "bgColor": "rgb(228, 0, 119)",
+    "bgColor": "rgb(230, 0, 125)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 147,
     "name": "Hunkemöller",
     "logo": "hunkemoller.de",
-    "bgColor": "rgb(228, 205, 208)",
+    "bgColor": "rgb(241, 223, 222)",
     "textColor": "#000000"
   },
   {
@@ -1053,56 +1053,56 @@
     "id": 151,
     "name": "Görtz",
     "logo": "goertz.de",
-    "bgColor": "rgb(255, 250, 251)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 152,
     "name": "Tamaris",
     "logo": "tamaris.com",
-    "bgColor": "rgb(225, 224, 224)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 153,
     "name": "Siemes Schuhcenter",
     "logo": "siemes.de",
-    "bgColor": "rgb(236, 171, 177)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 154,
     "name": "Schuh Mücke",
     "logo": "schuhmuecke.de",
-    "bgColor": "rgb(17, 87, 50)",
+    "bgColor": "rgb(18, 88, 51)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 155,
     "name": "Quick Schuh",
     "logo": "quick-schuh.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 156,
     "name": "Humanic",
     "logo": "humanic.net",
-    "bgColor": "rgb(21, 21, 21)",
+    "bgColor": "rgb(0, 0, 0)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 157,
     "name": "Vögele Shoes",
     "logo": "voegele-shoes.com",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 158,
     "name": "Mirapodo",
     "logo": "mirapodo.de",
-    "bgColor": "rgb(243, 243, 244)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
@@ -1116,35 +1116,35 @@
     "id": 160,
     "name": "Promod",
     "logo": "promod.de",
-    "bgColor": "rgb(250, 254, 252)",
-    "textColor": "#000000"
+    "bgColor": "rgb(89, 104, 108)",
+    "textColor": "#FFFFFF"
   },
   {
     "id": 161,
     "name": "Street One",
     "logo": "street-one.de",
-    "bgColor": "rgb(239, 239, 239)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 162,
     "name": "Cecil",
     "logo": "cecil.de",
-    "bgColor": "rgb(236, 236, 236)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 163,
     "name": "Comma",
     "logo": "comma-store.de",
-    "bgColor": "rgb(251, 251, 251)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 164,
     "name": "Gerry Weber",
     "logo": "gerryweber.com",
-    "bgColor": "rgb(239, 239, 239)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
@@ -1158,49 +1158,49 @@
     "id": 166,
     "name": "Breuninger",
     "logo": "breuninger.com",
-    "bgColor": "rgb(255, 254, 254)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 167,
     "name": "Engelhorn",
     "logo": "engelhorn.de",
-    "bgColor": "rgb(247, 247, 247)",
+    "bgColor": "rgb(250, 250, 250)",
     "textColor": "#000000"
   },
   {
     "id": 168,
     "name": "Oberpollinger",
     "logo": "oberpollinger.de",
-    "bgColor": "rgb(254, 89, 54)",
+    "bgColor": "rgb(254, 85, 50)",
     "textColor": "#000000"
   },
   {
     "id": 169,
     "name": "Alsterhaus",
     "logo": "alsterhaus.de",
-    "bgColor": "rgb(47, 123, 205)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(244, 237, 233)",
+    "textColor": "#000000"
   },
   {
     "id": 170,
     "name": "KaDeWe",
     "logo": "kadewe.de",
-    "bgColor": "rgb(109, 109, 109)",
+    "bgColor": "rgb(0, 0, 0)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 171,
     "name": "Esprit Arena",
     "logo": "esprit-arena.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 172,
     "name": "Eventim",
     "logo": "eventim.de",
-    "bgColor": "rgb(27, 35, 99)",
+    "bgColor": "rgb(32, 39, 103)",
     "textColor": "#FFFFFF"
   },
   {
@@ -1214,7 +1214,7 @@
     "id": 174,
     "name": "Esso",
     "logo": "esso.de",
-    "bgColor": "rgb(226, 236, 246)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
@@ -1228,28 +1228,28 @@
     "id": 176,
     "name": "Aral",
     "logo": "aral.de",
-    "bgColor": "rgb(247, 249, 249)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 177,
     "name": "Total",
     "logo": "total.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 178,
     "name": "OMV",
     "logo": "omv.de",
-    "bgColor": "rgb(4, 26, 89)",
+    "bgColor": "rgb(7, 39, 89)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 179,
     "name": "Jet",
     "logo": "jet-tankstellen.de",
-    "bgColor": "rgb(215, 167, 21)",
+    "bgColor": "rgb(249, 183, 0)",
     "textColor": "#000000"
   },
   {
@@ -1263,14 +1263,14 @@
     "id": 181,
     "name": "ATU",
     "logo": "atu.de",
-    "bgColor": "rgb(183, 20, 9)",
+    "bgColor": "rgb(186, 29, 18)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 182,
     "name": "Pitstop",
     "logo": "pitstop.de",
-    "bgColor": "rgb(0, 62, 117)",
+    "bgColor": "rgb(4, 84, 145)",
     "textColor": "#FFFFFF"
   },
   {
@@ -1284,22 +1284,22 @@
     "id": 184,
     "name": "Reifen.com",
     "logo": "reifen.com",
-    "bgColor": "rgb(4, 6, 7)",
+    "bgColor": "rgb(8, 10, 12)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 185,
     "name": "Carglass",
     "logo": "carglass.de",
-    "bgColor": "rgb(255, 254, 254)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 186,
     "name": "Auto-Teile-Unger",
     "logo": "auto-teile-unger.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 187,
@@ -1312,14 +1312,14 @@
     "id": 188,
     "name": "Louis",
     "logo": "louis.de",
-    "bgColor": "rgb(236, 167, 167)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 189,
     "name": "Polo Motorrad",
     "logo": "polo-motorrad.de",
-    "bgColor": "rgb(230, 58, 47)",
+    "bgColor": "rgb(230, 61, 50)",
     "textColor": "#FFFFFF"
   },
   {
@@ -1340,42 +1340,42 @@
     "id": 192,
     "name": "Lucky Bike",
     "logo": "lucky-bike.de",
-    "bgColor": "rgb(251, 241, 62)",
+    "bgColor": "rgb(253, 242, 61)",
     "textColor": "#000000"
   },
   {
     "id": 193,
     "name": "Bike24",
     "logo": "bike24.de",
-    "bgColor": "rgb(253, 241, 208)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 194,
     "name": "Rose Bikes",
     "logo": "rosebikes.de",
-    "bgColor": "rgb(254, 254, 254)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 195,
     "name": "Canyon",
     "logo": "canyon.com",
-    "bgColor": "rgb(236, 236, 236)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 196,
     "name": "Zweirad Stadler",
     "logo": "zweirad-stadler.de",
-    "bgColor": "rgb(136, 129, 61)",
+    "bgColor": "rgb(0, 0, 0)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 197,
     "name": "Velo de Ville",
     "logo": "velo-de-ville.com",
-    "bgColor": "rgb(236, 236, 236)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
@@ -1389,28 +1389,28 @@
     "id": 199,
     "name": "Matratzen Concord",
     "logo": "matratzen-concord.de",
-    "bgColor": "rgb(250, 183, 186)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 200,
     "name": "Betten Reiter",
     "logo": "bettenreiter.com",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 201,
     "name": "Dänisches Betten Lager",
     "logo": "daenischesbettenlager.de",
-    "bgColor": "rgb(13, 76, 146)",
+    "bgColor": "rgb(4, 71, 148)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 202,
     "name": "Schlafwelt",
     "logo": "schlafwelt.de",
-    "bgColor": "rgb(197, 197, 197)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
@@ -1431,14 +1431,14 @@
     "id": 205,
     "name": "Bofrost",
     "logo": "bofrost.de",
-    "bgColor": "rgb(8, 20, 74)",
+    "bgColor": "rgb(12, 24, 77)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 206,
     "name": "Eismann",
     "logo": "eismann.de",
-    "bgColor": "rgb(252, 250, 250)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
@@ -1452,56 +1452,56 @@
     "id": 208,
     "name": "Bioladen",
     "logo": "bioladen.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 209,
     "name": "Naturata",
     "logo": "naturata.de",
-    "bgColor": "rgb(157, 183, 174)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 210,
     "name": "Vitalia Reformhaus",
     "logo": "vitalia-reformhaus.de",
-    "bgColor": "rgb(4, 122, 62)",
+    "bgColor": "rgb(2, 123, 61)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 211,
     "name": "Biomare",
     "logo": "biomare.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 212,
     "name": "SuperBioMarkt",
     "logo": "superbiomarkt.de",
-    "bgColor": "rgb(134, 0, 45)",
+    "bgColor": "rgb(129, 0, 50)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 213,
     "name": "Temma",
     "logo": "temma.de",
-    "bgColor": "rgb(226, 226, 222)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 214,
     "name": "BioBio",
     "logo": "biobio.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 215,
     "name": "Rewe Bio",
     "logo": "rewe.de",
-    "bgColor": "rgb(204, 23, 26)",
+    "bgColor": "rgb(204, 22, 26)",
     "textColor": "#FFFFFF"
   },
   {
@@ -1515,14 +1515,14 @@
     "id": 217,
     "name": "Metro",
     "logo": "metro.de",
-    "bgColor": "rgb(255, 249, 189)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 218,
     "name": "Selgros",
     "logo": "selgros.de",
-    "bgColor": "rgb(227, 0, 35)",
+    "bgColor": "rgb(226, 1, 38)",
     "textColor": "#FFFFFF"
   },
   {
@@ -1543,7 +1543,7 @@
     "id": 221,
     "name": "V-Markt",
     "logo": "v-markt.de",
-    "bgColor": "rgb(252, 232, 206)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
@@ -1571,35 +1571,35 @@
     "id": 225,
     "name": "Ratio",
     "logo": "ratio-radebeul.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 226,
     "name": "Konsum Leipzig",
     "logo": "konsum-leipzig.de",
-    "bgColor": "rgb(228, 1, 17)",
+    "bgColor": "rgb(228, 5, 21)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 227,
     "name": "Tegut",
     "logo": "tegut.com",
-    "bgColor": "rgb(20, 5, 3)",
+    "bgColor": "rgb(10, 3, 3)",
     "textColor": "#FFFFFF"
   },
   {
     "id": 228,
     "name": "Feneberg",
     "logo": "feneberg.de",
-    "bgColor": "rgb(255, 254, 254)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 229,
     "name": "Hit",
     "logo": "hit.de",
-    "bgColor": "rgb(254, 254, 254)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
@@ -1613,15 +1613,15 @@
     "id": 231,
     "name": "Minimal",
     "logo": "minimal.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 232,
     "name": "K+K",
     "logo": "kk-markt.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 233,
@@ -1634,7 +1634,7 @@
     "id": 234,
     "name": "Trinkgut",
     "logo": "trinkgut.de",
-    "bgColor": "rgb(241, 241, 236)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
@@ -1655,14 +1655,14 @@
     "id": 237,
     "name": "Coop",
     "logo": "coop.ch",
-    "bgColor": "rgb(250, 209, 136)",
+    "bgColor": "rgb(255, 255, 255)",
     "textColor": "#000000"
   },
   {
     "id": 238,
     "name": "Manor",
     "logo": "manor.ch",
-    "bgColor": "rgb(235, 222, 204)",
+    "bgColor": "rgb(236, 223, 205)",
     "textColor": "#000000"
   },
   {
@@ -1676,7 +1676,7 @@
     "id": 240,
     "name": "Fust",
     "logo": "fust.ch",
-    "bgColor": "rgb(247, 142, 54)",
+    "bgColor": "rgb(247, 139, 48)",
     "textColor": "#000000"
   },
   {
@@ -1697,14 +1697,14 @@
     "id": 243,
     "name": "Galaxus",
     "logo": "galaxus.de",
-    "bgColor": "rgb(0, 0, 0)",
-    "textColor": "#FFFFFF"
+    "bgColor": "rgb(255, 255, 255)",
+    "textColor": "#000000"
   },
   {
     "id": 244,
     "name": "Alternate",
     "logo": "alternate.de",
-    "bgColor": "rgb(46, 14, 20)",
+    "bgColor": "rgb(2, 13, 16)",
     "textColor": "#FFFFFF"
   },
   {
@@ -1739,7 +1739,7 @@
     "id": 249,
     "name": "Conrad",
     "logo": "conrad.de",
-    "bgColor": "rgb(57, 109, 239)",
+    "bgColor": "rgb(58, 109, 239)",
     "textColor": "#FFFFFF"
   },
   {

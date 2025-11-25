@@ -22,20 +22,64 @@ function getTextColorFromBg(r, g, b) {
 async function extractColorFromBuffer(buffer) {
     try {
         const { data, info } = await sharp(buffer)
-            .resize(10, 10, { fit: 'cover' })
             .raw()
             .toBuffer({ resolveWithObject: true });
 
-        const x = Math.floor(info.width - 1);
-        const y = Math.floor(info.height / 2);
-        const idx = (y * info.width + x) * info.channels;
+        const { width, height, channels } = info;
 
-        const r = data[idx];
-        const g = data[idx + 1];
-        const b = data[idx + 2];
+        const offset = 2;
+        const corners = [
+            { x: offset, y: offset },
+            { x: width - 1 - offset, y: offset },
+            { x: offset, y: height - 1 - offset },
+            { x: width - 1 - offset, y: height - 1 - offset }
+        ];
 
-        const bgColor = `rgb(${r}, ${g}, ${b})`;
-        const textColor = getTextColorFromBg(r, g, b);
+        const colors = corners.map(({ x, y }) => {
+            const idx = (y * width + x) * channels;
+            return {
+                r: data[idx],
+                g: data[idx + 1],
+                b: data[idx + 2],
+                a: channels === 4 ? data[idx + 3] : 255
+            };
+        });
+
+        const opaqueColors = colors.filter(c => c.a > 200);
+
+        if (opaqueColors.length === 0) {
+            return { bgColor: 'rgb(255, 255, 255)', textColor: '#000000' };
+        }
+
+        const tolerance = 30;
+        const groups = [];
+
+        for (const color of opaqueColors) {
+            let foundGroup = false;
+            for (const group of groups) {
+                const ref = group[0];
+                if (Math.abs(color.r - ref.r) < tolerance &&
+                    Math.abs(color.g - ref.g) < tolerance &&
+                    Math.abs(color.b - ref.b) < tolerance) {
+                    group.push(color);
+                    foundGroup = true;
+                    break;
+                }
+            }
+            if (!foundGroup) {
+                groups.push([color]);
+            }
+        }
+
+        groups.sort((a, b) => b.length - a.length);
+        const dominantGroup = groups[0];
+
+        const avgR = Math.round(dominantGroup.reduce((sum, c) => sum + c.r, 0) / dominantGroup.length);
+        const avgG = Math.round(dominantGroup.reduce((sum, c) => sum + c.g, 0) / dominantGroup.length);
+        const avgB = Math.round(dominantGroup.reduce((sum, c) => sum + c.b, 0) / dominantGroup.length);
+
+        const bgColor = `rgb(${avgR}, ${avgG}, ${avgB})`;
+        const textColor = getTextColorFromBg(avgR, avgG, avgB);
 
         return { bgColor, textColor };
     } catch (error) {
