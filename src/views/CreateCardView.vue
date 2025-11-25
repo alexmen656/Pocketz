@@ -4,9 +4,10 @@ import { useRouter } from 'vue-router'
 import { Preferences } from '@capacitor/preferences'
 import { BarcodeScanner, BarcodeFormat } from '@capacitor-mlkit/barcode-scanning'
 import { useI18n } from 'vue-i18n'
-import companies2 from './companies.json'
 
 const { t } = useI18n()
+
+const API_BASE_URL = 'https://api.pocketz.app'
 
 interface Company {
     id: number
@@ -31,12 +32,9 @@ const isScanning = ref(false)
 const searchQuery = ref('')
 const customCompanyName = ref('')
 
-//const BRAND_FETCH_TOKEN = '1idPcHNqxG9p9gPyoFm'
 const SCANNER_ACTIVE_CLASS = 'scanner-active'
 
-const getLogoUrl = (domain: string, size = 256) =>
-    `https://cdn.brandfetch.io/${domain}?c=1idPcHNqxG9p9gPyoFm`
-//`https://cdn.brandfetch.io/${domain}?c=${BRAND_FETCH_TOKEN}&format=png&w=${size}&h=${size}&fit=contain`
+const getLogoUrl = (domain: string) => `${API_BASE_URL}/logo/${domain}`
 
 const withDocument = (fn: (doc: Document) => void) => {
     if (typeof document !== 'undefined') {
@@ -157,7 +155,21 @@ const getTextColor = (rgbColor: string): string => {
     return luminance > 0.5 ? '#000000' : '#FFFFFF'
 }
 
-const companies = ref<Company[]>(companies2);
+const companies = ref<Company[]>([]);
+const isLoadingCompanies = ref(true);
+
+const fetchCompanies = async () => {
+    try {
+        isLoadingCompanies.value = true;
+        const response = await fetch(`${API_BASE_URL}/companies`);
+        if (!response.ok) throw new Error('Failed to fetch companies');
+        companies.value = await response.json();
+    } catch (error) {
+        console.error('Error fetching companies:', error);
+    } finally {
+        isLoadingCompanies.value = false;
+    }
+};
 
 const sortedCompanies = computed(() => {
     return [...companies.value].sort((a, b) => a.name.localeCompare(b.name))
@@ -200,8 +212,9 @@ const isFormValid = computed(() => {
 })
 
 onMounted(async () => {
+    await fetchCompanies();
     for (const company of companies.value) {
-        const logoUrl = getLogoUrl(company.logo, 64)
+        const logoUrl = getLogoUrl(company.logo)
         const bgColor = await extractColorFromImage(logoUrl)
         company.bgColor = bgColor
         company.textColor = getTextColor(bgColor)
@@ -287,7 +300,7 @@ async function saveCard() {
     let isCustomCard = false
 
     if (selectedCompany.value.logo) {
-        const logoUrl = getLogoUrl(selectedCompany.value.logo, 64)
+        const logoUrl = getLogoUrl(selectedCompany.value.logo)
         bgColor = await extractColorFromImage(logoUrl)
         textColor = getTextColor(bgColor)
     } else {

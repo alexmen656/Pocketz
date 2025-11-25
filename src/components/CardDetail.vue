@@ -12,6 +12,9 @@ import QRCode from 'qrcode';
 
 const { t } = useI18n();
 
+const API_BASE_URL = 'https://api.pocketz.app'
+const getLogoUrl = (domain: string) => `${API_BASE_URL}/logo/${domain}`
+
 interface Props {
     card: {
         id: number
@@ -589,7 +592,7 @@ function getInitials(name: string): string {
                                 {{ getInitials(card.name) }}
                             </div>
                             <div v-else class="logo-placeholder">
-                                <img :src="'https://cdn.brandfetch.io/' + card.logo + '?c=1idPcHNqxG9p9gPyoFm'" alt=""
+                                <img :src="getLogoUrl(card.logo)" alt=""
                                     style="max-width: 120px; max-height: 100px; object-fit: contain;">
                             </div>
                             <div class="card-brand-name">{{ card.name }}</div>

@@ -104,6 +104,10 @@ async function saveCards() {
   });
 }
 
+const API_BASE_URL = 'https://api.pocketz.app'
+
+const getLogoUrl = (domain: string) => `${API_BASE_URL}/logo/${domain}`
+
 const getCards = async (): Promise<Card[]> => {
   const { value } = await Preferences.get({ key: 'cards' });
   if (!value) return []
@@ -111,7 +115,7 @@ const getCards = async (): Promise<Card[]> => {
 
   for (const card of cardsData) {
     if (!card.isCustomCard && card.logo) {
-      const logoUrl = `https://cdn.brandfetch.io/${card.logo}?c=1idPcHNqxG9p9gPyoFm`
+      const logoUrl = getLogoUrl(card.logo)
       const bgColor = await extractColorFromImage(logoUrl)
       card.bgColor = bgColor
       card.textColor = getTextColor(bgColor)
@@ -137,7 +141,7 @@ onMounted(async () => {
           <div v-if="card.isCustomCard" class="card-initials">
             {{ getInitials(card.name) }}
           </div>
-          <img v-else :src="'https://cdn.brandfetch.io/' + card.logo + '?c=1idPcHNqxG9p9gPyoFm'" alt=""
+          <img v-else :src="getLogoUrl(card.logo)" alt=""
             style="max-width: 200px; max-height: 100px; object-fit: contain;">
         </div>
       </div>
