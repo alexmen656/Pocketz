@@ -26,6 +26,7 @@
     "@capacitor/ios": "^7.4.4",
     "@capacitor/preferences": "^7.0.2",
     "@chenfengyuan/vue-barcode": "^2.0.2",
+    "@zxing/library": "^0.21.3",
     "bwip-js": "^4.8.0",
     "capacitor-pass-to-wallet": "^4.0.1",
     "express": "^5.1.0",
