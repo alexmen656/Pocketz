@@ -94,16 +94,8 @@ const emit = defineEmits<{
 }>()
 
 const barcodePattern = ref(props.card.barcode)
-const barcodeFormatToUse = computed(() => {
-    if (props.card.barcodeFormat) {
-        return getVueBarcodeFormat(props.card.barcodeFormat)
-    }
-
-    if (props.card.barcode) {
-        const detected = detectBarcodeFormat(props.card.barcode)
-        return getVueBarcodeFormat(detected)
-    }
-    return 'CODE128'
+const barcodeFormat = computed(() => {
+    return props.card.barcodeFormat || 'CODE128B'
 })
 const showMenu = ref(false)
 const showPhotosSection = ref(false)
@@ -209,7 +201,7 @@ onMounted(async () => {
     }
 });
 
-watch([barcodePattern, barcodeFormatToUse], async () => {
+watch([barcodePattern, barcodeFormat], async () => {
     await renderBarcode()
 })
 
@@ -455,7 +447,6 @@ async function renderBarcode() {
             length: barcodePattern.value.length
         })
 
-        // Handle GS1 DataBar
         if (format === 'GS1_DATABAR') {
             if (gs1Canvas.value) {
                 await bwipjs.toCanvas(gs1Canvas.value, {
@@ -469,21 +460,18 @@ async function renderBarcode() {
             return
         }
 
-        // Handle QR Code
         if (format === 'QR_CODE') {
-            // QR codes are rendered in template via qrcode-vue component
             showBarcode.value = true
             return
         }
 
-        // Handle all CODE128 variants and EAN13
         if (barcodeCanvas.value) {
             const jsFormat =
                 format === 'CODE128A' ? 'CODE128A' :
                     format === 'CODE128B' ? 'CODE128B' :
                         format === 'CODE128C' ? 'CODE128C' :
                             format === 'EAN13' ? 'EAN13' :
-                                'CODE128'
+                                'CODE128B'
 
             JsBarcode(barcodeCanvas.value, barcodePattern.value, {
                 format: jsFormat,
@@ -501,10 +489,9 @@ async function renderBarcode() {
     } catch (error) {
         console.error('Error rendering barcode:', error)
         try {
-            // Fallback to CODE128
             if (barcodeCanvas.value) {
                 JsBarcode(barcodeCanvas.value, barcodePattern.value, {
-                    format: 'CODE128',
+                    format: 'CODE128B',
                     width: 1,
                     height: 80,
                     displayValue: false,
@@ -711,17 +698,12 @@ async function renderBarcode() {
                     </div>
                     <div class="barcode-section">
                         <div class="barcode">
-                            <!-- CODE128 Variants and EAN13 -->
                             <canvas
                                 v-if="['CODE128', 'CODE128A', 'CODE128B', 'CODE128C', 'EAN13'].includes(props.card.barcodeFormat || 'CODE128B')"
                                 ref="barcodeCanvas" class="barcode-canvas"></canvas>
-
-                            <!-- QR Code -->
                             <div v-else-if="props.card.barcodeFormat === 'QR_CODE'" class="qr-code-display">
                                 <qrcode-vue :value="barcodePattern" :size="200" level="H"></qrcode-vue>
                             </div>
-
-                            <!-- GS1 DataBar -->
                             <canvas v-else-if="props.card.barcodeFormat === 'GS1_DATABAR'" ref="gs1Canvas"
                                 class="gs1-canvas"></canvas>
                         </div>
