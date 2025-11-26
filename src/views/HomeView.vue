@@ -118,7 +118,7 @@ onMounted(async () => {
 }
 
 .spacer {
-  height: calc(14px + max(0px, env(safe-area-inset-top)));
+  height: calc(4px + max(0px, env(safe-area-inset-top)));
   background-color: var(--bg-primary);
   position: fixed;
   top: 0;
@@ -132,7 +132,7 @@ onMounted(async () => {
   background-color: var(--bg-primary);
   padding-bottom: 120px;
   /*padding-top: 120px;*/
-  padding-top: calc(14px + max(0px, env(safe-area-inset-top)));
+  padding-top: calc(4px + max(0px, env(safe-area-inset-top)));
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   -webkit-user-select: none;
   user-select: none;
@@ -158,7 +158,7 @@ onMounted(async () => {
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  gap: 10px;
   padding: 0 16px;
   width: 100%;
   box-sizing: border-box;
