@@ -18,6 +18,7 @@ interface Card {
   textColor: string
   isCustomCard?: boolean
   deleted?: boolean
+  isPinned?: boolean
 }
 
 const getLogoUrl = (domain: string) => `${API_BASE_URL}/logo/${domain}`
@@ -65,6 +66,19 @@ function updateCard(updatedCard: Card) {
   }
 }
 
+function togglePinCard(card: Card) {
+  const cardIndex = cards.value.findIndex(c => c.id === card.id)
+  if (cardIndex !== -1) {
+    const pinCard = cards.value[cardIndex]
+    if (pinCard) {
+      pinCard.isPinned = !pinCard.isPinned
+      saveCards()
+    }
+  }
+}
+
+const pinnedCards = () => cards.value.filter(c => c.isPinned)
+
 async function saveCards() {
   await Preferences.set({
     key: 'cards',
@@ -87,10 +101,10 @@ onMounted(async () => {
   <div class="app-container">
     <div class="spacer"></div>
     <CardsHeader />
-    <!-- <div class="new-section-title"></div>-->
-    <div class="section-title">PINNED CARDS</div>
-    <div class="cards-grid">
-      <div v-for="card in cards.slice(0, 4)" :key="card.id" class="card"
+    <div v-if="pinnedCards().length === 0" class="new-section-title"></div>
+    <div v-if="pinnedCards().length > 0" class="section-title">PINNED CARDS</div>
+    <div v-if="pinnedCards().length > 0" class="cards-grid">
+      <div v-for="card in pinnedCards()" :key="card.id" class="card"
         :style="{ backgroundColor: card.bgColor, color: card.textColor }" @click="openCard(card)">
         <div class="card-name">
           <div v-if="card.isCustomCard" class="card-initials">
@@ -101,7 +115,7 @@ onMounted(async () => {
         </div>
       </div>
     </div>
-    <div class="section-title">{{ t('home.allCards') }}</div>
+    <div v-if="pinnedCards().length > 0" class="section-title">{{ t('home.allCards') }}</div>
     <div class="cards-grid">
       <div v-for="card in cards" :key="card.id" class="card"
         :style="{ backgroundColor: card.bgColor, color: card.textColor }" @click="openCard(card)">
@@ -114,7 +128,8 @@ onMounted(async () => {
         </div>
       </div>
     </div>
-    <CardDetail v-if="selectedCard" :card="selectedCard" @close="closeCard" @updateCard="updateCard" />
+    <CardDetail v-if="selectedCard" :card="selectedCard" @close="closeCard" @updateCard="updateCard"
+      @togglePin="togglePinCard(selectedCard)" />
     <TouchBar />
   </div>
 </template>

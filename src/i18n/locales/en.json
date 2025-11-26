@@ -50,7 +50,9 @@
     "cardNumber": "Card Number",
     "save": "Save",
     "cancel": "Cancel",
-    "generatingPass": "Preparing pass..."
+    "generatingPass": "Preparing pass...",
+    "pinCard": "Pin Card",
+    "unpinCard": "Unpin Card"
   },
   "shareReceive": {
     "decrypting": "Decrypting card...",

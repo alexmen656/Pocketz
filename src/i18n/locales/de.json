@@ -50,7 +50,9 @@
     "cardNumber": "Kartennummer",
     "save": "Speichern",
     "cancel": "Abbrechen",
-    "generatingPass": "Pass wird vorbereitet..."
+    "generatingPass": "Pass wird vorbereitet...",
+    "pinCard": "Karte anpinnen",
+    "unpinCard": "Karte entfernen"
   },
   "shareReceive": {
     "decrypting": "Entschlüssele Karte...",

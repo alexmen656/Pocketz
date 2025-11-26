@@ -47,7 +47,9 @@
     "cardNumber": "Číslo karty",
     "save": "Uložiť",
     "cancel": "Zrušiť",
-    "generatingPass": "Pass sa pripravuje..."
+    "generatingPass": "Pass sa pripravuje...",
+    "pinCard": "Pripnúť kartu",
+    "unpinCard": "Odopnúť kartu"
   },
   "shareReceive": {
     "decrypting": "Dešifrovanie karty...",

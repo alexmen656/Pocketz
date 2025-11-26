@@ -47,7 +47,9 @@
     "cardNumber": "Número de tarjeta",
     "save": "Guardar",
     "cancel": "Cancelar",
-    "generatingPass": "Preparando pass..."
+    "generatingPass": "Preparando pass...",
+    "pinCard": "Fijar tarjeta",
+    "unpinCard": "Desfijar tarjeta"
   },
   "shareReceive": {
     "decrypting": "Descifrando tarjeta...",
