@@ -198,22 +198,17 @@ async function generatePass(cardData) {
     if (cardData.barcode) {
         const formatMap = {
             'CODE128': 'PKBarcodeFormatCode128',
-            'CODE39': 'PKBarcodeFormatCode39',
-            'CODE93': 'PKBarcodeFormatCode93',
-            'EAN13': 'PKBarcodeFormatEAN13',
-            'EAN8': 'PKBarcodeFormatEAN8',
-            'UPC_A': 'PKBarcodeFormatPDF417',
-            'UPC_E': 'PKBarcodeFormatPDF417',
-            'ITF': 'PKBarcodeFormatITF14',
-            'PDF417': 'PKBarcodeFormatPDF417',
+            'CODE128A': 'PKBarcodeFormatCode128',
+            'CODE128B': 'PKBarcodeFormatCode128',
+            'CODE128C': 'PKBarcodeFormatCode128',
+            'EAN13': 'PKBarcodeFormatCode128',
             'QR_CODE': 'PKBarcodeFormatQR',
-            'AZTEC': 'PKBarcodeFormatAztec',
-            'DATA_MATRIX': 'PKBarcodeFormatPDF417',
-            'CODABAR': 'PKBarcodeFormatCode128',
+            'GS1_DATABAR': 'PKBarcodeFormatPDF417',
         };
 
         const appleFormat = formatMap[cardData.barcodeFormat] || 'PKBarcodeFormatCode128';
 
+        console.log('format:', appleFormat);
         pass.setBarcodes({
             message: cardData.barcode,
             format: appleFormat,

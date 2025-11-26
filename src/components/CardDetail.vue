@@ -55,6 +55,7 @@ async function addToWallet() {
             bgColor: props.card.bgColor,
             textColor: props.card.textColor,
             barcode: props.card.barcode || cardNumber.value.replace(/\s/g, ''),
+            barcodeFormat: props.card.barcodeFormat || 'CODE128B',
             cardNumber: props.card.name,//cardNumber.value,
             memberNumber: cardNumber.value //memberNumber.value
         };
