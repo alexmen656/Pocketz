@@ -20,7 +20,8 @@ const { isDarkMode } = useDarkMode()
     align-items: center;
     padding: 0 20px;
     background-color: var(--bg-secondary);
-    padding-top: calc(14px + max(0px, env(safe-area-inset-top)));
+    /*padding-top: calc(14px + max(0px, env(safe-area-inset-top)));*/
+    padding-top: 0;
     background-color: var(--bg-primary);
 }
 

@@ -85,6 +85,7 @@ onMounted(async () => {
 
 <template>
   <div class="app-container">
+    <div class="spacer"></div>
     <CardsHeader />
     <div class="new-section-title"></div>
     <!-- <div class="section-title">{{ t('home.allCards') }}</div>-->
@@ -116,10 +117,22 @@ onMounted(async () => {
   -webkit-tap-highlight-color: transparent;
 }
 
+.spacer {
+  height: calc(14px + max(0px, env(safe-area-inset-top)));
+  background-color: var(--bg-primary);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
 .app-container {
   min-height: 100vh;
   background-color: var(--bg-primary);
-  padding-bottom: 70px;
+  padding-bottom: 120px;
+  /*padding-top: 120px;*/
+  padding-top: calc(14px + max(0px, env(safe-area-inset-top)));
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   -webkit-user-select: none;
   user-select: none;
