@@ -30,6 +30,11 @@ const router = createRouter({
       name: 'share-receive',
       component: () => import('../views/ShareReceiveView.vue'),
     },
+    {
+      path: '/test-barcode',
+      name: 'test-barcode',
+      component: () => import('../views/testBarcodeGeneration.vue'),
+    },
   ],
 })
 

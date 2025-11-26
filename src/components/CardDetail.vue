@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { onMounted, ref, computed, watch } from 'vue'
+import { onMounted, ref, computed, watch, nextTick } from 'vue'
 import { ScreenBrightness } from '@capacitor-community/screen-brightness';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { CapacitorPassToWallet } from 'capacitor-pass-to-wallet';
-import VueBarcode from '@chenfengyuan/vue-barcode';
-//import QrcodeVue from 'qrcode.vue';
+import JsBarcode from 'jsbarcode';
 import { useI18n } from 'vue-i18n';
 import nacl from 'tweetnacl';
 import naclUtil from 'tweetnacl-util';
@@ -109,6 +108,7 @@ const showShareScreen = ref(false)
 const showPhotosGallery = ref(false)
 const expandPhotos = ref(false)
 const qrCanvas = ref<HTMLCanvasElement | null>(null)
+const barcodeCanvas = ref<HTMLCanvasElement | null>(null)
 const shareUrl = ref('')
 const selectedPhotoModal = ref<string | null>(null)
 const photoFront = ref(props.card.photoFront || '')
@@ -195,6 +195,7 @@ function copyLink() {
 onMounted(async () => {
     try {
         await loadPhotos()
+        await renderBarcode()
         setTimeout(async () => {
             await ScreenBrightness.setBrightness({ brightness: 1.0 });
         }, 500);
@@ -202,6 +203,10 @@ onMounted(async () => {
         console.error('Error setting screen brightness:', error);
     }
 });
+
+watch([barcodePattern, barcodeFormatToUse], async () => {
+    await renderBarcode()
+})
 
 watch(showShareScreen, async (newVal) => {
     if (newVal && !shareUrl.value) {
@@ -431,6 +436,48 @@ function getInitials(name: string): string {
 
     return words.map(w => w.charAt(0)).join('').toUpperCase().substring(0, 2)
 }
+
+async function renderBarcode() {
+    await nextTick()
+    if (!barcodeCanvas.value || !barcodePattern.value) return
+
+    try {
+        console.log('Rendering barcode:', {
+            value: barcodePattern.value,
+            format: barcodeFormatToUse.value,
+            length: barcodePattern.value.length
+        })
+
+        JsBarcode(barcodeCanvas.value, barcodePattern.value, {
+            format: barcodeFormatToUse.value,
+            width: 1,
+            height: 80,
+            displayValue: false,
+            margin: 0,
+            background: '#FFFFFF',
+            lineColor: '#000000',
+            fontSize: 0,
+            textMargin: 0
+        })
+    } catch (error) {
+        console.error('Error rendering barcode:', error)
+        try {
+            JsBarcode(barcodeCanvas.value, barcodePattern.value, {
+                format: 'CODE128',
+                width: 1,
+                height: 80,
+                displayValue: false,
+                margin: 0,
+                background: '#FFFFFF',
+                lineColor: '#000000',
+                fontSize: 0,
+                textMargin: 0
+            })
+        } catch (fallbackError) {
+            console.error('Fallback also failed:', fallbackError)
+        }
+    }
+}
 </script>
 
 <template>
@@ -621,9 +668,7 @@ function getInitials(name: string): string {
                     </div>
                     <div class="barcode-section">
                         <div class="barcode">
-                            <vue-barcode :value="barcodePattern"
-                                :options="{ format: barcodeFormatToUse, lineColor: '#000', width: 2, height: 70, displayValue: false }"
-                                class="barcode-svg" />
+                            <canvas ref="barcodeCanvas" class="barcode-canvas"></canvas>
                         </div>
                         <div class="card-number">{{ cardNumber }}</div>
                         <!--<div class="member-number">{{ memberNumber }}</div>-->
@@ -1081,15 +1126,15 @@ function getInitials(name: string): string {
 .barcode {
     width: 100%;
     max-width: 300px;
-    height: 80px;
+    min-height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.barcode-svg {
-    width: 100%;
-    height: 100%;
+.barcode-canvas {
+    max-width: 100%;
+    height: auto;
 }
 
 .card-number {

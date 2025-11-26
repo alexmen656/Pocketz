@@ -18,46 +18,31 @@ export function detectBarcodeFormat(barcode: string): BarcodeFormatType {
   const length = cleanBarcode.length
   const isNumeric = /^\d+$/.test(cleanBarcode)
 
+  // QR Codes: Very long or contain special characters (URLs, etc.)
+  // Must check first because QR can contain anything
+  if (length > 80 || /[^A-Z0-9\-.$\/+%\s]/i.test(barcode)) {
+    return 'QR_CODE'
+  }
+
+  // EAN-13: Exactly 13 digits (standard retail products)
+  // Very specific, so safe to detect
   if (isNumeric && length === 13) {
     return 'EAN13'
   }
 
+  // EAN-8: Exactly 8 digits (small products)
   if (isNumeric && length === 8) {
     return 'EAN8'
   }
 
+  // UPC-A: Exactly 12 digits (North American retail)
   if (isNumeric && length === 12) {
     return 'UPC_A'
   }
 
-  if (isNumeric && length >= 6 && length <= 8) {
-    return 'UPC_E'
-  }
-
-  if (isNumeric && length % 2 === 0 && length >= 6 && length <= 30) {
-    return 'ITF'
-  }
-
-  if (/^[A-Z0-9\-.$\/+%\s]+$/i.test(barcode)) {
-    return 'CODE39'
-  }
-
-  if (/^[A-Z0-9\-.$\/+%\s]+$/i.test(barcode) && length < 20) {
-    return 'CODE93'
-  }
-
-  if (/^[ABCD][0-9\-$:\/\.\+]+[ABCD]$/i.test(barcode)) {
-    return 'CODABAR'
-  }
-
-  if (length > 50 || /[^A-Z0-9\-.$\/+%\s]/i.test(barcode)) {
-    return 'QR_CODE'
-  }
-
-  if (length > 100) {
-    return 'PDF417'
-  }
-
+  // For loyalty cards, default to CODE128
+  // It's the most versatile and commonly used for loyalty programs
+  // CODE128 can encode any ASCII character and is very reliable
   return 'CODE128'
 }
 

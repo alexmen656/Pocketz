@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, watch, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { Preferences } from '@capacitor/preferences'
 import nacl from 'tweetnacl'
 import naclUtil from 'tweetnacl-util'
-import VueBarcode from '@chenfengyuan/vue-barcode'
+import JsBarcode from 'jsbarcode'
 import { detectBarcodeFormat, getVueBarcodeFormat, type BarcodeFormatType } from '@/utils/barcodeUtils'
 
 const { t } = useI18n()
@@ -24,6 +24,7 @@ interface CardData {
 }
 
 const cardData = ref<CardData | null>(null)
+const barcodeCanvas = ref<HTMLCanvasElement | null>(null)
 const error = ref('')
 const loading = ref(true)
 
@@ -143,6 +144,33 @@ function getInitials(name: string): string {
 
     return words.map(w => w.charAt(0)).join('').toUpperCase().substring(0, 2)
 }
+
+async function renderBarcode() {
+    await nextTick()
+    if (!barcodeCanvas.value || !cardData.value?.barcode) return
+
+    try {
+        JsBarcode(barcodeCanvas.value, cardData.value.barcode, {
+            format: barcodeFormatToUse.value,
+            width: 1,
+            height: 80,
+            displayValue: false,
+            margin: 0,
+            background: '#FFFFFF',
+            lineColor: '#000000',
+            fontSize: 0,
+            textMargin: 0
+        })
+    } catch (error) {
+        console.error('Error rendering barcode:', error)
+    }
+}
+
+watch(cardData, async () => {
+    if (cardData.value) {
+        await renderBarcode()
+    }
+})
 </script>
 
 <template>
@@ -200,16 +228,10 @@ function getInitials(name: string): string {
                         </div>
                     </div>
                 </div>
-
-                <!-- Barcode Section -->
                 <div class="barcode-section">
-                    <vue-barcode :value="cardData.barcode"
-                        :options="{ format: barcodeFormatToUse, lineColor: '#000', width: 2, height: 60, displayValue: false }"
-                        class="barcode" />
+                    <canvas ref="barcodeCanvas" class="barcode-canvas"></canvas>
                     <span class="barcode-number">{{ cardData.cardNumber }}</span>
                 </div>
-
-                <!-- Actions -->
                 <div class="actions">
                     <button class="btn btn-primary" @click="saveCard">
                         {{ t('shareReceive.saveCard') }}
@@ -385,9 +407,9 @@ function getInitials(name: string): string {
     border: 1px solid #F0F0F0;
 }
 
-.barcode {
-    width: 100%;
-    max-width: 280px;
+.barcode-canvas {
+    max-width: 100%;
+    height: auto;
 }
 
 .barcode-number {
