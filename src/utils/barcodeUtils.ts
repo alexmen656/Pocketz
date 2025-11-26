@@ -1,5 +1,8 @@
 export type BarcodeFormatType =
   | 'CODE128'
+  | 'CODE128A'
+  | 'CODE128B'
+  | 'CODE128C'
   | 'CODE39'
   | 'CODE93'
   | 'EAN13'
@@ -12,6 +15,7 @@ export type BarcodeFormatType =
   | 'AZTEC'
   | 'DATA_MATRIX'
   | 'CODABAR'
+  | 'GS1_DATABAR'
 
 export function detectBarcodeFormat(barcode: string): BarcodeFormatType {
   const cleanBarcode = barcode.replace(/[\s-]/g, '')
@@ -68,6 +72,9 @@ export function mapMLKitFormatToString(mlkitFormat: number): BarcodeFormatType {
 export function getVueBarcodeFormat(format: BarcodeFormatType): string {
   const formatMap: Record<BarcodeFormatType, string> = {
     CODE128: 'CODE128',
+    CODE128A: 'CODE128A',
+    CODE128B: 'CODE128B',
+    CODE128C: 'CODE128C',
     CODE39: 'CODE39',
     CODE93: 'codabar',
     EAN13: 'EAN13',
@@ -80,6 +87,7 @@ export function getVueBarcodeFormat(format: BarcodeFormatType): string {
     AZTEC: 'CODE128',
     DATA_MATRIX: 'CODE128',
     CODABAR: 'codabar',
+    GS1_DATABAR: 'CODE128',
   }
   return formatMap[format] || 'CODE128'
 }

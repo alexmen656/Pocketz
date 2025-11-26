@@ -23,7 +23,10 @@
     "scanBarcode": "Barcode scannen",
     "scanning": "Scanne...",
     "back": "Zurück",
-    "saveCard": "Karte speichern"
+    "saveCard": "Karte speichern",
+    "selectFormat": "Barcode-Format auswählen",
+    "barcodePreview": "Barcode-Vorschau",
+    "selectBarcodeFormat": "Barcode-Format auswählen"
   },
   "cardDetail": {
     "addPhotos": "Fotos hinzufügen",

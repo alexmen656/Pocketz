@@ -23,7 +23,10 @@
     "scanBarcode": "Scan Barcode",
     "scanning": "Scanning...",
     "back": "Back",
-    "saveCard": "Save Card"
+    "saveCard": "Save Card",
+    "selectFormat": "Select Barcode Format",
+    "barcodePreview": "Barcode Preview",
+    "selectBarcodeFormat": "Select barcode format"
   },
   "cardDetail": {
     "generateShareDescription": "Generate a secure, encrypted link to share this card.",

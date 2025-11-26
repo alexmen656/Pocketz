@@ -4,11 +4,14 @@ import { useRouter } from 'vue-router'
 import { Preferences } from '@capacitor/preferences'
 import { BarcodeScanner, BarcodeFormat } from '@capacitor-mlkit/barcode-scanning'
 import { useI18n } from 'vue-i18n'
-import { detectBarcodeFormat, mapMLKitFormatToString, type BarcodeFormatType } from '@/utils/barcodeUtils'
+import VueJsBarcode from 'vue-jsbarcode'
+import QrcodeVue from 'qrcode.vue'
+import bwipjs from 'bwip-js'
 
 const { t } = useI18n()
 
 const API_BASE_URL = 'https://api.pocketz.app'
+type BarcodeFormatType = 'EAN13' | 'CODE128A' | 'CODE128B' | 'CODE128C' | 'QR_CODE' | 'GS1_DATABAR'
 
 interface Company {
     id: number
@@ -27,15 +30,16 @@ interface Card extends Company {
 }
 
 const router = useRouter()
-const step = ref<'select-company' | 'enter-barcode' | 'custom-card'>('select-company')
+const step = ref<'select-company' | 'enter-barcode' | 'custom-card' | 'select-format'>('select-company')
 const selectedCompany = ref<Company | null>(null)
 const barcode = ref('')
-const barcodeFormat = ref<BarcodeFormatType>('CODE128')
+const barcodeFormat = ref<BarcodeFormatType>('CODE128B')
 const isScanning = ref(false)
 const searchQuery = ref('')
 const customCompanyName = ref('')
-
+const gs1Canvas = ref<HTMLCanvasElement | null>(null)
 const SCANNER_ACTIVE_CLASS = 'scanner-active'
+const BARCODE_FORMATS: BarcodeFormatType[] = ['EAN13', 'CODE128A', 'CODE128B', 'CODE128C', 'QR_CODE', 'GS1_DATABAR']
 
 const getLogoUrl = (domain: string) => `${API_BASE_URL}/logo/${domain}`
 
@@ -170,6 +174,8 @@ const isFormValid = computed(() => {
         return barcode.value.trim().length > 0
     } else if (step.value === 'custom-card') {
         return customCompanyName.value.trim().length > 0
+    } else if (step.value === 'select-format') {
+        return barcodeFormat.value !== null
     }
     return false
 })
@@ -226,27 +232,7 @@ async function startScanning() {
 
         if (nextValue) {
             barcode.value = nextValue
-
-            if (detectedValue?.format !== undefined) {
-                const formatMapping: Record<BarcodeFormat, BarcodeFormatType> = {
-                    [BarcodeFormat.Code128]: 'CODE128',
-                    [BarcodeFormat.Code39]: 'CODE39',
-                    [BarcodeFormat.Code93]: 'CODE93',
-                    [BarcodeFormat.Ean13]: 'EAN13',
-                    [BarcodeFormat.Ean8]: 'EAN8',
-                    [BarcodeFormat.UpcA]: 'UPC_A',
-                    [BarcodeFormat.UpcE]: 'UPC_E',
-                    [BarcodeFormat.Itf]: 'ITF',
-                    [BarcodeFormat.Pdf417]: 'PDF417',
-                    [BarcodeFormat.QrCode]: 'QR_CODE',
-                    [BarcodeFormat.Aztec]: 'AZTEC',
-                    [BarcodeFormat.DataMatrix]: 'DATA_MATRIX',
-                    [BarcodeFormat.Codabar]: 'CODABAR',
-                }
-                barcodeFormat.value = formatMapping[detectedValue.format] || 'CODE128'
-            } else {
-                barcodeFormat.value = detectBarcodeFormat(nextValue)
-            }
+            step.value = 'select-format'
         } else {
             console.warn('Scan completed but no readable value was returned', barcodes)
         }
@@ -258,16 +244,43 @@ async function startScanning() {
 }
 
 function goBack() {
-    if (step.value === 'enter-barcode') {
+    if (step.value === 'select-format') {
+        step.value = 'enter-barcode'
+        barcodeFormat.value = 'CODE128B'
+    } else if (step.value === 'enter-barcode') {
         step.value = 'select-company'
         barcode.value = ''
-        barcodeFormat.value = 'CODE128'
+        barcodeFormat.value = 'CODE128B'
         selectedCompany.value = null
     } else if (step.value === 'custom-card') {
         step.value = 'select-company'
         customCompanyName.value = ''
     } else {
         router.back()
+    }
+}
+
+async function selectBarcodeFormat(format: BarcodeFormatType) {
+    barcodeFormat.value = format
+
+    if (format === 'GS1_DATABAR') {
+        await renderGS1Barcode()
+    }
+}
+
+async function renderGS1Barcode() {
+    if (!gs1Canvas.value) return
+
+    try {
+        await bwipjs.toCanvas(gs1Canvas.value, {
+            bcid: 'databarexpandedstacked',
+            text: barcode.value,
+            scale: 2,
+            height: 10,
+            segments: 8
+        })
+    } catch (error) {
+        console.error('Error rendering GS1 barcode:', error)
     }
 }
 
@@ -278,10 +291,6 @@ async function saveCard() {
 
     const cardNumber = barcode.value;
     const memberNumber = `${Math.floor(Math.random() * 900 + 100)} ${Math.floor(Math.random() * 900 + 100)} ${Math.floor(Math.random() * 9000 + 1000)}`
-
-    if (barcodeFormat.value === 'CODE128' && barcode.value) {
-        barcodeFormat.value = detectBarcodeFormat(barcode.value)
-    }
 
     const newCard: any = {
         id: Date.now(),
@@ -319,11 +328,15 @@ async function saveCard() {
                 </svg>
             </button>
             <h1 class="title">{{
-                step === 'select-company' ? t('createCard.selectCompany') : step === 'custom-card' ?
-                    t('createCard.customCard') : t('createCard.addCard')
+                step === 'select-company' ? t('createCard.selectCompany') :
+                    step === 'custom-card' ? t('createCard.customCard') :
+                        step === 'select-format' ? t('createCard.selectFormat') :
+                            t('createCard.addCard')
             }}</h1>
             <div style="width: 24px"></div>
         </header>
+
+        <!-- Step 1: Select Company -->
         <div v-if="step === 'select-company'" class="step-content">
             <div class="search-section">
                 <input v-model="searchQuery" type="text" class="search-input"
@@ -343,6 +356,8 @@ async function saveCard() {
                 </div>
             </div>
         </div>
+
+        <!-- Step 2: Custom Card -->
         <div v-else-if="step === 'custom-card'" class="step-content">
             <div class="step-title">{{ t('createCard.createCustomCard') }}</div>
             <div class="form-section">
@@ -357,6 +372,8 @@ async function saveCard() {
                 {{ t('createCard.continue') }}
             </button>
         </div>
+
+        <!-- Step 3: Enter Barcode -->
         <div v-else-if="step === 'enter-barcode'" class="step-content">
             <div class="selected-company">
                 <div class="company-preview"
@@ -371,7 +388,8 @@ async function saveCard() {
             <div class="form-section">
                 <label for="barcode" class="form-label">{{ t('createCard.cardNumberBarcode') }}</label>
                 <input id="barcode" v-model="barcode" type="text" class="form-input"
-                    :placeholder="t('createCard.enterBarcode')" @keyup.enter="isFormValid && saveCard()" />
+                    :placeholder="t('createCard.enterBarcode')"
+                    @keyup.enter="isFormValid && (step = 'select-format')" />
                 <p class="form-hint">{{ t('createCard.barcodeHint') }}</p>
             </div>
             <button class="scan-button" @click="startScanning" :disabled="isScanning">
@@ -381,14 +399,74 @@ async function saveCard() {
                 </svg>
                 {{ isScanning ? t('createCard.scanning') : t('createCard.scanBarcode') }}
             </button>
+            <div class="action-buttons">
+                <button class="btn btn-secondary" @click="goBack">{{ t('createCard.back') }}</button>
+                <button :disabled="!isFormValid" :class="['btn', 'btn-primary', { disabled: !isFormValid }]"
+                    @click="step = 'select-format'">
+                    {{ t('createCard.continue') }}
+                </button>
+            </div>
         </div>
-        <div class="action-buttons" v-if="step === 'enter-barcode'">
-            <button class="btn btn-secondary" @click="goBack">{{ t('createCard.back') }}</button>
-            <button :disabled="!isFormValid" :class="['btn', 'btn-primary', { disabled: !isFormValid }]"
-                @click="saveCard">
-                {{ t('createCard.saveCard') }}
-            </button>
+
+        <!-- Step 4: Select Barcode Format -->
+        <div v-else-if="step === 'select-format'" class="step-content">
+            <div class="format-preview">
+                <div class="preview-title">{{ t('createCard.barcodePreview') }}</div>
+
+                <!-- EAN13 -->
+                <div v-if="barcodeFormat === 'EAN13'" class="preview-box">
+                    <vue-js-barcode :value="barcode" format="EAN13" :height="80" :width="2"
+                        :display-value="true"></vue-js-barcode>
+                </div>
+
+                <!-- CODE128A -->
+                <div v-else-if="barcodeFormat === 'CODE128A'" class="preview-box">
+                    <vue-js-barcode :value="barcode" format="CODE128A" :height="80" :width="2"
+                        :display-value="true"></vue-js-barcode>
+                </div>
+
+                <!-- CODE128B -->
+                <div v-else-if="barcodeFormat === 'CODE128B'" class="preview-box">
+                    <vue-js-barcode :value="barcode" format="CODE128B" :height="80" :width="2"
+                        :display-value="true"></vue-js-barcode>
+                </div>
+
+                <!-- CODE128C -->
+                <div v-else-if="barcodeFormat === 'CODE128C'" class="preview-box">
+                    <vue-js-barcode :value="barcode" format="CODE128C" :height="80" :width="2"
+                        :display-value="true"></vue-js-barcode>
+                </div>
+
+                <!-- QR Code -->
+                <div v-else-if="barcodeFormat === 'QR_CODE'" class="preview-box qr-preview">
+                    <qrcode-vue :value="barcode" :size="200" level="H"></qrcode-vue>
+                </div>
+
+                <!-- GS1 DataBar -->
+                <div v-else-if="barcodeFormat === 'GS1_DATABAR'" class="preview-box gs1-preview">
+                    <canvas ref="gs1Canvas"></canvas>
+                </div>
+            </div>
+
+            <div class="format-selection">
+                <div class="format-label">{{ t('createCard.selectBarcodeFormat') }}</div>
+                <div class="format-buttons">
+                    <button v-for="format in BARCODE_FORMATS" :key="format"
+                        :class="['format-button', { active: barcodeFormat === format }]"
+                        @click="selectBarcodeFormat(format)">
+                        {{ format }}
+                    </button>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-secondary" @click="goBack">{{ t('createCard.back') }}</button>
+                <button class="btn btn-primary" @click="saveCard">
+                    {{ t('createCard.saveCard') }}
+                </button>
+            </div>
         </div>
+
         <nav class="bottom-nav" v-if="step === 'select-company'">
             <button class="custom-card-button" @click="createCustomCard">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -648,6 +726,7 @@ async function saveCard() {
     justify-content: center;
     gap: 8px;
     transition: all 0.2s;
+    margin-bottom: 20px;
 }
 
 .scan-button:disabled {
@@ -664,7 +743,6 @@ async function saveCard() {
 .action-buttons {
     display: flex;
     gap: 12px;
-    padding: 0 20px;
     margin-top: auto;
 }
 
@@ -703,6 +781,79 @@ async function saveCard() {
     background-color: var(--border-subtle);
 }
 
+/* Format Selection Styles */
+.format-preview {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: var(--bg-secondary);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.preview-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+}
+
+.preview-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    min-height: 120px;
+}
+
+.qr-preview {
+    min-height: 220px;
+}
+
+.gs1-preview {
+    min-height: 150px;
+}
+
+.format-selection {
+    margin-bottom: 20px;
+}
+
+.format-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+}
+
+.format-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.format-button {
+    padding: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 2px solid var(--border-color);
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.format-button:active {
+    transform: scale(0.98);
+}
+
+.format-button.active {
+    border-color: #236ed7;
+    background-color: #236ed7;
+    color: #FFFFFF;
+}
+
 @media (min-width: 768px) {
     .companies-grid {
         grid-template-columns: repeat(3, 1fr);
@@ -713,6 +864,10 @@ async function saveCard() {
         max-width: 600px;
         margin-left: auto;
         margin-right: auto;
+    }
+
+    .format-buttons {
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 </style>
