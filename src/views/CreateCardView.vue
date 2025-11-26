@@ -7,6 +7,7 @@ import { useI18n } from 'vue-i18n'
 import VueJsBarcode from 'vue-jsbarcode'
 import QrcodeVue from 'qrcode.vue'
 import bwipjs from 'bwip-js'
+import { detectBarcodeFormat } from '@/utils/barcodeUtils'
 
 const { t } = useI18n()
 
@@ -99,15 +100,8 @@ const ensureCameraPermission = async () => {
 
 const SCAN_FORMATS: BarcodeFormat[] = [
     BarcodeFormat.Code128,
-    BarcodeFormat.Code39,
-    BarcodeFormat.Code93,
     BarcodeFormat.Ean13,
-    BarcodeFormat.Ean8,
-    BarcodeFormat.Itf,
-    BarcodeFormat.Pdf417,
     BarcodeFormat.QrCode,
-    BarcodeFormat.UpcA,
-    BarcodeFormat.UpcE,
 ]
 
 const getInitials = (name: string): string => {
@@ -232,6 +226,9 @@ async function startScanning() {
 
         if (nextValue) {
             barcode.value = nextValue
+            // Auto-detect format from scanned value
+            const detectedFormat = detectBarcodeFormat(nextValue)
+            barcodeFormat.value = detectedFormat
             step.value = 'select-format'
         } else {
             console.warn('Scan completed but no readable value was returned', barcodes)
@@ -335,8 +332,6 @@ async function saveCard() {
             }}</h1>
             <div style="width: 24px"></div>
         </header>
-
-        <!-- Step 1: Select Company -->
         <div v-if="step === 'select-company'" class="step-content">
             <div class="search-section">
                 <input v-model="searchQuery" type="text" class="search-input"
@@ -356,8 +351,6 @@ async function saveCard() {
                 </div>
             </div>
         </div>
-
-        <!-- Step 2: Custom Card -->
         <div v-else-if="step === 'custom-card'" class="step-content">
             <div class="step-title">{{ t('createCard.createCustomCard') }}</div>
             <div class="form-section">
@@ -372,8 +365,6 @@ async function saveCard() {
                 {{ t('createCard.continue') }}
             </button>
         </div>
-
-        <!-- Step 3: Enter Barcode -->
         <div v-else-if="step === 'enter-barcode'" class="step-content">
             <div class="selected-company">
                 <div class="company-preview"
@@ -407,47 +398,32 @@ async function saveCard() {
                 </button>
             </div>
         </div>
-
-        <!-- Step 4: Select Barcode Format -->
         <div v-else-if="step === 'select-format'" class="step-content">
             <div class="format-preview">
                 <div class="preview-title">{{ t('createCard.barcodePreview') }}</div>
-
-                <!-- EAN13 -->
                 <div v-if="barcodeFormat === 'EAN13'" class="preview-box">
                     <vue-js-barcode :value="barcode" format="EAN13" :height="80" :width="2"
                         :display-value="true"></vue-js-barcode>
                 </div>
-
-                <!-- CODE128A -->
                 <div v-else-if="barcodeFormat === 'CODE128A'" class="preview-box">
                     <vue-js-barcode :value="barcode" format="CODE128A" :height="80" :width="2"
                         :display-value="true"></vue-js-barcode>
                 </div>
-
-                <!-- CODE128B -->
                 <div v-else-if="barcodeFormat === 'CODE128B'" class="preview-box">
                     <vue-js-barcode :value="barcode" format="CODE128B" :height="80" :width="2"
                         :display-value="true"></vue-js-barcode>
                 </div>
-
-                <!-- CODE128C -->
                 <div v-else-if="barcodeFormat === 'CODE128C'" class="preview-box">
                     <vue-js-barcode :value="barcode" format="CODE128C" :height="80" :width="2"
                         :display-value="true"></vue-js-barcode>
                 </div>
-
-                <!-- QR Code -->
                 <div v-else-if="barcodeFormat === 'QR_CODE'" class="preview-box qr-preview">
                     <qrcode-vue :value="barcode" :size="200" level="H"></qrcode-vue>
                 </div>
-
-                <!-- GS1 DataBar -->
                 <div v-else-if="barcodeFormat === 'GS1_DATABAR'" class="preview-box gs1-preview">
                     <canvas ref="gs1Canvas"></canvas>
                 </div>
             </div>
-
             <div class="format-selection">
                 <div class="format-label">{{ t('createCard.selectBarcodeFormat') }}</div>
                 <div class="format-buttons">
@@ -458,7 +434,6 @@ async function saveCard() {
                     </button>
                 </div>
             </div>
-
             <div class="action-buttons">
                 <button class="btn btn-secondary" @click="goBack">{{ t('createCard.back') }}</button>
                 <button class="btn btn-primary" @click="saveCard">
@@ -466,7 +441,6 @@ async function saveCard() {
                 </button>
             </div>
         </div>
-
         <nav class="bottom-nav" v-if="step === 'select-company'">
             <button class="custom-card-button" @click="createCustomCard">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

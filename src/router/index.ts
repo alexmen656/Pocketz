@@ -33,7 +33,7 @@ const router = createRouter({
     {
       path: '/test-barcode',
       name: 'test-barcode',
-      component: () => import('../views/testBarcodeGeneration.vue'),
+      component: () => import(<any>'../views/testBarcodeGeneration.vue'),
     },
   ],
 })

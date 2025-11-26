@@ -17,37 +17,20 @@ export type BarcodeFormatType =
   | 'CODABAR'
   | 'GS1_DATABAR'
 
-export function detectBarcodeFormat(barcode: string): BarcodeFormatType {
+export function detectBarcodeFormat(barcode: string): 'EAN13' | 'CODE128B' | 'QR_CODE' {
   const cleanBarcode = barcode.replace(/[\s-]/g, '')
   const length = cleanBarcode.length
   const isNumeric = /^\d+$/.test(cleanBarcode)
 
-  // QR Codes: Very long or contain special characters (URLs, etc.)
-  // Must check first because QR can contain anything
   if (length > 80 || /[^A-Z0-9\-.$\/+%\s]/i.test(barcode)) {
     return 'QR_CODE'
   }
 
-  // EAN-13: Exactly 13 digits (standard retail products)
-  // Very specific, so safe to detect
   if (isNumeric && length === 13) {
     return 'EAN13'
   }
 
-  // EAN-8: Exactly 8 digits (small products)
-  if (isNumeric && length === 8) {
-    return 'EAN8'
-  }
-
-  // UPC-A: Exactly 12 digits (North American retail)
-  if (isNumeric && length === 12) {
-    return 'UPC_A'
-  }
-
-  // For loyalty cards, default to CODE128
-  // It's the most versatile and commonly used for loyalty programs
-  // CODE128 can encode any ASCII character and is very reliable
-  return 'CODE128'
+  return 'CODE128B'
 }
 
 export function mapMLKitFormatToString(mlkitFormat: number): BarcodeFormatType {
