@@ -2,11 +2,13 @@
 
 ## What is Pocketz? (About the project)
 
-Pocketz is a simple card manager that transforms your physical cards into digital ones. Additionally, it supports Apple Wallet so you can have all your cards in one place. Addiotionally it also has a share functionality so you can digitaly share zour physical cards with your family or friends. Something new what i added is the support of QR code and GS1 cards. also it has support for 5 languages
+Pocketz is a simple card manager that turns your physical cards into digital ones. It also supports Apple Wallet, allowing you to keep all your cards in one place. Additionally, it includes a sharing feature, so you can digitally share your physical cards with family and friends.
+A new feature I added is support for QR codes and GS1-based cards. Pocketz currently supports 5 languages.
 
-Some complex things i had to solve along the way:
-Barcode formats: There ary many barcode formats, by supports EAN13, CODE128A, CODE128B, CODE128C, QR Code and GS1 atm.
-Mainly to add support for GS1 was a little bit hard.
+## Some complex challenges I had to solve along the way (Insides):
+
+Barcode formats: There are many barcode standards. Pocketz currently supports EAN-13, Code 128 (A, B, C), QR Code and GS1.
+Adding proper support for GS1 was especially tricky.
 
 ## Demo
 
