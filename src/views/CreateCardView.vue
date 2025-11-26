@@ -42,6 +42,56 @@ const gs1Canvas = ref<HTMLCanvasElement | null>(null)
 const SCANNER_ACTIVE_CLASS = 'scanner-active'
 const BARCODE_FORMATS: BarcodeFormatType[] = ['EAN13', 'CODE128A', 'CODE128B', 'CODE128C', 'QR_CODE', 'GS1_DATABAR']
 
+const isValidEAN13 = (value: string): boolean => {
+    const cleaned = value.replace(/\s+/g, '')
+    return /^\d{12,13}$/.test(cleaned)
+}
+
+const isValidCODE128A = (value: string): boolean => {
+    return !/[a-z]/.test(value)
+}
+
+const isValidCODE128B = (value: string): boolean => {
+    return value.length > 0
+}
+
+const isValidCODE128C = (value: string): boolean => {
+    const cleaned = value.replace(/\s+/g, '')
+    return /^\d+$/.test(cleaned) && cleaned.length % 2 === 0
+}
+
+const isValidGS1Databar = (value: string): boolean => {
+    const cleaned = value.replace(/\s+/g, '')
+    const hasAI = /^\(\d{2,4}\)/.test(cleaned)
+    const isGTIN = /^\d{8}$|^\d{12,14}$/.test(cleaned)
+    return hasAI || isGTIN
+}
+
+const isFormatCompatible = (format: BarcodeFormatType, value: string): boolean => {
+    if (!value || value.trim().length === 0) return true
+
+    switch (format) {
+        case 'EAN13':
+            return isValidEAN13(value)
+        case 'CODE128A':
+            return isValidCODE128A(value)
+        case 'CODE128B':
+            return isValidCODE128B(value)
+        case 'CODE128C':
+            return isValidCODE128C(value)
+        case 'QR_CODE':
+            return true
+        case 'GS1_DATABAR':
+            return isValidGS1Databar(value)
+        default:
+            return true
+    }
+}
+
+const availableBarcodeFormats = computed(() => {
+    return BARCODE_FORMATS.filter(format => isFormatCompatible(format, barcode.value))
+})
+
 const getLogoUrl = (domain: string) => `${API_BASE_URL}/logo/${domain}`
 
 const withDocument = (fn: (doc: Document) => void) => {
@@ -226,9 +276,14 @@ async function startScanning() {
 
         if (nextValue) {
             barcode.value = nextValue
-            // Auto-detect format from scanned value
             const detectedFormat = detectBarcodeFormat(nextValue)
-            barcodeFormat.value = detectedFormat
+
+            if (isFormatCompatible(detectedFormat, nextValue)) {
+                barcodeFormat.value = detectedFormat
+            } else {
+                const availableFormats = BARCODE_FORMATS.filter(f => isFormatCompatible(f, nextValue))
+                barcodeFormat.value = availableFormats[0] || 'CODE128B'
+            }
             step.value = 'select-format'
         } else {
             console.warn('Scan completed but no readable value was returned', barcodes)
@@ -255,6 +310,15 @@ function goBack() {
     } else {
         router.back()
     }
+}
+
+function goToFormatSelection() {
+    // Ensure currently selected format is still compatible
+    const availableFormats = BARCODE_FORMATS.filter(f => isFormatCompatible(f, barcode.value))
+    if (!availableFormats.includes(barcodeFormat.value)) {
+        barcodeFormat.value = availableFormats[0] || 'CODE128B'
+    }
+    step.value = 'select-format'
 }
 
 async function selectBarcodeFormat(format: BarcodeFormatType) {
@@ -379,8 +443,7 @@ async function saveCard() {
             <div class="form-section">
                 <label for="barcode" class="form-label">{{ t('createCard.cardNumberBarcode') }}</label>
                 <input id="barcode" v-model="barcode" type="text" class="form-input"
-                    :placeholder="t('createCard.enterBarcode')"
-                    @keyup.enter="isFormValid && (step = 'select-format')" />
+                    :placeholder="t('createCard.enterBarcode')" @keyup.enter="isFormValid && goToFormatSelection()" />
                 <p class="form-hint">{{ t('createCard.barcodeHint') }}</p>
             </div>
             <button class="scan-button" @click="startScanning" :disabled="isScanning">
@@ -393,7 +456,7 @@ async function saveCard() {
             <div class="action-buttons">
                 <button class="btn btn-secondary" @click="goBack">{{ t('createCard.back') }}</button>
                 <button :disabled="!isFormValid" :class="['btn', 'btn-primary', { disabled: !isFormValid }]"
-                    @click="step = 'select-format'">
+                    @click="goToFormatSelection()">
                     {{ t('createCard.continue') }}
                 </button>
             </div>
@@ -427,12 +490,15 @@ async function saveCard() {
             <div class="format-selection">
                 <div class="format-label">{{ t('createCard.selectBarcodeFormat') }}</div>
                 <div class="format-buttons">
-                    <button v-for="format in BARCODE_FORMATS" :key="format"
+                    <button v-for="format in availableBarcodeFormats" :key="format"
                         :class="['format-button', { active: barcodeFormat === format }]"
                         @click="selectBarcodeFormat(format)">
                         {{ format }}
                     </button>
                 </div>
+                <p v-if="availableBarcodeFormats.length < BARCODE_FORMATS.length" class="format-hint">
+                    {{ t('createCard.someFormatsFiltered') }}
+                </p>
             </div>
             <div class="action-buttons">
                 <button class="btn btn-secondary" @click="goBack">{{ t('createCard.back') }}</button>
@@ -825,6 +891,13 @@ async function saveCard() {
     border-color: #236ed7;
     background-color: #236ed7;
     color: #FFFFFF;
+}
+
+.format-hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 12px;
+    font-style: italic;
 }
 
 @media (min-width: 768px) {

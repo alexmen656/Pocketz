@@ -23,7 +23,11 @@
     "scanBarcode": "Escanear código de barras",
     "scanning": "Escaneando...",
     "back": "Atrás",
-    "saveCard": "Guardar tarjeta"
+    "saveCard": "Guardar tarjeta",
+    "selectFormat": "Seleccionar formato de código de barras",
+    "barcodePreview": "Vista previa del código de barras",
+    "selectBarcodeFormat": "Seleccionar formato de código de barras",
+    "someFormatsFiltered": "Algunos formatos están ocultos porque no son compatibles con su código de barras."
   },
   "cardDetail": {
     "addPhotos": "Añadir fotos",

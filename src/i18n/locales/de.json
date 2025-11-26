@@ -26,7 +26,8 @@
     "saveCard": "Karte speichern",
     "selectFormat": "Barcode-Format auswählen",
     "barcodePreview": "Barcode-Vorschau",
-    "selectBarcodeFormat": "Barcode-Format auswählen"
+    "selectBarcodeFormat": "Barcode-Format auswählen",
+    "someFormatsFiltered": "Einige Formate sind ausgeblendet, da sie nicht mit deinem Barcode kompatibel sind."
   },
   "cardDetail": {
     "addPhotos": "Fotos hinzufügen",

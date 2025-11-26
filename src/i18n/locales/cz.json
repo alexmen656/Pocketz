@@ -23,7 +23,11 @@
     "scanBarcode": "Naskenovat čárový kód",
     "scanning": "Skenuji...",
     "back": "Zpět",
-    "saveCard": "Uložit kartu"
+    "saveCard": "Uložit kartu",
+    "selectFormat": "Vybrat formát čárového kódu",
+    "barcodePreview": "Náhled čárového kódu",
+    "selectBarcodeFormat": "Vybrat formát čárového kódu",
+    "someFormatsFiltered": "Některé formáty jsou skryté, protože nejsou kompatibilní s vaším čárovým kódem."
   },
   "cardDetail": {
     "addPhotos": "Přidat fotky",

@@ -26,7 +26,8 @@
     "saveCard": "Save Card",
     "selectFormat": "Select Barcode Format",
     "barcodePreview": "Barcode Preview",
-    "selectBarcodeFormat": "Select barcode format"
+    "selectBarcodeFormat": "Select barcode format",
+    "someFormatsFiltered": "Some formats are hidden because they are not compatible with your barcode."
   },
   "cardDetail": {
     "generateShareDescription": "Generate a secure, encrypted link to share this card.",
