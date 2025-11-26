@@ -3,7 +3,6 @@ import { onMounted, ref, computed, watch, nextTick } from 'vue'
 import { ScreenBrightness } from '@capacitor-community/screen-brightness';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { CapacitorPassToWallet } from 'capacitor-pass-to-wallet';
-import JsBarcode from 'jsbarcode';
 import VueJsBarcode from 'vue-jsbarcode';
 import QrcodeVue from 'qrcode.vue';
 import bwipjs from 'bwip-js';
@@ -103,7 +102,6 @@ const showShareScreen = ref(false)
 const showPhotosGallery = ref(false)
 const expandPhotos = ref(false)
 const qrCanvas = ref<HTMLCanvasElement | null>(null)
-const barcodeCanvas = ref<HTMLCanvasElement | null>(null)
 const gs1Canvas = ref<HTMLCanvasElement | null>(null)
 const showBarcode = ref(false)
 const shareUrl = ref('')
@@ -465,47 +463,10 @@ async function renderBarcode() {
             return
         }
 
-        if (barcodeCanvas.value) {
-            const jsFormat =
-                format === 'CODE128A' ? 'CODE128A' :
-                    format === 'CODE128B' ? 'CODE128B' :
-                        format === 'CODE128C' ? 'CODE128C' :
-                            format === 'EAN13' ? 'EAN13' :
-                                'CODE128B'
-
-            JsBarcode(barcodeCanvas.value, barcodePattern.value, {
-                format: jsFormat,
-                width: 1,
-                height: 80,
-                displayValue: false,
-                margin: 0,
-                background: '#FFFFFF',
-                lineColor: '#000000',
-                fontSize: 0,
-                textMargin: 0
-            })
-            showBarcode.value = true
-        }
+        showBarcode.value = true
     } catch (error) {
         console.error('Error rendering barcode:', error)
-        try {
-            if (barcodeCanvas.value) {
-                JsBarcode(barcodeCanvas.value, barcodePattern.value, {
-                    format: 'CODE128B',
-                    width: 1,
-                    height: 80,
-                    displayValue: false,
-                    margin: 0,
-                    background: '#FFFFFF',
-                    lineColor: '#000000',
-                    fontSize: 0,
-                    textMargin: 0
-                })
-                showBarcode.value = true
-            }
-        } catch (fallbackError) {
-            console.error('Fallback also failed:', fallbackError)
-        }
+        showBarcode.value = false
     }
 }
 </script>
@@ -698,9 +659,10 @@ async function renderBarcode() {
                     </div>
                     <div class="barcode-section">
                         <div class="barcode">
-                            <canvas
+                            <vue-js-barcode
                                 v-if="['CODE128', 'CODE128A', 'CODE128B', 'CODE128C', 'EAN13'].includes(props.card.barcodeFormat || 'CODE128B')"
-                                ref="barcodeCanvas" class="barcode-canvas"></canvas>
+                                :value="barcodePattern" :format="props.card.barcodeFormat || 'CODE128B'" :width="2"
+                                :height="100" :display-value="false" :margin="0" />
                             <div v-else-if="props.card.barcodeFormat === 'QR_CODE'" class="qr-code-display">
                                 <qrcode-vue :value="barcodePattern" :size="200" level="H"></qrcode-vue>
                             </div>
@@ -1162,11 +1124,14 @@ async function renderBarcode() {
 
 .barcode {
     width: 100%;
-    max-width: 300px;
-    min-height: 80px;
+    /*max-width: 300px;
+    min-height: 80px;*/
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 18px;
 }
 
 .barcode-canvas {
