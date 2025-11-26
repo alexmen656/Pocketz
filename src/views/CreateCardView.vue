@@ -582,7 +582,6 @@ async function saveCard() {
     max-height: calc(100vh - 250px);
     overflow-y: auto;
     scroll-behavior: smooth;
-    scrollbar-width: none;
 }
 
 .company-group {

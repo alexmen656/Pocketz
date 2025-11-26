@@ -149,7 +149,15 @@ onMounted(async () => {
   padding: 0 16px;
   width: 100%;
   box-sizing: border-box;
+  /*scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;*/
 }
+
+/*.cards-grid::-webkit-scrollbar,
+.cards-grid::-webkit-scrollbar-button {
+  display: none;
+}*/
 
 .card {
   aspect-ratio: 1.4;

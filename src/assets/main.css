@@ -40,6 +40,14 @@ body {
   user-select: none;
   background-color: var(--bg-primary);
   color: var(--text-primary);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none;
 }
 
 body.scanner-active {
