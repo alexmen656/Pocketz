@@ -110,6 +110,10 @@ const photoFront = ref(props.card.photoFront || '')
 const photoBack = ref(props.card.photoBack || '')
 const fileInputFront = ref<HTMLInputElement | null>(null)
 const fileInputBack = ref<HTMLInputElement | null>(null)
+const showBarcodeFullscreen = ref(false)
+const barcodeFullscreenType = ref<'barcode' | 'qr'>('barcode')
+const lastTapTime = ref(0)
+const lastTapTarget = ref<EventTarget | null>(null)
 const cardNumber = ref(props.card.cardNumber || '')
 const isEditMode = ref(false)
 const editedName = ref(props.card.name)
@@ -345,6 +349,30 @@ function openPhotoModal(photo: string) {
 
 function closePhotoModal() {
     selectedPhotoModal.value = null
+}
+
+function openBarcodeFullscreen(type: 'barcode' | 'qr') {
+    console.log('Opening fullscreen for type:', type)
+    barcodeFullscreenType.value = type
+    showBarcodeFullscreen.value = true
+}
+
+function closeBarcodeFullscreen() {
+    showBarcodeFullscreen.value = false
+}
+
+function handleBarcodeTap() {
+    const now = Date.now()
+    const timeSinceLastTap = now - lastTapTime.value
+
+    if (timeSinceLastTap < 400 && lastTapTarget.value === event?.target) {
+        const type = ['CODE128', 'CODE128A', 'CODE128B', 'CODE128C', 'EAN13'].includes(props.card.barcodeFormat || 'CODE128B') ? 'barcode' : 'qr'
+        openBarcodeFullscreen(type)
+        lastTapTime.value = 0
+    } else {
+        lastTapTime.value = now
+        lastTapTarget.value = event?.target || null
+    }
 }
 
 async function deleteCard() {
@@ -658,7 +686,8 @@ async function renderBarcode() {
                         </div>
                     </div>
                     <div class="barcode-section">
-                        <div class="barcode">
+                        <div class="barcode" @click="handleBarcodeTap"
+                            @dblclick="openBarcodeFullscreen(['CODE128', 'CODE128A', 'CODE128B', 'CODE128C', 'EAN13'].includes(props.card.barcodeFormat || 'CODE128B') ? 'barcode' : 'qr')">
                             <vue-js-barcode
                                 v-if="['CODE128', 'CODE128A', 'CODE128B', 'CODE128C', 'EAN13'].includes(props.card.barcodeFormat || 'CODE128B')"
                                 :value="barcodePattern" :format="props.card.barcodeFormat || 'CODE128B'" :width="2"
@@ -706,6 +735,26 @@ async function renderBarcode() {
                                 </svg>
                             </button>
                             <img :src="selectedPhotoModal" alt="Full size photo" class="modal-photo" />
+                        </div>
+                    </div>
+                    <div v-if="showBarcodeFullscreen" class="barcode-fullscreen-overlay"
+                        @click="closeBarcodeFullscreen()">
+                        <div :class="['barcode-fullscreen-container', barcodeFullscreenType]" @click.stop>
+                            <button class="close-fullscreen-btn" @click="closeBarcodeFullscreen()">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18 6L6 18M6 6l12 12" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </button>
+                            <div class="barcode-fullscreen-content">
+                                <vue-js-barcode v-if="barcodeFullscreenType === 'barcode'" :value="barcodePattern"
+                                    :format="props.card.barcodeFormat || 'CODE128B'" :width="3" :height="150"
+                                    :display-value="false" :margin="10" />
+                                <div v-else class="qr-code-fullscreen">
+                                    <qrcode-vue :value="barcodePattern" :size="400" level="H"></qrcode-vue>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="add-to-wallet-section">
@@ -1132,6 +1181,12 @@ async function renderBarcode() {
     background-color: #fff;
     padding: 1rem;
     border-radius: 18px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.barcode:active {
+    opacity: 0.8;
 }
 
 .barcode-canvas {
@@ -1521,6 +1576,78 @@ async function renderBarcode() {
 .expand-leave-to {
     max-height: 0;
     opacity: 0;
+}
+
+.barcode-fullscreen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: 2500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.barcode-fullscreen-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.barcode-fullscreen-container.barcode {
+    flex-direction: row;
+}
+
+.barcode-fullscreen-container.qr {
+    flex-direction: column;
+}
+
+.barcode-fullscreen-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 12px;
+}
+
+.qr-code-fullscreen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.close-fullscreen-btn {
+    position: absolute;
+    top: 40px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    z-index: 100;
+    padding: 0;
+}
+
+.close-fullscreen-btn:hover {
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
 @media (min-width: 768px) {
