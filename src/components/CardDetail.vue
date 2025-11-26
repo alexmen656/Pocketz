@@ -480,8 +480,8 @@ async function renderBarcode() {
                 await bwipjs.toCanvas(gs1Canvas.value, {
                     bcid: 'databarexpandedstacked',
                     text: barcodePattern.value,
-                    scale: 2,
-                    height: 10,
+                    scale: 1.5,
+                    height: 40,
                     segments: 8
                 })
             }
@@ -1174,7 +1174,7 @@ async function renderBarcode() {
 .barcode-section {
     background-color: var(--bg-secondary);
     border-radius: 16px;
-    padding: 30px 20px;
+    padding: 15px 15px 30px 15px;
     box-shadow: 0 2px 8px var(--shadow-light);
     display: flex;
     flex-direction: column;
@@ -1211,6 +1211,7 @@ async function renderBarcode() {
     font-weight: 600;
     color: var(--text-primary);
     letter-spacing: 1px;
+    text-align: center;
 }
 
 .member-number {
