@@ -61,6 +61,14 @@ npm run dev
 npm run build
 ```
 
+```sh
+npx cap sync
+```
+
+```sh
+npx cap open ios
+```
+
 ### Run Unit Tests with [Vitest](https://vitest.dev/)
 
 ```sh
