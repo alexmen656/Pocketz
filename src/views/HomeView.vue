@@ -87,8 +87,21 @@ onMounted(async () => {
   <div class="app-container">
     <div class="spacer"></div>
     <CardsHeader />
-    <div class="new-section-title"></div>
-    <!-- <div class="section-title">{{ t('home.allCards') }}</div>-->
+    <!-- <div class="new-section-title"></div>-->
+    <div class="section-title">PINNED CARDS</div>
+    <div class="cards-grid">
+      <div v-for="card in cards.slice(0, 4)" :key="card.id" class="card"
+        :style="{ backgroundColor: card.bgColor, color: card.textColor }" @click="openCard(card)">
+        <div class="card-name">
+          <div v-if="card.isCustomCard" class="card-initials">
+            {{ getInitials(card.name) }}
+          </div>
+          <img v-else :src="getLogoUrl(card.logo)" alt=""
+            style="max-width: 200px; max-height: 100px; object-fit: contain;">
+        </div>
+      </div>
+    </div>
+    <div class="section-title">{{ t('home.allCards') }}</div>
     <div class="cards-grid">
       <div v-for="card in cards" :key="card.id" class="card"
         :style="{ backgroundColor: card.bgColor, color: card.textColor }" @click="openCard(card)">
