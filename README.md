@@ -18,6 +18,9 @@ Adding proper support for GS1 was especially tricky.
 
 - Apple Wallet support
 - Barcode Scanner as easier adding method
+- Multi-language support
+- Card sharing functionality
+- Support for multiple card types (Barcode, QR Code, GS1)
 
 ## Recommended IDE Setup
 
