@@ -12,7 +12,7 @@ Adding proper support for GS1 was especially tricky.
 
 ## Demo
 
-[YouTube](https://youtube.com/shorts/HbPc2MwK0nQ)
+[YouTube](https://youtu.be/ANMNPKKc5Yc)
 
 ## Special Features
 
@@ -21,6 +21,17 @@ Adding proper support for GS1 was especially tricky.
 - Multi-language support
 - Card sharing functionality
 - Support for multiple card types (Barcode, QR Code, GS1)
+
+## Changes since Siege submission:
+
+Since I already submitted this project to Siege, here are the changes I made since then (during the Moonshot hours):
+
+- Added support for QR Code and GS1 cards
+- Redesigned the web share page
+- Fixed several UI bugs, such as content appearing behind iPhone safe areas or the footer, and missing dark mode styling in some elements
+- Added a pin feature to pin cards
+- Created a script to download company logos from Brandfetch and store them in my backend, so the app is no longer dependent on the Brandfetch API
+- Many minor improvements, such as padding tweaks and general code optimizations
 
 ## Recommended IDE Setup
 
