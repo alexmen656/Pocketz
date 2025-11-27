@@ -5,8 +5,10 @@ import { useI18n } from 'vue-i18n'
 import { Preferences } from '@capacitor/preferences'
 import nacl from 'tweetnacl'
 import naclUtil from 'tweetnacl-util'
-import JsBarcode from 'jsbarcode'
-import { detectBarcodeFormat, getVueBarcodeFormat, type BarcodeFormatType } from '@/utils/barcodeUtils'
+import VueJsBarcode from 'vue-jsbarcode'
+import QrcodeVue from 'qrcode.vue'
+import bwipjs from 'bwip-js'
+import { detectBarcodeFormat, type BarcodeFormatType } from '@/utils/barcodeUtils' //getVueBarcodeFormat
 
 const { t } = useI18n()
 const router = useRouter()
@@ -24,21 +26,20 @@ interface CardData {
 }
 
 const cardData = ref<CardData | null>(null)
-const barcodeCanvas = ref<HTMLCanvasElement | null>(null)
+const gs1Canvas = ref<HTMLCanvasElement | null>(null)
 const error = ref('')
 const loading = ref(true)
+const showBarcode = ref(false)
 
-const barcodeFormatToUse = computed(() => {
-    if (cardData.value?.barcodeFormat) {
-        return getVueBarcodeFormat(cardData.value.barcodeFormat)
-    }
-
-    if (cardData.value?.barcode) {
-        const detected = detectBarcodeFormat(cardData.value.barcode)
-        return getVueBarcodeFormat(detected)
-    }
-    return 'CODE128'
+const barcodeFormat = computed(() => {
+    return cardData.value?.barcodeFormat || 'CODE128B'
 })
+
+const isQRCode = computed(() => barcodeFormat.value === 'QR_CODE')
+const isGS1DataBar = computed(() => barcodeFormat.value === 'GS1_DATABAR')
+const isStandardBarcode = computed(() =>
+    ['CODE128', 'CODE128A', 'CODE128B', 'CODE128C', 'EAN13'].includes(barcodeFormat.value)
+)
 
 onMounted(async () => {
     try {
@@ -103,7 +104,7 @@ async function saveCardToPreferences() {
             ? Math.max(...existingCards.map((c: any) => c.id)) + 1
             : 1
 
-        const barcodeFormat = cardData.value.barcodeFormat || detectBarcodeFormat(cardData.value.barcode)
+        const barcodeFormatValue = cardData.value.barcodeFormat || detectBarcodeFormat(cardData.value.barcode)
 
         const newCard = {
             id: newId,
@@ -112,7 +113,7 @@ async function saveCardToPreferences() {
             bgColor: cardData.value.bgColor,
             textColor: cardData.value.textColor,
             barcode: cardData.value.barcode,
-            barcodeFormat: barcodeFormat,
+            barcodeFormat: barcodeFormatValue,
             cardNumber: cardData.value.cardNumber,
             isCustomCard: cardData.value.isCustomCard || false
         }
@@ -147,22 +148,33 @@ function getInitials(name: string): string {
 
 async function renderBarcode() {
     await nextTick()
-    if (!barcodeCanvas.value || !cardData.value?.barcode) return
+    if (!cardData.value?.barcode) return
+
+    const format = cardData.value.barcodeFormat || 'CODE128B'
 
     try {
-        JsBarcode(barcodeCanvas.value, cardData.value.barcode, {
-            format: barcodeFormatToUse.value,
-            width: 1,
-            height: 80,
-            displayValue: false,
-            margin: 0,
-            background: '#FFFFFF',
-            lineColor: '#000000',
-            fontSize: 0,
-            textMargin: 0
-        })
+        if (format === 'GS1_DATABAR') {
+            if (gs1Canvas.value) {
+                await bwipjs.toCanvas(gs1Canvas.value, {
+                    bcid: 'databarexpandedstacked',
+                    text: cardData.value.barcode,
+                    scale: 1.5,
+                    height: 40,
+                    segments: 8
+                })
+            }
+            return
+        }
+
+        if (format === 'QR_CODE') {
+            showBarcode.value = true
+            return
+        }
+
+        showBarcode.value = true
     } catch (error) {
         console.error('Error rendering barcode:', error)
+        showBarcode.value = false
     }
 }
 
@@ -175,68 +187,62 @@ watch(cardData, async () => {
 
 <template>
     <div class="share-receive-container">
-        <!-- Header -->
-        <header class="header">
-            <div class="logo">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                    <rect width="24" height="24" rx="6" fill="#0066FF" />
-                    <rect x="6" y="8" width="12" height="2" rx="1" fill="white" />
-                    <rect x="6" y="11" width="8" height="2" rx="1" fill="white" />
-                    <rect x="6" y="14" width="10" height="2" rx="1" fill="white" />
+        <header class="detail-header">
+            <button class="back-button" @click="router.push('/')">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
                 </svg>
-                <span class="logo-text">Pocketz</span>
-            </div>
+            </button>
+            <h1 class="detail-title">{{ t('shareReceive.cardReceived') }}</h1>
+            <div style="width: 40px;"></div>
         </header>
-
-        <div class="content">
-            <!-- Loading State -->
+        <div class="card-content">
             <div v-if="loading" class="state-container">
                 <div class="spinner"></div>
                 <p class="state-text">{{ t('shareReceive.decrypting') }}</p>
             </div>
-
-            <!-- Error State -->
-            <div v-else-if="error" class="state-container">
+            <div v-else-if="error" class="state-container error-state">
                 <div class="error-icon">
                     <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="12" r="10" stroke="#FF3B30" stroke-width="2" />
-                        <path d="M12 8v4M12 16h.01" stroke="#FF3B30" stroke-width="2" stroke-linecap="round" />
+                        <circle cx="12" cy="12" r="10" stroke="#FF4444" stroke-width="2" />
+                        <path d="M12 8v4M12 16h.01" stroke="#FF4444" stroke-width="2" stroke-linecap="round" />
                     </svg>
                 </div>
                 <h2 class="state-title">{{ t('shareReceive.errorTitle') }}</h2>
                 <p class="state-description">{{ error }}</p>
-                <button class="btn btn-secondary" @click="router.push('/')">
+                <button class="btn-save" @click="router.push('/')">
                     {{ t('shareReceive.backToHome') }}
                 </button>
             </div>
-
-            <!-- Success State -->
-            <div v-else-if="cardData" class="state-container">
-                <h1 class="page-title">{{ t('shareReceive.cardReceived') }}</h1>
+            <div v-else-if="cardData" class="success-content">
                 <p class="page-subtitle">{{ t('shareReceive.cardReceivedDescription') }}</p>
-
-                <!-- Card Preview -->
-                <div class="card-wrapper">
-                    <div class="card-preview" :style="{ backgroundColor: cardData.bgColor, color: cardData.textColor }">
-                        <div class="card-content">
-                            <div v-if="cardData.isCustomCard" class="card-initials">
-                                {{ getInitials(cardData.name) }}
-                            </div>
-                            <img v-else :src="'https://api.pocketz.app/logo/' + cardData.logo" :alt="cardData.name"
-                                class="card-logo" />
-                            <span class="card-name">{{ cardData.name }}</span>
+                <div class="card-display" :style="{ backgroundColor: cardData.bgColor, color: cardData.textColor }">
+                    <div class="card-logo">
+                        <div v-if="cardData.isCustomCard" class="logo-initials">
+                            {{ getInitials(cardData.name) }}
                         </div>
+                        <img v-else :src="'https://api.pocketz.app/logo/' + cardData.logo" :alt="cardData.name"
+                            style="max-width: 120px; max-height: 80px; object-fit: contain;" />
+                        <span class="card-brand-name">{{ cardData.name }}</span>
                     </div>
                 </div>
                 <div class="barcode-section">
-                    <canvas ref="barcodeCanvas" class="barcode-canvas"></canvas>
-                    <span class="barcode-number">{{ cardData.cardNumber }}</span>
+                    <div class="barcode">
+                        <vue-js-barcode v-if="isStandardBarcode" :value="cardData.barcode" :format="barcodeFormat"
+                            :width="2" :height="100" :display-value="false" :margin="0" />
+                        <div v-else-if="isQRCode" class="qr-code-display">
+                            <qrcode-vue :value="cardData.barcode" :size="200" level="H"></qrcode-vue>
+                        </div>
+                        <canvas v-else-if="isGS1DataBar" ref="gs1Canvas" class="gs1-canvas"></canvas>
+                    </div>
+                    <div class="card-number">{{ cardData.cardNumber }}</div>
                 </div>
                 <div class="actions">
-                    <button class="btn btn-primary" @click="saveCard">
+                    <button class="btn-save" @click="saveCard">
                         {{ t('shareReceive.saveCard') }}
                     </button>
-                    <button class="btn btn-ghost" @click="router.push('/')">
+                    <button class="btn-cancel" @click="router.push('/')">
                         {{ t('shareReceive.cancel') }}
                     </button>
                 </div>
@@ -248,94 +254,106 @@ watch(cardData, async () => {
 <style scoped>
 .share-receive-container {
     min-height: 100vh;
-    background-color: #FAFAFA;
+    background-color: var(--bg-primary);
     display: flex;
     flex-direction: column;
 }
 
-/* Header */
-.header {
-    padding: 16px 24px;
-    padding-top: calc(16px + max(0px, env(safe-area-inset-top)));
-    background: white;
-    border-bottom: 1px solid #F0F0F0;
+.detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    padding-top: calc(15px + max(0px, env(safe-area-inset-top)));
 }
 
-.logo {
+.back-button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: none;
+    cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 10px;
-}
-
-.logo-text {
-    font-size: 20px;
-    font-weight: 700;
-    color: #1A1A1A;
-    letter-spacing: -0.5px;
-}
-
-/* Content */
-.content {
-    flex: 1;
-    display: flex;
     justify-content: center;
-    align-items: flex-start;
-    padding: 40px 24px;
+    padding: 0;
+    color: var(--text-primary);
+}
+
+.back-button svg {
+    stroke: var(--text-primary);
+}
+
+.detail-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.card-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+    flex: 1;
 }
 
 .state-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 16px;
-    max-width: 400px;
-    width: 100%;
+    padding: 60px 20px;
+    flex: 1;
 }
 
-/* Typography */
-.page-title {
-    font-size: 32px;
-    font-weight: 700;
-    color: #1A1A1A;
-    margin: 0;
-    letter-spacing: -0.5px;
+.error-state {
     text-align: center;
+}
+
+.success-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .page-subtitle {
-    font-size: 16px;
-    color: #6B6B6B;
-    margin: 0 0 8px 0;
+    font-size: 15px;
+    color: var(--text-tertiary);
     text-align: center;
     line-height: 1.5;
+    margin: 0;
 }
 
 .state-title {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 600;
-    color: #1A1A1A;
+    color: var(--text-primary);
     margin: 8px 0 0 0;
 }
 
 .state-description {
     font-size: 15px;
-    color: #6B6B6B;
+    color: var(--text-tertiary);
     margin: 0;
     text-align: center;
 }
 
 .state-text {
     font-size: 15px;
-    color: #6B6B6B;
+    color: var(--text-tertiary);
     margin: 0;
 }
 
-/* Spinner */
 .spinner {
     width: 40px;
     height: 40px;
-    border: 3px solid #F0F0F0;
-    border-top-color: #0066FF;
+    border: 3px solid var(--border-color);
+    border-top-color: #667eea;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
 }
@@ -346,204 +364,179 @@ watch(cardData, async () => {
     }
 }
 
-/* Error Icon */
 .error-icon {
     padding: 16px;
-    background: #FFF5F5;
+    background: rgba(255, 68, 68, 0.1);
     border-radius: 50%;
 }
 
-/* Card Preview */
-.card-wrapper {
-    width: 100%;
-    margin: 16px 0;
-}
-
-.card-preview {
+.card-display {
     border-radius: 16px;
-    padding: 48px 24px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    padding: 40px 30px;
+    box-shadow: 0 4px 12px var(--shadow-medium);
+    min-height: 180px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.card-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-}
-
 .card-logo {
-    max-width: 100px;
-    max-height: 80px;
-    object-fit: contain;
-}
-
-.card-initials {
-    font-size: 40px;
-    font-weight: 700;
-    opacity: 0.9;
-}
-
-.card-name {
-    font-size: 22px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-}
-
-/* Barcode Section */
-.barcode-section {
-    width: 100%;
-    background: white;
-    border-radius: 12px;
-    padding: 24px 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    border: 1px solid #F0F0F0;
+    gap: 20px;
 }
 
-.barcode-canvas {
+.logo-initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    font-weight: 700;
+    width: 120px;
+    height: 120px;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.2);
+    text-align: center;
+}
+
+.card-brand-name {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.barcode-section {
+    background-color: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 15px 15px 30px 15px;
+    box-shadow: 0 2px 8px var(--shadow-light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.barcode {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 18px;
+}
+
+.qr-code-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gs1-canvas {
     max-width: 100%;
     height: auto;
 }
 
-.barcode-number {
-    font-size: 18px;
+.card-number {
+    font-size: 20px;
     font-weight: 600;
-    color: #1A1A1A;
-    letter-spacing: 2px;
+    color: var(--text-primary);
+    letter-spacing: 1px;
+    text-align: center;
+    word-break: break-all;
+    overflow-wrap: break-word;
 }
 
-/* Actions */
 .actions {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    width: 100%;
-    margin-top: 8px;
+    margin-top: 10px;
 }
 
-/* Buttons */
-.btn {
-    padding: 14px 24px;
-    border-radius: 12px;
+.btn-save {
+    width: 100%;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 8px;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
-    border: none;
-    width: 100%;
-}
-
-.btn-primary {
-    background: #0066FF;
+    transition: all 0.2s;
+    background: #667eea;
     color: white;
 }
 
-.btn-primary:hover {
-    background: #0052CC;
+.btn-save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
 }
 
-.btn-primary:active {
+.btn-save:active {
     transform: scale(0.98);
 }
 
-.btn-secondary {
-    background: #1A1A1A;
-    color: white;
+.btn-cancel {
+    width: 100%;
+    padding: 14px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
 }
 
-.btn-secondary:hover {
-    background: #333;
+.btn-cancel:hover {
+    background: var(--border-subtle);
 }
 
-.btn-ghost {
-    background: transparent;
-    color: #6B6B6B;
-}
-
-.btn-ghost:hover {
-    background: #F0F0F0;
-    color: #1A1A1A;
-}
-
-/* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
-    .share-receive-container {
-        background-color: #0A0A0A;
-    }
-
-    .header {
-        background: #1A1A1A;
-        border-bottom-color: #2A2A2A;
-    }
-
-    .logo-text {
-        color: #FFFFFF;
-    }
-
-    .page-title,
-    .state-title {
-        color: #FFFFFF;
-    }
-
-    .page-subtitle,
-    .state-description,
-    .state-text {
-        color: #8B8B8B;
-    }
-
-    .spinner {
-        border-color: #2A2A2A;
-        border-top-color: #0066FF;
-    }
-
-    .error-icon {
-        background: rgba(255, 59, 48, 0.1);
-    }
-
-    .card-preview {
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
-    }
-
-    .barcode-section {
-        background: #1A1A1A;
-        border-color: #2A2A2A;
-    }
-
-    .barcode-number {
-        color: #FFFFFF;
-    }
-
-    .btn-ghost {
-        color: #8B8B8B;
-    }
-
-    .btn-ghost:hover {
-        background: #2A2A2A;
-        color: #FFFFFF;
-    }
-}
-
-/* Responsive */
 @media (min-width: 640px) {
-    .content {
-        align-items: center;
-        padding: 60px 24px;
+    .card-content {
+        max-width: 500px;
+        margin: 0 auto;
+        width: 100%;
     }
 
     .actions {
         flex-direction: row;
     }
 
-    .btn {
-        width: auto;
+    .btn-save,
+    .btn-cancel {
         flex: 1;
+    }
+}
+
+@media (min-width: 768px) {
+    .share-receive-container {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .detail-header,
+    .card-content {
+        max-width: 500px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .detail-header {
+        border-radius: 0;
+        margin-top: 40px;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+    }
+
+    .card-content {
+        background-color: var(--bg-primary);
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+        padding-bottom: 40px;
     }
 }
 </style>

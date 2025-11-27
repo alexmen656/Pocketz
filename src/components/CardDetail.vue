@@ -801,7 +801,6 @@ async function renderBarcode() {
     background-color: transparent;
 }
 
-/* Loading Overlay */
 .loading-overlay {
     position: fixed;
     top: 0;
@@ -1182,6 +1181,9 @@ async function renderBarcode() {
     align-items: center;
     gap: 15px;
     margin-bottom: 20px;
+    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .barcode {
@@ -1213,6 +1215,10 @@ async function renderBarcode() {
     color: var(--text-primary);
     letter-spacing: 1px;
     text-align: center;
+    word-break: break-all;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    padding: 0 10px;
 }
 
 .member-number {
