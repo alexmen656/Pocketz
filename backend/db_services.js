@@ -95,17 +95,19 @@ export async function addCompaniesForCountry(country, companies) {
 
         for (const company of companies) {
             try {
-                const { name, category, hauptteilnehmer, logo, bg_color, text_color } = company;
+                const { company_name, category, hauptteilnehmer, logo, bg_color, text_color } = company;
 
                 await pool.query(
                     `INSERT INTO companies 
                     (country_id, name, category, hauptteilnehmer, logo, bg_color, text_color) 
                     VALUES ($1, $2, $3, $4, $5, $6, $7) 
                     ON CONFLICT (country_id, name) DO NOTHING`,
-                    [countryId, name, category || null, hauptteilnehmer || null, logo || null, bg_color || null, text_color || null]
+                    [countryId, company_name, category || null, hauptteilnehmer || null, logo || null, bg_color || null, text_color || null]
                 );
+
                 addedCount++;
             } catch (error) {
+                console.warn(`⚠ Fehler beim Hinzufügen von "${company.company_name}" für ${country}:`, error.message);
                 skippedCount++;
             }
         }

@@ -8,7 +8,7 @@ const { Pool } = pg;
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
-    database: 'pocketz',
+    database: 'postgres',//'pocketz',
     password: process.env.DB_PASSWORD,
     port: 5432,
 });

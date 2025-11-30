@@ -41,7 +41,7 @@ export async function getCompaniesFor(country) {
                     Programme bei denen der code komplett dynamisch ist, wie in der Mc Donalds App, sind auch ausgeschlossen.
 
                     AUSGABEFORMAT (max. 20 Programme):
-                    programs: [{"company_name": "Firmenname wie DM, Tesco, ...", category: "Kategorie wie shopping, technik, etc.", hauptteilnehmer: "Hauptpartner oder Unternehmen, bei Payback zB. DM, Aral, ..., bei einzelunternehmen nur das unternehmen selbst",  "logo": "Trotz dessen das der key logo ist, musst du hier die website des Unternehmens angeben, z.B. dm.de, payback.de"}] ` },
+                    programs: [{"company_name": "Firmenname wie DM, Tesco, ..., ohne GmbH, (Lufthansa Group), (Deutsche Bahn) Endungen oder ähnliches", category: "Kategorie wie shopping, technik, etc.", hauptteilnehmer: "Hauptpartner oder Unternehmen, bei Payback zB. DM, Aral, ..., bei einzelunternehmen nur das unternehmen selbst",  "logo": "Trotz dessen das der key logo ist, musst du hier die website des Unternehmens angeben, z.B. dm.de, payback.de, wichtig!!! ohne https:// oder www."}] ` },
             {
                 role: "user",
                 content: country,

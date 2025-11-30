@@ -1,4 +1,5 @@
 import { getCompaniesFor } from './get_companies20.js';
+import { addCompaniesForCountry } from '../db_services.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -12,7 +13,7 @@ if (!fs.existsSync(countriesDir)) {
 }
 
 // conutries which make sense for companies, countries like kiribati, east timor, vatican etc are excluded
-/*const allCountries = [
+const allCountries = [
     "Deutschland",
     "Frankreich",
     "Spanien",
@@ -76,31 +77,68 @@ if (!fs.existsSync(countriesDir)) {
     "Ägypten",
     "Russland",
     "Georgien"
-];*/
-
-const allCountries = [
-    "Deutschland"
 ];
 
 (async () => {
-    for (const country of allCountries) {
-        try {
-            console.log(`workingg ${country}...`);
-            const companies = await getCompaniesFor(country);
+    try {
+        let totalAdded = 0;
+        let totalSkipped = 0;
 
-            if (!companies || !Array.isArray(companies)) {
-                console.error(`✗ ${country}: unguilty json data`);
-                return;
+        for (const country of allCountries) {
+            try {
+                console.log(`Processing ${country}...`);
+                const companies = await getCompaniesFor(country);
+
+                if (!companies || !Array.isArray(companies)) {
+                    console.error(`✗ ${country}: No valid data received from API`);
+                    continue;
+                }
+
+                // save to json
+                const filename = country.toLowerCase().replace(/\s+/g, '_') + '.json';
+                const filepath = path.join(countriesDir, filename);
+                fs.writeFileSync(filepath, JSON.stringify(companies, null, 2), 'utf-8');
+                console.log(`JSON created: ${filename}`);
+
+                // save to database
+                const result = await addCompaniesForCountry(country, companies);
+                totalAdded += result.addedCount;
+                totalSkipped += result.skippedCount;
+                console.log(`DB: ${result.addedCount} added, ${result.skippedCount} skipped`);
+            } catch (error) {
+                console.error(`Error processing ${country}:`, error.message);
             }
-
-            const filename = country.toLowerCase().replace(/\s+/g, '_') + '.json';
-            const filepath = path.join(countriesDir, filename);
-
-            fs.writeFileSync(filepath, JSON.stringify(companies, null, 2), 'utf-8');
-            console.log(`✓ ${country} saved in ${filename}`);
-        } catch (error) {
-            console.error(`eroor ${country}:`, error.message);
         }
+
+        console.log(`Completed!`);
+        console.log(`Total added: ${totalAdded}`);
+        console.log(`Total skipped: ${totalSkipped}`);
+        process.exit(0);
+    } catch (error) {
+        console.error('Critical error:', error.message);
+        process.exit(1);
     }
-    console.log('finisheeeeeed');
 })();
+
+
+/*
+JSON created: deutschland.json
+✓ 0 Unternehmen für Deutschland hinzugefügt, 20 übersprungen
+DB: 0 added, 20 skipped
+Processing Frankreich...
+herere
+
+⚠ Fehler beim Hinzufügen von "undefined" für Deutschland: null value in column "name" of relation "companies" violates not-null constraint
+⚠ Fehler beim Hinzufügen von "undefined" für Deutschland: null value in column "name" of relation "companies" violates not-null constraint
+⚠ Fehler beim Hinzufügen von "undefined" für Deutschland: null value in column "name" of relation "companies" violates not-null constraint
+⚠ Fehler beim Hinzufügen von "undefined" für Deutschland: null value in column "name" of relation "companies" violates not-null constraint
+⚠ Fehler beim Hinzufügen von "undefined" für Deutschland: null value in column "name" of relation "companies" violates not-null constraint
+
+
+JSON created: deutschland.json
+✓ 14 Unternehmen für Deutschland hinzugefügt, 0 übersprungen
+DB: 14 added, 0 skipped
+Processing Frankreich...
+
+yupee!!!
+*/

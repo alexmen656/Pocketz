@@ -2,38 +2,50 @@
   {
     "company_name": "Payback",
     "category": "Koalitionsprogramm",
-    "hauptteilnehmer": "DM, Aral, Rewe Group, Galeria Karstadt Kaufhof, Netto Marken-Discount und viele weitere Partner",
+    "hauptteilnehmer": "DM, Aral",
     "logo": "payback.de"
   },
   {
     "company_name": "DeutschlandCard",
     "category": "Koalitionsprogramm",
-    "hauptteilnehmer": "DeutschlandCard Kooperationsnetz (u.a. REWE Group, EDEKA, Netto Marken-Discount, Real)",
+    "hauptteilnehmer": "Edeka, Rewe",
     "logo": "deutschlandcard.de"
   },
   {
     "company_name": "Lidl Plus",
     "category": "Einzelhandel",
-    "hauptteilnehmer": "Lidl Deutschland",
+    "hauptteilnehmer": "Lidl",
     "logo": "lidl.de"
   },
   {
-    "company_name": "Edeka Vorteilswelt",
-    "category": "Einzelhandel",
-    "hauptteilnehmer": "Edeka",
-    "logo": "edeka.de"
+    "company_name": "MediaMarktSaturn MyPlus",
+    "category": "Elektronik & Technik",
+    "hauptteilnehmer": "MediaMarkt",
+    "logo": "mediamarktsaturn.de"
   },
   {
-    "company_name": "Globus Bonus",
+    "company_name": "Globus Bonus Club",
     "category": "Einzelhandel",
-    "hauptteilnehmer": "Globus SB-Warenhäuser",
+    "hauptteilnehmer": "Globus",
     "logo": "globus.de"
   },
   {
-    "company_name": "Galeria Kaufhof BonusCard",
+    "company_name": "TchiboCard",
     "category": "Einzelhandel",
-    "hauptteilnehmer": "Galeria Karstadt Kaufhof",
-    "logo": "galeria.de"
+    "hauptteilnehmer": "Tchibo",
+    "logo": "tchibo.de"
+  },
+  {
+    "company_name": "Douglas Beauty Card",
+    "category": "Fashion & Lifestyle",
+    "hauptteilnehmer": "Douglas",
+    "logo": "douglas.de"
+  },
+  {
+    "company_name": "Deichmann Card",
+    "category": "Fashion & Lifestyle",
+    "hauptteilnehmer": "Deichmann",
+    "logo": "deichmann.com"
   },
   {
     "company_name": "Shell ClubSmart",
@@ -45,46 +57,28 @@
     "company_name": "Aral Card",
     "category": "Tankstellen & Mobilität",
     "hauptteilnehmer": "Aral",
-    "logo": "aral.com"
-  },
-  {
-    "company_name": "Deutsche Bahn BahnBonus",
-    "category": "Airlines & Reisen",
-    "hauptteilnehmer": "Deutsche Bahn",
-    "logo": "bahn.de"
+    "logo": "aral.de"
   },
   {
     "company_name": "Miles & More",
     "category": "Airlines & Reisen",
-    "hauptteilnehmer": "Lufthansa Group",
-    "logo": "milesandmore.com"
+    "hauptteilnehmer": "Miles & More",
+    "logo": "miles-and-more.com"
   },
   {
-    "company_name": "Sixt Rewards",
-    "category": "Airlines & Reisen",
+    "company_name": "Sixt Loyalty",
+    "category": "Tankstellen & Mobilität",
     "hauptteilnehmer": "Sixt",
     "logo": "sixt.de"
   },
   {
-    "company_name": "MediaMarkt Club",
-    "category": "Elektronik & Technik",
-    "hauptteilnehmer": "MediaMarktSaturn Retail Group",
-    "logo": "mediamarkt.de"
-  },
-  {
-    "company_name": "Douglas Beauty Club",
+    "company_name": "Thalia Card",
     "category": "Online-Shopping & E-Commerce",
-    "hauptteilnehmer": "Douglas",
-    "logo": "douglas.de"
+    "hauptteilnehmer": "Thalia",
+    "logo": "thalia.de"
   },
   {
-    "company_name": "H&M Club",
-    "category": "Fashion & Lifestyle",
-    "hauptteilnehmer": "H&M",
-    "logo": "hm.com"
-  },
-  {
-    "company_name": "Kaufland Vorteilswelt",
+    "company_name": "Kaufland Card",
     "category": "Einzelhandel",
     "hauptteilnehmer": "Kaufland",
     "logo": "kaufland.de"
