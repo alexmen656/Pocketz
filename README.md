@@ -12,6 +12,9 @@ Adding proper support for GS1 was especially tricky.
 
 2. I am thinking about if to have 1 chat gpt prompt to get all companies incl. barcode types, but I think this will be to uprecise, so probably I will foreach the companies from first prompt and get barcode types with individual prompts, GPT 5 nano isn't that expensive lol
 
+3. Should I use a DB or stay with jsons, Db will be faster but more complex.
+   Probably DB since 80 countries x 50 companies would already be 4000 companies!! and there will be even more probably...
+
 ## Demo
 
 [YouTube](https://youtu.be/ANMNPKKc5Yc)
