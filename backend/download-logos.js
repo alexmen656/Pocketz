@@ -4,6 +4,9 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { getCompaniesByCountry, getAllCountries, updateCompany } from './db_services.js';
+import OpenAI from 'openai';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -199,10 +202,48 @@ async function downloadAllLogos() {
 
                 if (logoBuffer) {
                     const colors = await extractColorFromBuffer(logoBuffer);
+                    const openai = new OpenAI();
+
+                    const response = await openai.responses.parse({
+                        model: "gpt-5-nano",
+                        input: [
+                            {
+                                role: "system", content: `Du bist ein Barcode-Experte. Gib die Antwort **als JSON** zurück. Identifiziere basierend auf dem Kartennamen den verwendeten Barcode-Typ und Subtyp.
+                            INPUT: [Kartenname, z.B. "Payback", "Rewe", "Lidl", "dm", etc.]
+                            
+                            AUFGABE:
+                            1. Erkenne den Barcode-Standard der genannten Karte
+                            2. Bestimme bei Code 128 den spezifischen Subtyp (A, B oder C)
+                            3. Berücksichtige regionale Standards (Deutschland, Europa, International)
+                            
+                            BARCODE-STANDARDS:
+                            - EAN-13: Europäische Artikelnummer, 13 Ziffern
+                            - EAN-8: Verkürzte Version, 8 Ziffern
+                            - Code 128-A: Großbuchstaben, Zahlen, Steuerzeichen
+                            - Code 128-B: Groß-/Kleinbuchstaben, Zahlen
+                            - Code 128-C: Nur Zahlenpaare (optimal für lange Nummern)
+                            - Code 39: Alphanumerisch
+                            - QR-Code: 2D-Code für komplexe Daten
+                            - Data Matrix: 2D-Code, kompakt
+                            
+                            AUSGABEFORMAT:
+                            {"type": "Vollstandiger Barcode-Typ inkl. Subtyp, z.B. 'EAN13', 'Code128B'"}` },
+                            {
+                                role: "user",
+                                content: "Payback",
+                            },
+                        ],
+                        text: {
+                            format: { type: "json_object" },
+                        },
+                    });
+
+                    const type = JSON.parse(response.output_text).type;
 
                     await updateCompany(company.id, {
                         bg_color: colors.bgColor,
-                        text_color: colors.textColor
+                        text_color: colors.textColor,
+                        barcode_type: type
                     });
 
                     console.log(`Farben: ${colors.bgColor} / ${colors.textColor}`);

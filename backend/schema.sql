@@ -22,3 +22,5 @@ CREATE TABLE IF NOT EXISTS companies (
 CREATE INDEX IF NOT EXISTS idx_companies_country_id ON companies(country_id);
 CREATE INDEX IF NOT EXISTS idx_companies_category ON companies(category);
 CREATE INDEX IF NOT EXISTS idx_companies_name ON companies(name);
+
+ALTER TABLE companies ADD COLUMN IF NOT EXISTS barcode_type VARCHAR(100);

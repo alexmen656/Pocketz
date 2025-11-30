@@ -171,7 +171,7 @@ export async function getCompanyById(id) {
 
 export async function updateCompany(id, updateData) {
     try {
-        const { name, category, hauptteilnehmer, logo, bg_color, text_color } = updateData;
+        const { name, category, hauptteilnehmer, logo, bg_color, text_color, barcode_type } = updateData;
 
         const result = await pool.query(
             `UPDATE companies 
@@ -181,10 +181,11 @@ export async function updateCompany(id, updateData) {
                  logo = COALESCE($4, logo),
                  bg_color = COALESCE($5, bg_color),
                  text_color = COALESCE($6, text_color),
-                 updated_at = CURRENT_TIMESTAMP
+                 updated_at = CURRENT_TIMESTAMP,
+                 barcode_type = COALESCE($8, barcode_type)
              WHERE id = $7
              RETURNING *`,
-            [name, category, hauptteilnehmer, logo, bg_color, text_color, id]
+            [name, category, hauptteilnehmer, logo, bg_color, text_color, id, barcode_type]
         );
 
         if (result.rows.length === 0) {
