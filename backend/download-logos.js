@@ -206,7 +206,7 @@ async function downloadAllLogos() {
 
                     // the results are shit, pure guesswork, why is everything 128C lol, even gpt-5 failes wtf
                     const response = await openai.responses.parse({
-                        model: "gpt-5-nano",
+                        model: "gpt-5-mini",
                         input: [
                             {
                                 role: "system", content: `Du bist ein Barcode-Experte. Gib die Antwort **als JSON** zurück. Identifiziere basierend auf dem Kartennamen den verwendeten Barcode-Typ und Subtyp.
