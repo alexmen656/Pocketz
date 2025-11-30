@@ -1,0 +1,77 @@
+[
+  {
+    "company_name": "Payback",
+    "category": "Koalitionsprogramm",
+    "hauptteilnehmer": "DM, Rewe Group, Aral"
+  },
+  {
+    "company_name": "LidlPlus",
+    "category": "Einzelhandel",
+    "hauptteilnehmer": "Lidl"
+  },
+  {
+    "company_name": "Miles & More",
+    "category": "Airlines & Reisen",
+    "hauptteilnehmer": "Lufthansa"
+  },
+  {
+    "company_name": "H&M Club",
+    "category": "Fashion & Lifestyle",
+    "hauptteilnehmer": "H&M"
+  },
+  {
+    "company_name": "Zalando Plus",
+    "category": "Online-Shopping & E-Commerce",
+    "hauptteilnehmer": "Zalando"
+  },
+  {
+    "company_name": "MediaMarktSaturn Club (MyCLUB)",
+    "category": "Elektronik & Technik",
+    "hauptteilnehmer": "MediaMarkt & Saturn"
+  },
+  {
+    "company_name": "TchiboCard",
+    "category": "Online-Shopping & E-Commerce",
+    "hauptteilnehmer": "Tchibo"
+  },
+  {
+    "company_name": "Otto Bonus",
+    "category": "Online-Shopping & E-Commerce",
+    "hauptteilnehmer": "Otto"
+  },
+  {
+    "company_name": "Douglas Card",
+    "category": "Fashion & Lifestyle",
+    "hauptteilnehmer": "Douglas"
+  },
+  {
+    "company_name": "Shell ClubSmart",
+    "category": "Tankstellen & Mobilität",
+    "hauptteilnehmer": "Shell"
+  },
+  {
+    "company_name": "Sixt Loyalty",
+    "category": "Tankstellen & Mobilität",
+    "hauptteilnehmer": "Sixt"
+  },
+  {
+    "company_name": "Shop Apotheke Loyalty",
+    "category": "Apotheken & Gesundheit",
+    "hauptteilnehmer": "Shop Apotheke"
+  },
+  {
+    "company_name": "Thalia Card",
+    "category": "Online-Shopping & E-Commerce",
+    "hauptteilnehmer": "Thalia"
+  },
+  {
+    "company_name": "IKEA Family",
+    "category": "Fashion & Lifestyle",
+    "hauptteilnehmer": "IKEA"
+  },
+  {
+    "company_name": "Deichmann Card",
+    "category": "Fashion & Lifestyle",
+    "hauptteilnehmer": "Deichmann"
+  }
+]

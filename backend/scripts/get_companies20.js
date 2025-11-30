@@ -2,9 +2,7 @@ import OpenAI from 'openai';
 import dotenv from 'dotenv';
 dotenv.config();
 
-async function main() {
-
-
+export async function getCompaniesFor(country) {
     const client = new OpenAI({
         apiKey: process.env.OPENAI_API_KEY,
     });
@@ -46,7 +44,7 @@ async function main() {
         {"company_name": "Firmenname wie DM, Tesco, ...", category: "Kategorie wie shopping, technik, etc.", hauptteilnehmer: "Hauptpartner oder Unternehmen, bei Payback zB. DM, ..., bei einzelunternehmen nur das unternehmen selbst"} ` },
             {
                 role: "user",
-                content: "Deutschland",
+                content: country,
             },
         ],
         text: {
@@ -68,11 +66,13 @@ async function main() {
     });
 
     const type = response;
-    console.log(type);
-    console.log(JSON.parse(type.output_text).programs[0].company_name)
+    //  console.log(type);
+    //console.log(JSON.parse(type.output_text).programs[0].company_name)
+
+    return JSON.parse(type.output_text).programs;
 }
 
-main();
+//main();
 
 
 /*
