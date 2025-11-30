@@ -204,8 +204,9 @@ async function downloadAllLogos() {
                     const colors = await extractColorFromBuffer(logoBuffer);
                     const openai = new OpenAI();
 
+                    // the results are shit, pure guesswork, why is everything 128C lol
                     const response = await openai.responses.parse({
-                        model: "gpt-5-nano",
+                        model: "gpt-5-mini",
                         input: [
                             {
                                 role: "system", content: `Du bist ein Barcode-Experte. Gib die Antwort **als JSON** zurück. Identifiziere basierend auf dem Kartennamen den verwendeten Barcode-Typ und Subtyp.
@@ -217,17 +218,17 @@ async function downloadAllLogos() {
                             3. Berücksichtige regionale Standards (Deutschland, Europa, International)
                             
                             BARCODE-STANDARDS:
-                            - EAN-13: Europäische Artikelnummer, 13 Ziffern
-                            - EAN-8: Verkürzte Version, 8 Ziffern
-                            - Code 128-A: Großbuchstaben, Zahlen, Steuerzeichen
-                            - Code 128-B: Groß-/Kleinbuchstaben, Zahlen
-                            - Code 128-C: Nur Zahlenpaare (optimal für lange Nummern)
-                            - Code 39: Alphanumerisch
-                            - QR-Code: 2D-Code für komplexe Daten
-                            - Data Matrix: 2D-Code, kompakt
+                            - EAN-13
+                            - EAN-8
+                            - QR-Code
+                            - Code 128-A
+                            - Code 128-B
+                            - Code 128-C
+                            - Code 39
+                            - Data Matrix
                             
                             AUSGABEFORMAT:
-                            {"type": "Vollstandiger Barcode-Typ inkl. Subtyp, z.B. 'EAN13', 'Code128B'"}` },
+                            {"type": "Vollstandiger Barcode-Typ inkl. Subtyp, z.B. 'QR', 'EAN13', 'Code128B'"}` },
                             {
                                 role: "user",
                                 content: "Payback",
