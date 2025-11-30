@@ -1,0 +1,122 @@
+[
+  {
+    "company_name": "Payback",
+    "category": "Koalitionsprogramm",
+    "hauptteilnehmer": "DM, Aral, REWE Group (REWE, PENNY)",
+    "logo": "https://www.payback.de"
+  },
+  {
+    "company_name": "DeutschlandCard",
+    "category": "Koalitionsprogramm",
+    "hauptteilnehmer": "REWE Group & EDEKA (z. B. REWE, Netto, PENNY)",
+    "logo": "https://www.deutschlandcard.de"
+  },
+  {
+    "company_name": "Miles & More",
+    "category": "Airlines & Reisen",
+    "hauptteilnehmer": "Lufthansa (Miles & More)",
+    "logo": "https://www.miles-and-more.de"
+  },
+  {
+    "company_name": "BahnBonus",
+    "category": "Airlines & Reisen",
+    "hauptteilnehmer": "Deutsche Bahn",
+    "logo": "https://www.bahn.de"
+  },
+  {
+    "company_name": "IKEA Family",
+    "category": "Einzelhandel",
+    "hauptteilnehmer": "IKEA",
+    "logo": "https://www.ikea.de"
+  },
+  {
+    "company_name": "Lidl Plus",
+    "category": "Einzelhandel",
+    "hauptteilnehmer": "Lidl",
+    "logo": "https://www.lidl.de"
+  },
+  {
+    "company_name": "H&M Club",
+    "category": "Fashion & Lifestyle",
+    "hauptteilnehmer": "H&M",
+    "logo": "https://www2.hm.com/de_de/club.html"
+  },
+  {
+    "company_name": "Douglas BeautyCard",
+    "category": "Fashion & Lifestyle",
+    "hauptteilnehmer": "Douglas",
+    "logo": "https://www.douglas.de/douglas-card"
+  },
+  {
+    "company_name": "TchiboCard",
+    "category": "Online-Shopping & E-Commerce",
+    "hauptteilnehmer": "Tchibo",
+    "logo": "https://www.tchibo.de"
+  },
+  {
+    "company_name": "Otto Vorteilswelt",
+    "category": "Online-Shopping & E-Commerce",
+    "hauptteilnehmer": "Otto",
+    "logo": "https://www.otto.de"
+  },
+  {
+    "company_name": "Adidas miClub",
+    "category": "Fashion & Lifestyle",
+    "hauptteilnehmer": "Adidas",
+    "logo": "https://www.adidas.de"
+  },
+  {
+    "company_name": "Rossmann Card",
+    "category": "Apotheken & Gesundheit",
+    "hauptteilnehmer": "Rossmann",
+    "logo": "https://www.rossmann.de"
+  },
+  {
+    "company_name": "Müller Card",
+    "category": "Apotheken & Gesundheit",
+    "hauptteilnehmer": "Müller",
+    "logo": "https://www.mueller.de"
+  },
+  {
+    "company_name": "Deichmann Card",
+    "category": "Fashion & Lifestyle",
+    "hauptteilnehmer": "Deichmann",
+    "logo": "https://www.deichmann.com"
+  },
+  {
+    "company_name": "Sixt+",
+    "category": "Tankstellen & Mobilität",
+    "hauptteilnehmer": "Sixt",
+    "logo": "https://www.sixt.de"
+  },
+  {
+    "company_name": "Shell ClubSmart",
+    "category": "Tankstellen & Mobilität",
+    "hauptteilnehmer": "Shell",
+    "logo": "https://www.shell.de"
+  },
+  {
+    "company_name": "Amazon Prime",
+    "category": "Online-Shopping & E-Commerce",
+    "hauptteilnehmer": "Amazon",
+    "logo": "https://www.amazon.de"
+  },
+  {
+    "company_name": "McDonald's App",
+    "category": "Restaurants & Gastronomie",
+    "hauptteilnehmer": "McDonald's",
+    "logo": "https://www.mcdonalds.de"
+  },
+  {
+    "company_name": "OBI ClubCard",
+    "category": "Einzelhandel",
+    "hauptteilnehmer": "OBI",
+    "logo": "https://www.obi.de"
+  },
+  {
+    "company_name": "MediaMarkt Club",
+    "category": "Elektronik & Technik",
+    "hauptteilnehmer": "MediaMarkt",
+    "logo": "https://www.mediamarkt.de"
+  }
+]

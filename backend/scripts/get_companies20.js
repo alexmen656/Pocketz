@@ -35,13 +35,13 @@ export async function getCompaniesFor(country) {
                       - Fashion & Lifestyle
                       - Elektronik & Technik
                       - Apotheken & Gesundheit
-                              
-                      AUSGABEFORMAT (max. 20 Programme):
-                      1. [Programmname] - [Kategorie] - [Hauptpartner/Unternehmen]
-                      2. [Programmname] - [Kategorie] - [Hauptpartner/Unternehmen]
+                    
+                    !!! Beachte: !!!
+                    Nur Programme, die einen barcode, QR-Code oder eine digitale oder physische Karte verwenden, sind relevant. Es ist recht offen aber kein Amazon prime, oder ähnliches.
+                    Programme bei denen der code komplett dynamisch ist, wie in der Mc Donalds App, sind auch ausgeschlossen.
 
-        AUSGABEFORMAT:
-        {"company_name": "Firmenname wie DM, Tesco, ...", category: "Kategorie wie shopping, technik, etc.", hauptteilnehmer: "Hauptpartner oder Unternehmen, bei Payback zB. DM, Aral, ..., bei einzelunternehmen nur das unternehmen selbst",  "logo": "Trotz dessen das der key logo ist, musst du hier die website des Unternehmens angeben, z.B. dm.de, payback.de"} ` },
+                    AUSGABEFORMAT (max. 20 Programme):
+                    programs: [{"company_name": "Firmenname wie DM, Tesco, ...", category: "Kategorie wie shopping, technik, etc.", hauptteilnehmer: "Hauptpartner oder Unternehmen, bei Payback zB. DM, Aral, ..., bei einzelunternehmen nur das unternehmen selbst",  "logo": "Trotz dessen das der key logo ist, musst du hier die website des Unternehmens angeben, z.B. dm.de, payback.de"}] ` },
             {
                 role: "user",
                 content: country,

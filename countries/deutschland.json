@@ -2,121 +2,91 @@
   {
     "company_name": "Payback",
     "category": "Koalitionsprogramm",
-    "hauptteilnehmer": "DM, Aral, REWE Group (REWE, PENNY)",
-    "logo": "https://www.payback.de"
+    "hauptteilnehmer": "DM, Aral, Rewe Group, Galeria Karstadt Kaufhof, Netto Marken-Discount und viele weitere Partner",
+    "logo": "payback.de"
   },
   {
     "company_name": "DeutschlandCard",
     "category": "Koalitionsprogramm",
-    "hauptteilnehmer": "REWE Group & EDEKA (z. B. REWE, Netto, PENNY)",
-    "logo": "https://www.deutschlandcard.de"
-  },
-  {
-    "company_name": "Miles & More",
-    "category": "Airlines & Reisen",
-    "hauptteilnehmer": "Lufthansa (Miles & More)",
-    "logo": "https://www.miles-and-more.de"
-  },
-  {
-    "company_name": "BahnBonus",
-    "category": "Airlines & Reisen",
-    "hauptteilnehmer": "Deutsche Bahn",
-    "logo": "https://www.bahn.de"
-  },
-  {
-    "company_name": "IKEA Family",
-    "category": "Einzelhandel",
-    "hauptteilnehmer": "IKEA",
-    "logo": "https://www.ikea.de"
+    "hauptteilnehmer": "DeutschlandCard Kooperationsnetz (u.a. REWE Group, EDEKA, Netto Marken-Discount, Real)",
+    "logo": "deutschlandcard.de"
   },
   {
     "company_name": "Lidl Plus",
     "category": "Einzelhandel",
-    "hauptteilnehmer": "Lidl",
-    "logo": "https://www.lidl.de"
+    "hauptteilnehmer": "Lidl Deutschland",
+    "logo": "lidl.de"
   },
   {
-    "company_name": "H&M Club",
-    "category": "Fashion & Lifestyle",
-    "hauptteilnehmer": "H&M",
-    "logo": "https://www2.hm.com/de_de/club.html"
+    "company_name": "Edeka Vorteilswelt",
+    "category": "Einzelhandel",
+    "hauptteilnehmer": "Edeka",
+    "logo": "edeka.de"
   },
   {
-    "company_name": "Douglas BeautyCard",
-    "category": "Fashion & Lifestyle",
-    "hauptteilnehmer": "Douglas",
-    "logo": "https://www.douglas.de/douglas-card"
+    "company_name": "Globus Bonus",
+    "category": "Einzelhandel",
+    "hauptteilnehmer": "Globus SB-Warenhäuser",
+    "logo": "globus.de"
   },
   {
-    "company_name": "TchiboCard",
-    "category": "Online-Shopping & E-Commerce",
-    "hauptteilnehmer": "Tchibo",
-    "logo": "https://www.tchibo.de"
-  },
-  {
-    "company_name": "Otto Vorteilswelt",
-    "category": "Online-Shopping & E-Commerce",
-    "hauptteilnehmer": "Otto",
-    "logo": "https://www.otto.de"
-  },
-  {
-    "company_name": "Adidas miClub",
-    "category": "Fashion & Lifestyle",
-    "hauptteilnehmer": "Adidas",
-    "logo": "https://www.adidas.de"
-  },
-  {
-    "company_name": "Rossmann Card",
-    "category": "Apotheken & Gesundheit",
-    "hauptteilnehmer": "Rossmann",
-    "logo": "https://www.rossmann.de"
-  },
-  {
-    "company_name": "Müller Card",
-    "category": "Apotheken & Gesundheit",
-    "hauptteilnehmer": "Müller",
-    "logo": "https://www.mueller.de"
-  },
-  {
-    "company_name": "Deichmann Card",
-    "category": "Fashion & Lifestyle",
-    "hauptteilnehmer": "Deichmann",
-    "logo": "https://www.deichmann.com"
-  },
-  {
-    "company_name": "Sixt+",
-    "category": "Tankstellen & Mobilität",
-    "hauptteilnehmer": "Sixt",
-    "logo": "https://www.sixt.de"
+    "company_name": "Galeria Kaufhof BonusCard",
+    "category": "Einzelhandel",
+    "hauptteilnehmer": "Galeria Karstadt Kaufhof",
+    "logo": "galeria.de"
   },
   {
     "company_name": "Shell ClubSmart",
     "category": "Tankstellen & Mobilität",
     "hauptteilnehmer": "Shell",
-    "logo": "https://www.shell.de"
+    "logo": "shell.de"
   },
   {
-    "company_name": "Amazon Prime",
-    "category": "Online-Shopping & E-Commerce",
-    "hauptteilnehmer": "Amazon",
-    "logo": "https://www.amazon.de"
+    "company_name": "Aral Card",
+    "category": "Tankstellen & Mobilität",
+    "hauptteilnehmer": "Aral",
+    "logo": "aral.com"
   },
   {
-    "company_name": "McDonald's App",
-    "category": "Restaurants & Gastronomie",
-    "hauptteilnehmer": "McDonald's",
-    "logo": "https://www.mcdonalds.de"
+    "company_name": "Deutsche Bahn BahnBonus",
+    "category": "Airlines & Reisen",
+    "hauptteilnehmer": "Deutsche Bahn",
+    "logo": "bahn.de"
   },
   {
-    "company_name": "OBI ClubCard",
-    "category": "Einzelhandel",
-    "hauptteilnehmer": "OBI",
-    "logo": "https://www.obi.de"
+    "company_name": "Miles & More",
+    "category": "Airlines & Reisen",
+    "hauptteilnehmer": "Lufthansa Group",
+    "logo": "milesandmore.com"
+  },
+  {
+    "company_name": "Sixt Rewards",
+    "category": "Airlines & Reisen",
+    "hauptteilnehmer": "Sixt",
+    "logo": "sixt.de"
   },
   {
     "company_name": "MediaMarkt Club",
     "category": "Elektronik & Technik",
-    "hauptteilnehmer": "MediaMarkt",
-    "logo": "https://www.mediamarkt.de"
+    "hauptteilnehmer": "MediaMarktSaturn Retail Group",
+    "logo": "mediamarkt.de"
+  },
+  {
+    "company_name": "Douglas Beauty Club",
+    "category": "Online-Shopping & E-Commerce",
+    "hauptteilnehmer": "Douglas",
+    "logo": "douglas.de"
+  },
+  {
+    "company_name": "H&M Club",
+    "category": "Fashion & Lifestyle",
+    "hauptteilnehmer": "H&M",
+    "logo": "hm.com"
+  },
+  {
+    "company_name": "Kaufland Vorteilswelt",
+    "category": "Einzelhandel",
+    "hauptteilnehmer": "Kaufland",
+    "logo": "kaufland.de"
   }
 ]

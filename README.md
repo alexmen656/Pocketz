@@ -10,6 +10,8 @@ A new feature I added is support for QR codes and GS1-based cards. Pocketz curre
 Barcode formats: There are many barcode standards. Pocketz currently supports EAN-13, Code 128 (A, B, C), QR Code and GS1.
 Adding proper support for GS1 was especially tricky.
 
+2. I am thinking about if to have 1 chat gpt prompt to get all companies incl. barcode types, but I think this will be to uprecise, so probably I will foreach the companies from first prompt and get barcode types with individual prompts, GPT 5 nano isn't that expensive lol
+
 ## Demo
 
 [YouTube](https://youtu.be/ANMNPKKc5Yc)
@@ -57,6 +59,7 @@ See [Vite Configuration Reference](https://vite.dev/config/).
 ## Project Setup
 
 Install all dependencies defined in `package.json`:
+
 ```sh
 npm install
 ```
@@ -64,6 +67,7 @@ npm install
 ### Compile and Hot-Reload for Development
 
 Start the development server with hot module replacement for rapid iteration:
+
 ```sh
 npm run dev
 ```
@@ -71,16 +75,19 @@ npm run dev
 ### Type-Check, Compile and Minify for Production
 
 Build an optimized production bundle:
+
 ```sh
 npm run build
 ```
 
 Synchronize the web build with Capacitor native platforms:
+
 ```sh
 npx cap sync
 ```
 
 Open the iOS project in Xcode:
+
 ```sh
 npx cap open ios
 ```
