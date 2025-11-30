@@ -3,12 +3,12 @@ import sharp from 'sharp';
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { getCompaniesByCountry, getAllCountries, updateCompany } from './db_services.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const LOGOS_DIR = join(__dirname, 'logos');
-const COMPANIES_FILE = join(__dirname, 'companies.json');
 
 if (!existsSync(LOGOS_DIR)) {
     mkdirSync(LOGOS_DIR, { recursive: true });
@@ -104,7 +104,7 @@ async function downloadLogo(brandDomain) {
         const contentType = response.headers['content-type'];
 
         if (contentType?.includes('svg')) {
-            console.log(`  SVG Format - skipped`);
+            console.log(`SVG Format - skipped`);
             return null;
         }
 
@@ -113,7 +113,7 @@ async function downloadLogo(brandDomain) {
         const metadata = await sharp(buffer).metadata();
 
         if (!metadata.format || !['jpeg', 'png', 'webp', 'gif', 'tiff'].includes(metadata.format)) {
-            console.log(`  Unsupported format: ${metadata.format}`);
+            console.log(`Unsupported format: ${metadata.format}`);
             return null;
         }
 
@@ -128,11 +128,11 @@ async function downloadLogo(brandDomain) {
         return pngBuffer;
     } catch (error) {
         if (error.response) {
-            console.log(`  HTTP ${error.response.status}`);
+            console.log(`HTTP ${error.response.status}`);
         } else if (error.code === 'ECONNABORTED') {
-            console.log(`  Timeout`);
+            console.log(`Timeout`);
         } else {
-            console.log(`  ${error.message}`);
+            console.log(`${error.message}`);
         }
         return null;
     }
@@ -141,72 +141,87 @@ async function downloadLogo(brandDomain) {
 async function downloadAllLogos() {
     console.log('Starting Logo-Download & Color Calculation...\n');
 
-    const companies = JSON.parse(readFileSync(COMPANIES_FILE, 'utf-8'));
-    const uniqueDomains = [...new Set(companies.map(c => c.logo))];
+    try {
+        const countries = await getAllCountries();
 
-    console.log(`📋 ${uniqueDomains.length} unique domains found\n`);
+        if (countries.length === 0) {
+            console.log('Keine Länder in der Datenbank gefunden!');
+            return;
+        }
 
-    let successful = 0;
-    let failed = 0;
-    let skipped = 0;
+        let totalProcessed = 0;
+        let successful = 0;
+        let failed = 0;
+        let skipped = 0;
 
-    const colorMap = {};
+        for (const country of countries) {
+            console.log(`Verarbeite ${country.name}...`);
+            const companies = await getCompaniesByCountry(country.name);
 
-    for (let i = 0; i < uniqueDomains.length; i++) {
-        const domain = uniqueDomains[i];
-        const filename = `${domain.replace(/\./g, '_')}.png`;
-        const filepath = join(LOGOS_DIR, filename);
-
-        let logoBuffer = null;
-
-        if (existsSync(filepath)) {
-            console.log(`[${i + 1}/${uniqueDomains.length}] ${domain} - already exists`);
-            logoBuffer = readFileSync(filepath);
-            skipped++;
-        } else {
-            console.log(`[${i + 1}/${uniqueDomains.length}] ${domain}...`);
-            logoBuffer = await downloadLogo(domain);
-
-            if (logoBuffer) {
-                writeFileSync(filepath, logoBuffer);
-                console.log(`  Saved: ${filename}`);
-                successful++;
-            } else {
-                failed++;
+            if (companies.length === 0) {
+                console.log(`Keine Unternehmen gefunden`);
+                continue;
             }
 
-            await new Promise(resolve => setTimeout(resolve, 200));
+            for (const company of companies) {
+                totalProcessed++;
+
+                if (!company.logo) {
+                    console.log(`[${totalProcessed}] ${company.name} - kein Logo angegeben`);
+                    skipped++;
+                    continue;
+                }
+
+                const filename = `${company.logo.replace(/\./g, '_')}.png`;
+                const filepath = join(LOGOS_DIR, filename);
+
+                let logoBuffer = null;
+
+                if (existsSync(filepath)) {
+                    console.log(`[${totalProcessed}] ${company.name} - existiert bereits`);
+                    logoBuffer = readFileSync(filepath);
+                    skipped++;
+                } else {
+                    console.log(`[${totalProcessed}] ${company.name}...`);
+                    logoBuffer = await downloadLogo(company.logo);
+
+                    if (logoBuffer) {
+                        writeFileSync(filepath, logoBuffer);
+                        console.log(`Gespeichert: ${filename}`);
+                        successful++;
+                    } else {
+                        console.log(`Download fehlgeschlagen`);
+                        failed++;
+                    }
+
+                    await new Promise(resolve => setTimeout(resolve, 200));
+                }
+
+                if (logoBuffer) {
+                    const colors = await extractColorFromBuffer(logoBuffer);
+
+                    await updateCompany(company.id, {
+                        bg_color: colors.bgColor,
+                        text_color: colors.textColor
+                    });
+
+                    console.log(`Farben: ${colors.bgColor} / ${colors.textColor}`);
+                }
+            }
         }
 
-        if (logoBuffer) {
-            const colors = await extractColorFromBuffer(logoBuffer);
-            colorMap[domain] = colors;
-            console.log(`  🎨 Colors: ${colors.bgColor} / ${colors.textColor}`);
-        } else {
-            colorMap[domain] = { bgColor: '#E53935', textColor: '#FFFFFF' };
-        }
+        console.log('\n' + '='.repeat(50));
+        console.log('Zusammenfassung:');
+        console.log(`Gesamt verarbeitet: ${totalProcessed}`);
+        console.log(`Erfolgreich: ${successful}`);
+        console.log(`Übersprungen: ${skipped}`);
+        console.log(`Fehlgeschlagen: ${failed}`);
+        console.log('='.repeat(50));
+
+    } catch (error) {
+        console.error('Fehler beim Logo-Download:', error.message);
+        throw error;
     }
-
-    const updatedCompanies = companies.map(company => {
-        if (company.logo && colorMap[company.logo]) {
-            return {
-                ...company,
-                bgColor: colorMap[company.logo].bgColor,
-                textColor: colorMap[company.logo].textColor
-            };
-        }
-        return company;
-    });
-
-    writeFileSync(COMPANIES_FILE, JSON.stringify(updatedCompanies, null, 2));
-    console.log('companies.json updated!\n');
-
-    console.log('='.repeat(50));
-    console.log('Summary:');
-    console.log(`   Successful: ${successful}`);
-    console.log(`   Skipped: ${skipped}`);
-    console.log(`   Failed: ${failed}`);
-    console.log('='.repeat(50));
 }
 
 downloadAllLogos().catch(console.error);
