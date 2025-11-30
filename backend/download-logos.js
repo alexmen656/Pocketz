@@ -206,10 +206,10 @@ async function downloadAllLogos() {
 
                     // the results are shit, pure guesswork, why is everything 128C lol, even gpt-5 failes wtf
                     const response = await openai.responses.parse({
-                        model: "gpt-5",
+                        model: "gpt-5-nano",
                         input: [
                             {
-                                role: "system", content: /*`Du bist ein Barcode-Experte. Gib die Antwort **als JSON** zurück. Identifiziere basierend auf dem Kartennamen den verwendeten Barcode-Typ und Subtyp.
+                                role: "system", content: `Du bist ein Barcode-Experte. Gib die Antwort **als JSON** zurück. Identifiziere basierend auf dem Kartennamen den verwendeten Barcode-Typ und Subtyp.
                             INPUT: [Kartenname, z.B. "Payback", "Rewe", "Lidl", "dm", etc.]
                             
                             AUFGABE:
@@ -230,27 +230,10 @@ async function downloadAllLogos() {
                             Es ist nicht alles 128C, du musst genau hinschauen!
 
                             AUSGABEFORMAT:
-                            {"type": "Vollstandiger Barcode-Typ inkl. Subtyp, z.B. 'QR', 'EAN13', 'Code128B'"}`*/ `Du bist ein Barcode-Experte für europäische Loyalty-Cards. Gib die Antwort **als JSON** zurück.
-
-
-AUSGABE: {"type": "CODE_TYPE", "reason": "kurze Begründung"}` },
-
-                            /*
-                            WICHTIG: Nicht alles ist Code128C! Hier ist die echte Verteilung:
-                            - **EAN-13/EAN-8**: ~60% aller europäischen Loyalty-Cards (numerisch)
-                            - **Code128B**: ~30% (alphanumerisch, flexibel)
-                            - **Code128C**: ~5% (nur reine numerische Sequenzen - selten!)
-                            - **QR-Code**: ~5% (moderne Karten)
-                            
-                            REGELN:
-                            1. Wenn die Kartennummer GEMISCHTE Zeichen hat → Code128B oder QR
-                            2. Wenn es nur Ziffern sind → Könnte EAN oder 128C sein
-                            3. Deutsche/österreichische Karten nutzen meist EAN-13
-                            4. 128C NUR wenn garantiert reines Zahlensystem
-                            */
+                            {"type": "Vollstandiger Barcode-Typ inkl. Subtyp, z.B. 'QR', 'EAN13', 'Code128B'"}` },
                             {
                                 role: "user",
-                                content: "Payback",
+                                content: company.name,
                             },
                         ],
                         text: {
