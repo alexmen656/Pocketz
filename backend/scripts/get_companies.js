@@ -33,13 +33,16 @@ const response = await openai.responses.parse({//openai
                       - Fashion & Lifestyle
                       - Elektronik & Technik
                       - Apotheken & Gesundheit
-                              
+                            
+                      !!! Beachte: !!!
+                        Nur Programme, die einen barcode, QR-Code oder eine digitale oder physische Karte verwenden, sind relevant. Es ist recht offen aber kein Amazon prime oder ähnliches.
+
                       AUSGABEFORMAT (max. 50 Programme):
                       1. [Programmname] - [Kategorie] - [Hauptpartner/Unternehmen]
                       2. [Programmname] - [Kategorie] - [Hauptpartner/Unternehmen]
 
         AUSGABEFORMAT:
-        {"company_name": "Firmenname wie DM, Tesco, ...", category: "Kategorie wie shopping, technik, etc.", hauptteilnehmer: "Hauptpartner oder Unternehmen, bei Payback zB. DM, ..., bei einzelunternehmen nur das unternehmen selbst", "logo": "Trotz dessen das der key logo ist, musst du hier die website des Unternehmens angeben, z.B. dm.de, payback.de"} ` },
+        {"company_name": "Firmenname wie DM, Tesco, ...", category: "Kategorie wie shopping, technik, etc.", hauptteilnehmer: "Hauptpartner oder Unternehmen, bei Payback zB. DM, ..., bei einzelunternehmen nur das unternehmen selbst", "logo": "Trotz dessen das der key logo ist, musst du hier die website des Unternehmens angeben, z.B. dm.de, payback.de, wichtig!!! ohne https:// oder www."} ` },
         {
             role: "user",
             content: "Deutschland",

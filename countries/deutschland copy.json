@@ -1,0 +1,110 @@
+[
+  {
+    "company_name": "Payback",
+    "category": "Koalitionsprogramm",
+    "hauptteilnehmer": "DM, Aral, REWE Group (Vielfach Partner)",
+    "logo": "payback.de"
+  },
+  {
+    "company_name": "DeutschlandCard",
+    "category": "Koalitionsprogramm",
+    "hauptteilnehmer": "DeutschlandCard (Kooperation mit zahlreichen Händlern)",
+    "logo": "deutschlandcard.de"
+  },
+  {
+    "company_name": "Miles & More",
+    "category": "Airlines & Reisen",
+    "hauptteilnehmer": "Lufthansa Group",
+    "logo": "miles-and-more.com"
+  },
+  {
+    "company_name": "BahnBonus",
+    "category": "Airlines & Reisen",
+    "hauptteilnehmer": "Deutsche Bahn",
+    "logo": "bahn.de"
+  },
+  {
+    "company_name": "Lidl Plus",
+    "category": "Einzelhandel",
+    "hauptteilnehmer": "Lidl",
+    "logo": "lidl.de"
+  },
+  {
+    "company_name": "EDEKA Club",
+    "category": "Einzelhandel",
+    "hauptteilnehmer": "EDEKA",
+    "logo": "edeka.de"
+  },
+  {
+    "company_name": "Thalia BonusCard",
+    "category": "Online-Shopping & E-Commerce",
+    "hauptteilnehmer": "Thalia",
+    "logo": "thalia.de"
+  },
+  {
+    "company_name": "Douglas Card",
+    "category": "Fashion & Lifestyle",
+    "hauptteilnehmer": "Douglas",
+    "logo": "douglas.de"
+  },
+  {
+    "company_name": "MediaMarktSaturn myClub",
+    "category": "Elektronik & Technik",
+    "hauptteilnehmer": "MediaMarktSaturn",
+    "logo": "mediamarkt.de"
+  },
+  {
+    "company_name": "Otto Bonus Club",
+    "category": "Online-Shopping & E-Commerce",
+    "hauptteilnehmer": "Otto",
+    "logo": "otto.de"
+  },
+  {
+    "company_name": "Amazon Prime",
+    "category": "Online-Shopping & E-Commerce",
+    "hauptteilnehmer": "Amazon",
+    "logo": "amazon.de"
+  },
+  {
+    "company_name": "Shell ClubSmart",
+    "category": "Tankstellen & Mobilität",
+    "hauptteilnehmer": "Shell",
+    "logo": "shell.de"
+  },
+  {
+    "company_name": "Sixt Bonus Club",
+    "category": "Airlines & Reisen",
+    "hauptteilnehmer": "Sixt",
+    "logo": "sixt.de"
+  },
+  {
+    "company_name": "ADAC Bonuspunkte",
+    "category": "Tankstellen & Mobilität",
+    "hauptteilnehmer": "ADAC",
+    "logo": "adac.de"
+  },
+  {
+    "company_name": "H&M Club",
+    "category": "Fashion & Lifestyle",
+    "hauptteilnehmer": "H&M",
+    "logo": "hm.com"
+  },
+  {
+    "company_name": "Zalando Plus",
+    "category": "Online-Shopping & E-Commerce",
+    "hauptteilnehmer": "Zalando",
+    "logo": "zalando.de"
+  },
+  {
+    "company_name": "IKEA Family",
+    "category": "Einzelhandel",
+    "hauptteilnehmer": "IKEA",
+    "logo": "ikea.com"
+  },
+  {
+    "company_name": "Booking.com Rewards",
+    "category": "Airlines & Reisen",
+    "hauptteilnehmer": "Booking.com",
+    "logo": "booking.com"
+  }
+]
