@@ -1,5 +1,6 @@
 import UIKit
 import Capacitor
+import WidgetKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -7,7 +8,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        migrateUserDefaultsToAppGroups()
         return true
     }
 
@@ -47,3 +48,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
+
+  func migrateUserDefaultsToAppGroups() {
+          let userDefaults = UserDefaults.standard
+          let groupDefaults = UserDefaults(suiteName: "group.com.pocketz.shared")
+          
+          if let groupDefaults = groupDefaults {
+              
+                     for key in userDefaults.dictionaryRepresentation().keys {
+                         if key == "CapacitorStorage.cards" {
+                             groupDefaults.set(userDefaults.dictionaryRepresentation()[key], forKey: "cards")
+                         }
+                     }
+                     groupDefaults.synchronize()
+                     WidgetCenter.shared.reloadAllTimelines()
+                     print("Successfully migrated defaults")
+                     
+                     Timer.scheduledTimer(withTimeInterval: 7.0, repeats: true) { _ in
+                         for key in userDefaults.dictionaryRepresentation().keys {
+                             if key == "CapacitorStorage.cards" {
+                                 groupDefaults.set(userDefaults.dictionaryRepresentation()[key], forKey: "cards")
+                             }
+                         }
+                         groupDefaults.synchronize()
+                         WidgetCenter.shared.reloadAllTimelines()
+                     }
+
+          } else {
+              print("Unable to create NSUserDefaults with given app group")
+          }
+          
+      }
