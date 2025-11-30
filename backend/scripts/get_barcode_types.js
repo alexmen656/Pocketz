@@ -84,6 +84,8 @@ const response = await openai.responses.parse({
     },
 });
 
+//Jö Karte gives Code128B which is wrong (its GS1 something), need to improve prompt to avoid this later
+
 const type = response;//.output_parsed;
 //console.log(type);
 
