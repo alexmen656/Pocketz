@@ -11,11 +11,12 @@ import nacl from 'tweetnacl';
 import naclUtil from 'tweetnacl-util';
 import QRCode from 'qrcode';
 import { detectBarcodeFormat, getVueBarcodeFormat, type BarcodeFormatType } from '@/utils/barcodeUtils'
+import { getCachedLogoUrl } from '@/utils/logoCacheService'
 
 const { t } = useI18n();
 
 const API_BASE_URL = 'https://api.pocketz.app'
-const getLogoUrl = (domain: string) => `${API_BASE_URL}/logo/${domain}`
+let getLogoUrl = async (domain: string) => await getCachedLogoUrl(domain)
 
 interface Props {
     card: {
@@ -122,6 +123,7 @@ const isEditMode = ref(false)
 const editedName = ref(props.card.name)
 const editedCardNumber = ref(props.card.cardNumber || '')
 const isGeneratingPass = ref(false)
+const cachedLogoUrl = ref<string>('')
 //const memberNumber = ref(props.card.memberNumber || '')
 
 async function generateShareLink() {
@@ -197,6 +199,11 @@ function copyLink() {
 onMounted(async () => {
     try {
         await loadPhotos()
+
+        if (!props.card.isCustomCard) {
+            cachedLogoUrl.value = await getLogoUrl(props.card.logo)
+        }
+
         await renderBarcode()
         setTimeout(async () => {
             await ScreenBrightness.setBrightness({ brightness: 1.0 });
@@ -692,7 +699,7 @@ async function renderBarcode() {
                                 {{ getInitials(card.name) }}
                             </div>
                             <div v-else class="logo-placeholder">
-                                <img :src="getLogoUrl(card.logo)" alt=""
+                                <img :src="cachedLogoUrl || `${API_BASE_URL}/logo/${card.logo}`" alt=""
                                     style="max-width: 120px; max-height: 100px; object-fit: contain;">
                             </div>
                             <div class="card-brand-name">{{ card.name }}</div>

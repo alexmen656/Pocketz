@@ -5,6 +5,7 @@ import { Preferences } from '@capacitor/preferences';
 import TouchBar from '@/components/TouchBar.vue'
 import CardsHeader from '@/components/CardsHeader.vue'
 import { useI18n } from 'vue-i18n'
+import { getCachedLogoUrl, preloadLogos } from '@/utils/logoCacheService'
 
 const { t } = useI18n()
 
@@ -21,7 +22,9 @@ interface Card {
   isPinned?: boolean
 }
 
-const getLogoUrl = (domain: string) => `${API_BASE_URL}/logo/${domain}`
+const getLogoUrl = async (domain: string) => {
+  return await getCachedLogoUrl(domain)
+}
 
 const getInitials = (name: string): string => {
   const trimmed = name.trim()
@@ -41,6 +44,7 @@ const getInitials = (name: string): string => {
 
 const cards = ref<Card[]>([]);
 const selectedCard = ref<Card | null>(null)
+const cardLogos = ref<Map<string, string>>(new Map())
 
 function openCard(card: Card) {
   selectedCard.value = card
@@ -92,8 +96,36 @@ const getCards = async (): Promise<Card[]> => {
   return JSON.parse(value)
 };
 
+async function loadLogoUrl(domain: string): Promise<string> {
+  if (!cardLogos.value.has(domain)) {
+    try {
+      const url = await getLogoUrl(domain)
+      cardLogos.value.set(domain, url)
+    } catch (error) {
+      console.error(`Failed to load logo for ${domain}:`, error)
+      cardLogos.value.set(domain, `${API_BASE_URL}/logo/${domain}`)
+    }
+  }
+  return cardLogos.value.get(domain) || `${API_BASE_URL}/logo/${domain}`
+}
+
+async function loadAllLogoUrls() {
+  const domains = cards.value
+    .filter(c => !c.isCustomCard)
+    .map(c => c.logo)
+
+  if (domains.length > 0) {
+    await preloadLogos(domains)
+
+    for (const domain of domains) {
+      await loadLogoUrl(domain)
+    }
+  }
+}
+
 onMounted(async () => {
   cards.value = await getCards();
+  await loadAllLogoUrls();
 });
 </script>
 
@@ -110,7 +142,7 @@ onMounted(async () => {
           <div v-if="card.isCustomCard" class="card-initials">
             {{ getInitials(card.name) }}
           </div>
-          <img v-else :src="getLogoUrl(card.logo)" alt=""
+          <img v-else :src="cardLogos.get(card.logo) || `${API_BASE_URL}/logo/${card.logo}`" alt=""
             style="max-width: 200px; max-height: 100px; object-fit: contain;">
         </div>
       </div>
@@ -123,7 +155,7 @@ onMounted(async () => {
           <div v-if="card.isCustomCard" class="card-initials">
             {{ getInitials(card.name) }}
           </div>
-          <img v-else :src="getLogoUrl(card.logo)" alt=""
+          <img v-else :src="cardLogos.get(card.logo) || `${API_BASE_URL}/logo/${card.logo}`" alt=""
             style="max-width: 200px; max-height: 100px; object-fit: contain;">
         </div>
       </div>
