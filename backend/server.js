@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import sharp from 'sharp';
 import axios from 'axios';
+import { getCompaniesByCountry, getAllCountries, getCompanyById, searchCompanies, getStatistics } from './db_services.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -21,15 +22,14 @@ app.use(cors());
 app.use(express.json());
 app.use('/logos', express.static(join(__dirname, 'logos')));
 
-const loadCompanies = () => {
+/*const loadCompaniesByCountry = async (countryName) => {
     try {
-        const companiesPath = join(__dirname, 'companies.json');
-        return JSON.parse(readFileSync(companiesPath, 'utf-8'));
+        return await getCompaniesByCountry(countryName);
     } catch (error) {
         console.error('Error loading companies:', error);
         return [];
     }
-};
+};*/
 
 const loadCertificates = () => {
     try {
@@ -301,9 +301,30 @@ app.get('/health', (req, res) => {
     res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-app.get('/companies', (req, res) => {
+app.get('/countries', async (req, res) => {
     try {
-        const companies = loadCompanies();
+        const countries = await getAllCountries();
+        res.json(countries);
+    } catch (error) {
+        console.error('Error fetching countries:', error);
+        res.status(500).json({ error: 'Failed to load countries' });
+    }
+});
+
+app.get('/companies', async (req, res) => {
+    try {
+        const { country, search } = req.query;
+
+        if (search) {
+            const results = await searchCompanies(search);
+            return res.json(results);
+        }
+
+        /*  if (!country) {
+              return res.status(400).json({ error: 'Country parameter is required or use search' });
+          }*/
+
+        const companies = await getCompaniesByCountry('*');//country
         res.json(companies);
     } catch (error) {
         console.error('Error fetching companies:', error);
@@ -311,10 +332,9 @@ app.get('/companies', (req, res) => {
     }
 });
 
-app.get('/companies/:id', (req, res) => {
+app.get('/companies/:id', async (req, res) => {
     try {
-        const companies = loadCompanies();
-        const company = companies.find(c => c.id === parseInt(req.params.id));
+        const company = await getCompanyById(parseInt(req.params.id));
 
         if (!company) {
             return res.status(404).json({ error: 'Company not found' });
@@ -324,6 +344,16 @@ app.get('/companies/:id', (req, res) => {
     } catch (error) {
         console.error('Error fetching company:', error);
         res.status(500).json({ error: 'Failed to load company' });
+    }
+});
+
+app.get('/statistics', async (req, res) => {
+    try {
+        const stats = await getStatistics();
+        res.json(stats);
+    } catch (error) {
+        console.error('Error fetching statistics:', error);
+        res.status(500).json({ error: 'Failed to load statistics' });
     }
 });
 
@@ -355,11 +385,16 @@ app.get('/logo/:domain', async (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`✅ Passkit Express Server running on port ${PORT}`);
-    console.log(`📱 Generate pass at: POST http://localhost:${PORT}/generate-pass`);
-    console.log(`❤️  Health check at: http://localhost:${PORT}/health`);
-    console.log(`🏢 Companies at: http://localhost:${PORT}/companies`);
-    console.log(`🖼️  Logos at: http://localhost:${PORT}/logo/:domain`);
-    console.log(`\n📝 Expected POST body format:`);
+    console.log(`\n📝 Available Endpoints:`);
+    console.log(`   POST /generate-pass - Generate Apple Wallet Pass`);
+    console.log(`   GET  /health - Health check`);
+    console.log(`   GET  /countries - Get all countries`);
+    console.log(`   GET  /companies?country=<name> - Get companies by country`);
+    console.log(`   GET  /companies?search=<term> - Search companies`);
+    console.log(`   GET  /companies/:id - Get company by ID`);
+    console.log(`   GET  /statistics - Get database statistics`);
+    console.log(`   GET  /logo/:domain - Get company logo`);
+    console.log(`\n📝 POST /generate-pass body format:`);
     console.log(`{
   "name": "Store Name",
   "logo": "example.com",

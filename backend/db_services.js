@@ -122,13 +122,18 @@ export async function addCompaniesForCountry(country, companies) {
 
 export async function getCompaniesByCountry(country) {
     try {
+        /* const result = await pool.query(
+             `SELECT c.* FROM companies c
+              JOIN countries co ON c.country_id = co.id
+              WHERE co.name = $1
+              ORDER BY c.name`,
+             [country]
+         );*/
+
         const result = await pool.query(
-            `SELECT c.* FROM companies c
-             JOIN countries co ON c.country_id = co.id
-             WHERE co.name = $1
-             ORDER BY c.name`,
-            [country]
+            `SELECT * FROM companies`
         );
+
         return result.rows;
     } catch (error) {
         console.error(`✗ Fehler beim Abrufen der Unternehmen für ${country}:`, error.message);
