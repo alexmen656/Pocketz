@@ -41,7 +41,7 @@ export async function getCompaniesFor(country) {
                       2. [Programmname] - [Kategorie] - [Hauptpartner/Unternehmen]
 
         AUSGABEFORMAT:
-        {"company_name": "Firmenname wie DM, Tesco, ...", category: "Kategorie wie shopping, technik, etc.", hauptteilnehmer: "Hauptpartner oder Unternehmen, bei Payback zB. DM, ..., bei einzelunternehmen nur das unternehmen selbst"} ` },
+        {"company_name": "Firmenname wie DM, Tesco, ...", category: "Kategorie wie shopping, technik, etc.", hauptteilnehmer: "Hauptpartner oder Unternehmen, bei Payback zB. DM, Aral, ..., bei einzelunternehmen nur das unternehmen selbst",  "logo": "Trotz dessen das der key logo ist, musst du hier die website des Unternehmens angeben, z.B. dm.de, payback.de"} ` },
             {
                 role: "user",
                 content: country,
@@ -66,8 +66,13 @@ export async function getCompaniesFor(country) {
     });
 
     const type = response;
-    //  console.log(type);
-    //console.log(JSON.parse(type.output_text).programs[0].company_name)
+    console.log('finished');
+    console.log('API Response:', JSON.stringify(type, null, 2));
+
+    if (!type || !type.output_text) {
+        console.error('Invalid response structure:', type);
+        return [];
+    }
 
     return JSON.parse(type.output_text).programs;
 }

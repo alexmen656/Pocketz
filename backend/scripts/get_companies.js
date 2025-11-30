@@ -39,7 +39,7 @@ const response = await openai.responses.parse({//openai
                       2. [Programmname] - [Kategorie] - [Hauptpartner/Unternehmen]
 
         AUSGABEFORMAT:
-        {"company_name": "Firmenname wie DM, Tesco, ...", category: "Kategorie wie shopping, technik, etc.", hauptteilnehmer: "Hauptpartner oder Unternehmen, bei Payback zB. DM, ..., bei einzelunternehmen nur das unternehmen selbst"} ` },
+        {"company_name": "Firmenname wie DM, Tesco, ...", category: "Kategorie wie shopping, technik, etc.", hauptteilnehmer: "Hauptpartner oder Unternehmen, bei Payback zB. DM, ..., bei einzelunternehmen nur das unternehmen selbst", "logo": "Trotz dessen das der key logo ist, musst du hier die website des Unternehmens angeben, z.B. dm.de, payback.de"} ` },
         {
             role: "user",
             content: "Deutschland",

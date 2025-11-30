@@ -12,7 +12,7 @@ if (!fs.existsSync(countriesDir)) {
 }
 
 // conutries which make sense for companies, countries like kiribati, east timor, vatican etc are excluded
-const allCountries = [
+/*const allCountries = [
     "Deutschland",
     "Frankreich",
     "Spanien",
@@ -76,6 +76,10 @@ const allCountries = [
     "Ägypten",
     "Russland",
     "Georgien"
+];*/
+
+const allCountries = [
+    "Deutschland"
 ];
 
 (async () => {
@@ -83,6 +87,12 @@ const allCountries = [
         try {
             console.log(`workingg ${country}...`);
             const companies = await getCompaniesFor(country);
+
+            if (!companies || !Array.isArray(companies)) {
+                console.error(`✗ ${country}: unguilty json data`);
+                return;
+            }
+
             const filename = country.toLowerCase().replace(/\s+/g, '_') + '.json';
             const filepath = path.join(countriesDir, filename);
 
