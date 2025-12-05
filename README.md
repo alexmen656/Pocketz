@@ -27,7 +27,7 @@ Adding proper support for GS1 was especially tricky.
 - Card sharing functionality
 - Support for multiple card types (Barcode, QR Code, GS1)
 
-## Changes since Siege submission:
+## Changes since 2. Siege submission:
 
 Since I already submitted this project to Siege, here are the changes I made since then (during the Moonshot hours):
 
