@@ -29,7 +29,7 @@ Adding proper support for GS1 was especially tricky.
 
 ## Changes since 2. Siege submission:
 
-Since I already submitted this project to Siege, here are the changes I made since then (during the Moonshot hours):
+Since I already submitted this project twice to Siege, here are the changes I made since the last submission:
 
 - Added support for QR Code and GS1 cards
 - Redesigned the web share page
