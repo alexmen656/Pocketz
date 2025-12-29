@@ -99,6 +99,19 @@ const addDemoData = async () => {
           </select>
         </div>
       </div>
+      <h2 class="section-title">Legal</h2>
+      <div class="settings-section">
+        <div class="settings-item">
+          <div class="item-label">Privacy Policy</div>
+          <div class="item-value clickable" @click="">Here</div>
+        </div>
+        <div class=" settings-item">
+          <div class="item-label">Terms of Use</div>
+          <div class="item-value clickable" @click="">
+            Here
+          </div>
+        </div>
+      </div>
       <h2 class="section-title">{{ t('settings.information') }}</h2>
       <div class="settings-section">
         <div class="settings-item">

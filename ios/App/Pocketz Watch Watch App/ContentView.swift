@@ -9,21 +9,64 @@
 import SwiftUI
 import WatchKit
 
-struct Card: Identifiable, Hashable {
+struct StoredCard: Codable, Identifiable, Hashable {
     let id: Int
     let name: String
-    let bgColor: Color
-    let textColor: Color
     let logo: String
-    let barcodeValue: String
-    let barcodeType: BarcodeType
+    let bgColor: String
+    let textColor: String
+    var barcode: String?
+    var barcodeFormat: String?
+    var cardNumber: String?
+    var memberNumber: String?
+    var isCustomCard: Bool?
+    var deleted: Bool?
+    var isPinned: Bool?
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
     
-    static func == (lhs: Card, rhs: Card) -> Bool {
+    static func == (lhs: StoredCard, rhs: StoredCard) -> Bool {
         lhs.id == rhs.id
+    }
+    
+    var backgroundColor: Color {
+        Color(hex: bgColor) ?? .gray
+    }
+    
+    var foregroundColor: Color {
+        Color(hex: textColor) ?? .white
+    }
+    
+    var barcodeType: BarcodeType {
+        guard let format = barcodeFormat?.uppercased() else { return .code128 }
+        switch format {
+        case "QR_CODE", "QRCODE", "QR":
+            return .qrCode
+        case "EAN13", "EAN-13", "EAN_13":
+            return .ean13
+        case "GS1_DATABAR", "GS1-DATABAR", "DATABAR":
+            return .databar
+        default:
+            return .code128
+        }
+    }
+    
+    var barcodeValue: String {
+        barcode ?? cardNumber ?? memberNumber ?? ""
+    }
+    
+    var initials: String {
+        let trimmed = name.trimmingCharacters(in: .whitespaces)
+        if trimmed.count <= 2 {
+            return trimmed.uppercased()
+        }
+        let words = trimmed.split(separator: " ")
+        if words.count == 1 {
+            return String(trimmed.prefix(2)).uppercased()
+        }
+        return words.prefix(2).map { String($0.first ?? Character("")) }.joined().uppercased()
     }
 }
 
@@ -31,59 +74,178 @@ enum BarcodeType {
     case code128
     case ean13
     case qrCode
+    case databar
+}
+
+class CardStorageManager: ObservableObject {
+    @Published var cards: [StoredCard] = []
+    
+    private let appGroupID = "group.com.pocketz.shared"
+    private let cardsKey = "cards"
+    
+    init() {
+        loadCards()
+    }
+    
+    func loadCards() {
+        guard let groupDefaults = UserDefaults(suiteName: appGroupID) else {
+            print("❌ Unable to access App Group: \(appGroupID)")
+            return
+        }
+        44
+        if let cardsString = groupDefaults.string(forKey: cardsKey) {
+            if let data = cardsString.data(using: .utf8) {
+                do {
+                    let decoded = try JSONDecoder().decode([StoredCard].self, from: data)
+                    self.cards = decoded.filter { $0.deleted != true }
+                    print("✅ Loaded \(self.cards.count) cards from shared storage")
+                } catch {
+                    print("❌ Failed to decode cards: \(error)")
+                }
+            }
+        } else if let cardsData = groupDefaults.data(forKey: cardsKey) {
+            do {
+                let decoded = try JSONDecoder().decode([StoredCard].self, from: cardsData)
+                self.cards = decoded.filter { $0.deleted != true }
+                print("✅ Loaded \(self.cards.count) cards from shared storage (data)")
+            } catch {
+                print("❌ Failed to decode cards data: \(error)")
+            }
+        } else {
+            print("⚠️ No cards found in shared storage")
+        }
+    }
+}
+
+extension Color {
+    init?(hex: String) {
+        var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+        hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
+        
+        var rgb: UInt64 = 0
+        guard Scanner(string: hexSanitized).scanHexInt64(&rgb) else { return nil }
+        
+        let length = hexSanitized.count
+        
+        switch length {
+        case 3:
+            let r = Double((rgb >> 8) & 0xF) / 15.0
+            let g = Double((rgb >> 4) & 0xF) / 15.0
+            let b = Double(rgb & 0xF) / 15.0
+            self.init(red: r, green: g, blue: b)
+        case 6:
+            let r = Double((rgb >> 16) & 0xFF) / 255.0
+            let g = Double((rgb >> 8) & 0xFF) / 255.0
+            let b = Double(rgb & 0xFF) / 255.0
+            self.init(red: r, green: g, blue: b)
+        case 8:
+            let a = Double((rgb >> 24) & 0xFF) / 255.0
+            let r = Double((rgb >> 16) & 0xFF) / 255.0
+            let g = Double((rgb >> 8) & 0xFF) / 255.0
+            let b = Double(rgb & 0xFF) / 255.0
+            self.init(red: r, green: g, blue: b, opacity: a)
+        default:
+            return nil
+        }
+    }
 }
 
 struct ContentView: View {
-    @State private var cards: [Card] = [
-        Card(id: 1, name: "Starbucks", bgColor: Color(red: 0.0, green: 0.44, blue: 0.24), textColor: .white, logo: "☕", barcodeValue: "1234567890123", barcodeType: .ean13),
-        Card(id: 2, name: "Amazon", bgColor: Color(red: 1.0, green: 0.6, blue: 0.0), textColor: .black, logo: "📦", barcodeValue: "9876543210987", barcodeType: .code128),
-        Card(id: 3, name: "REWE", bgColor: Color(red: 0.8, green: 0.0, blue: 0.0), textColor: .white, logo: "🛒", barcodeValue: "5555555555555", barcodeType: .ean13),
-        Card(id: 4, name: "IKEA", bgColor: Color(red: 0.0, green: 0.33, blue: 0.65), textColor: .yellow, logo: "🏠", barcodeValue: "3333333333333", barcodeType: .qrCode),
-    ]
+    @StateObject private var storageManager = CardStorageManager()
     
     var body: some View {
         NavigationStack {
-            List(cards) { card in
-                NavigationLink(value: card) {
-                    CardRowView(card: card)
+            Group {
+                if storageManager.cards.isEmpty {
+                    EmptyStateView()
+                } else {
+                    CardListView(cards: storageManager.cards)
                 }
-                .listRowBackground(Color.clear)
-                .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
             }
-            .listStyle(.carousel)
             .navigationTitle("Karten")
-            .navigationDestination(for: Card.self) { card in
-                CardDetailView(card: card)
+            .onAppear {
+                storageManager.loadCards()
             }
         }
     }
 }
 
+struct EmptyStateView: View {
+    var body: some View {
+        VStack(spacing: 12) {
+            Image(systemName: "creditcard")
+                .font(.system(size: 40))
+                .foregroundColor(.secondary)
+            
+            Text("Keine Karten")
+                .font(.headline)
+            
+            Text("Füge Karten in der iPhone App hinzu")
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+        }
+        .padding()
+    }
+}
+
+struct CardListView: View {
+    let cards: [StoredCard]
+    
+    var sortedCards: [StoredCard] {
+        cards.sorted { ($0.isPinned ?? false) && !($1.isPinned ?? false) }
+    }
+    
+    var body: some View {
+        List(sortedCards) { card in
+            NavigationLink(value: card) {
+                CardRowView(card: card)
+            }
+            .listRowBackground(Color.clear)
+            .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+        }
+        .listStyle(.carousel)
+        .navigationDestination(for: StoredCard.self) { card in
+            CardDetailView(card: card)
+        }
+    }
+}
+
 struct CardRowView: View {
-    let card: Card
+    let card: StoredCard
     
     var body: some View {
         HStack(spacing: 12) {
             ZStack {
                 Circle()
-                    .fill(card.bgColor)
+                    .fill(card.backgroundColor)
                     .frame(width: 44, height: 44)
                 
-                Text(card.logo)
-                    .font(.system(size: 22))
+                Text(card.initials)
+                    .font(.system(size: 14, weight: .bold, design: .rounded))
+                    .foregroundColor(card.foregroundColor)
             }
             
-            Text(card.name)
-                .font(.system(.body, design: .rounded, weight: .semibold))
-                .foregroundColor(.primary)
-                .lineLimit(1)
+            VStack(alignment: .leading, spacing: 2) {
+                HStack(spacing: 4) {
+                    if card.isPinned == true {
+                        Image(systemName: "pin.fill")
+                            .font(.system(size: 8))
+                            .foregroundColor(.orange)
+                    }
+                    Text(card.name)
+                        .font(.system(.body, design: .rounded, weight: .semibold))
+                        .foregroundColor(.primary)
+                        .lineLimit(1)
+                }
+            }
         }
         .padding(.vertical, 6)
     }
 }
 
 struct CardDetailView: View {
-    let card: Card
+    let card: StoredCard
     @State private var showFullscreen = false
     
     var body: some View {
@@ -91,14 +253,20 @@ struct CardDetailView: View {
             VStack(spacing: 16) {
                 CardHeaderView(card: card)
                 
-                BarcodeView(card: card)
-                    .onTapGesture {
-                        showFullscreen = true
-                    }
-                
-                Text("Tippen für Vollbild")
-                    .font(.caption2)
-                    .foregroundColor(.secondary)
+                if !card.barcodeValue.isEmpty {
+                    BarcodeView(card: card)
+                        .onTapGesture {
+                            showFullscreen = true
+                        }
+                    
+                    Text("Tippen für Vollbild")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                } else {
+                    Text("Kein Barcode")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
             }
             .padding(.horizontal, 4)
         }
@@ -111,20 +279,22 @@ struct CardDetailView: View {
 }
 
 struct CardHeaderView: View {
-    let card: Card
+    let card: StoredCard
     
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 12)
-                .fill(card.bgColor)
+                .fill(card.backgroundColor)
             
             VStack(spacing: 4) {
-                Text(card.logo)
-                    .font(.system(size: 28))
+                Text(card.initials)
+                    .font(.system(size: 24, weight: .bold, design: .rounded))
+                    .foregroundColor(card.foregroundColor)
                 
                 Text(card.name)
                     .font(.system(.caption, design: .rounded, weight: .bold))
-                    .foregroundColor(card.textColor)
+                    .foregroundColor(card.foregroundColor)
+                    .lineLimit(1)
             }
         }
         .frame(height: 70)
@@ -132,7 +302,7 @@ struct CardHeaderView: View {
 }
 
 struct BarcodeView: View {
-    let card: Card
+    let card: StoredCard
     
     var body: some View {
         VStack(spacing: 6) {
@@ -144,7 +314,7 @@ struct BarcodeView: View {
                 case .qrCode:
                     QRCodeView(value: card.barcodeValue)
                         .padding(8)
-                case .ean13, .code128:
+                case .ean13, .code128, .databar:
                     BarcodePatternView(value: card.barcodeValue)
                         .padding(.horizontal, 6)
                         .padding(.vertical, 10)
@@ -318,13 +488,13 @@ struct QRCodeView: View {
 }
 
 struct FullscreenBarcodeView: View {
-    let card: Card
+    let card: StoredCard
     @Binding var isPresented: Bool
     
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                Color.white``
+                Color.white
                     .ignoresSafeArea()
                 
                 VStack(spacing: 0) {
@@ -345,7 +515,7 @@ struct FullscreenBarcodeView: View {
                         case .qrCode:
                             QRCodeView(value: card.barcodeValue)
                                 .frame(width: geometry.size.width - 20, height: geometry.size.width - 20)
-                        case .ean13, .code128:
+                        case .ean13, .code128, .databar:
                             VStack(spacing: 8) {
                                 BarcodePatternView(value: card.barcodeValue)
                                     .frame(height: 70)

@@ -54,12 +54,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
           let groupDefaults = UserDefaults(suiteName: "group.com.pocketz.shared")
           
           if let groupDefaults = groupDefaults {
-              
                      for key in userDefaults.dictionaryRepresentation().keys {
                          if key == "CapacitorStorage.cards" {
-                             groupDefaults.set(userDefaults.dictionaryRepresentation()[key], forKey: "cards")
+                            print("Migrating key: \(key)")
+                            print(userDefaults.dictionaryRepresentation()[key] ?? "nil")
+                            groupDefaults.set(userDefaults.dictionaryRepresentation()[key], forKey: "cards")
                          }
                      }
+
                      groupDefaults.synchronize()
                      WidgetCenter.shared.reloadAllTimelines()
                      print("Successfully migrated defaults")
@@ -76,6 +78,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
           } else {
               print("Unable to create NSUserDefaults with given app group")
-          }
-          
+          } 
       }
