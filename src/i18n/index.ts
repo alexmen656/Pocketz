@@ -20,6 +20,19 @@ import uk from './locales/uk.json'
 import hr from './locales/hr.json'
 import bg from './locales/bg.json'
 import ru from './locales/ru.json'
+import ja from './locales/ja.json'
+import ko from './locales/ko.json'
+import zhHans from './locales/zh-Hans.json'
+import tr from './locales/tr.json'
+import ar from './locales/ar.json'
+import hi from './locales/hi.json'
+import th from './locales/th.json'
+import vi from './locales/vi.json'
+import id from './locales/id.json'
+import ms from './locales/ms.json'
+import he from './locales/he.json'
+import ta from './locales/ta.json'
+import fil from './locales/fil.json'
 
 const i18n = createI18n({
   legacy: false,
@@ -47,6 +60,19 @@ const i18n = createI18n({
     hr,
     bg,
     ru,
+    ja,
+    ko,
+    'zh-Hans': zhHans,
+    tr,
+    ar,
+    hi,
+    th,
+    vi,
+    id,
+    ms,
+    he,
+    ta,
+    fil,
   },
 })
 
