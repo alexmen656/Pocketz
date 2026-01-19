@@ -69,6 +69,10 @@
     "cancel": "Abbrechen"
   },
   "settings": {
+    "language": "Sprache",
+    "legal": "RECHTLICHES",
+    "privacyPolicy": "Datenschutzerklärung",
+    "termsOfUse": "Nutzungsbedingungen",
     "title": "Einstellungen",
     "appearance": "DARSTELLUNG",
     "darkMode": "Dunkler Modus",

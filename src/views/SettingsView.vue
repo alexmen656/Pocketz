@@ -54,6 +54,10 @@ const changeLanguage = async (langCode: string) => {
   localStorage.setItem('app-locale', langCode)
 }
 
+const openUrl = (url: string) => {
+  window.open(url, '_blank')
+}
+
 const APP_VERSION = '1.0.0'
 const APP_BUILD = '1'
 const GITHUB_URL = 'https://github.com/alexmen656/better-stocard'
@@ -86,7 +90,13 @@ const addDemoData = async () => {
     { id: 2, name: 'ESSELUNGA', logo: 'esselunga.com', bgColor: '#1565C0', textColor: '#FFFFFF' },
     { id: 3, name: 'Carrefour', logo: 'carrefour.com', bgColor: '#0D47A1', textColor: '#FFFFFF' },
     { id: 4, name: '🌼CONAD', logo: 'conad.com', bgColor: '#E53935', textColor: '#FFFFFF' },
-    { id: 5, name: 'Media•World', logo: 'mediaworld.com', bgColor: '#C62828', textColor: '#FFFFFF' },
+    {
+      id: 5,
+      name: 'Media•World',
+      logo: 'mediaworld.com',
+      bgColor: '#C62828',
+      textColor: '#FFFFFF',
+    },
     { id: 6, name: 'IKEA FAMILY', logo: 'ikea.com', bgColor: '#FF9800', textColor: '#FFFFFF' },
     { id: 7, name: 'DECATHLON', logo: 'decathlon.com', bgColor: '#42A5F5', textColor: '#FFFFFF' },
     { id: 8, name: 'TIGOTA', logo: 'tigota.com', bgColor: '#26A69A', textColor: '#FFFFFF' },
@@ -120,7 +130,7 @@ const addDemoData = async () => {
           </div>
         </div>
         <div class="settings-item">
-          <div class="item-label">Language</div>
+          <div class="item-label">{{ t('settings.language') }}</div>
           <select v-model="currentLanguage" @change="changeLanguage(currentLanguage)" class="language-select">
             <option v-for="lang in languages" :key="lang.code" :value="lang.code">
               {{ lang.name }}
@@ -128,16 +138,25 @@ const addDemoData = async () => {
           </select>
         </div>
       </div>
-      <h2 class="section-title">Legal</h2>
+      <h2 class="section-title">{{ t('settings.legal') }}</h2>
       <div class="settings-section">
-        <div class="settings-item">
-          <div class="item-label">Privacy Policy</div>
-          <div class="item-value clickable" @click="">Here</div>
+        <div class="settings-item clickable" @click="openUrl('https://pocketz.app/privacy-policy')">
+          <div class="item-label">{{ t('settings.privacyPolicy') }}</div>
+          <div class="item-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
         </div>
-        <div class=" settings-item">
-          <div class="item-label">Terms of Use</div>
-          <div class="item-value clickable" @click="">
-            Here
+        <div class="settings-item clickable"
+          @click="openUrl('https://www.apple.com/legal/internet-services/itunes/dev/stdeula/')">
+          <div class="item-label">{{ t('settings.termsOfUse') }}</div>
+          <div class="item-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
           </div>
         </div>
       </div>
@@ -169,7 +188,9 @@ const addDemoData = async () => {
         <div class="debug-content">
           <h3>{{ t('settings.debugMenu') }}</h3>
           <button class="debug-button" @click="addDemoData">{{ t('settings.addDemoData') }}</button>
-          <button class="debug-button secondary" @click="showDebugMenu = false">{{ t('settings.close') }}</button>
+          <button class="debug-button secondary" @click="showDebugMenu = false">
+            {{ t('settings.close') }}
+          </button>
         </div>
       </div>
     </div>
@@ -189,7 +210,8 @@ const addDemoData = async () => {
   min-height: 100vh;
   background-color: var(--bg-primary);
   padding-bottom: 70px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   -webkit-user-select: none;
   user-select: none;
   width: 100%;
@@ -252,6 +274,21 @@ const addDemoData = async () => {
 
 .item-value.clickable:active {
   background-color: var(--border-subtle);
+}
+
+.settings-item.clickable {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.settings-item.clickable:active {
+  background-color: var(--border-subtle);
+}
+
+.item-icon {
+  display: flex;
+  align-items: center;
+  color: var(--text-tertiary);
 }
 
 .open-source-info {
@@ -317,7 +354,7 @@ const addDemoData = async () => {
 
 .language-select:focus {
   outline: none;
-  border-color: #007AFF;
+  border-color: #007aff;
 }
 
 .toggle-switch {
@@ -334,7 +371,7 @@ const addDemoData = async () => {
 }
 
 .toggle-switch.active {
-  background-color: #34C759;
+  background-color: #34c759;
 }
 
 .toggle-circle {
@@ -399,7 +436,7 @@ const addDemoData = async () => {
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  background-color: #007AFF;
+  background-color: #007aff;
   color: white;
   transition: background-color 0.2s;
   -webkit-user-select: none;
@@ -407,7 +444,7 @@ const addDemoData = async () => {
 }
 
 .debug-button:active {
-  background-color: #0051D5;
+  background-color: #0051d5;
 }
 
 .debug-button.secondary {

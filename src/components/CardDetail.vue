@@ -522,9 +522,9 @@ async function renderBarcode() {
                 <div class="menu-wrapper">
                     <button class="menu-button" @click="showMenu = !showMenu">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="6" r="1.5" fill="#000" />
-                            <circle cx="12" cy="12" r="1.5" fill="#000" />
-                            <circle cx="12" cy="18" r="1.5" fill="#000" />
+                            <circle cx="12" cy="6" r="1.5" fill="currentColor" />
+                            <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+                            <circle cx="12" cy="18" r="1.5" fill="currentColor" />
                         </svg>
                     </button>
                     <div class="dropdown-menu" v-if="showMenu">
@@ -612,8 +612,8 @@ async function renderBarcode() {
                         <button class="close-photos-btn" @click="showShareScreen = false; shareUrl = ''">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M18 6L6 18M6 6l12 12" stroke="#000" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
+                                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </button>
                     </div>
@@ -638,8 +638,8 @@ async function renderBarcode() {
                         <button class="close-photos-btn" @click="showPhotosSection = false">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M18 6L6 18M6 6l12 12" stroke="#000" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
+                                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </button>
                     </div>
@@ -746,14 +746,14 @@ async function renderBarcode() {
                         </transition>
                     </div>
                     <div v-if="selectedPhotoModal" class="photo-modal-overlay" @click="closePhotoModal()">
+                        <button class="close-modal-btn" @click="closePhotoModal()">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18 6L6 18M6 6l12 12" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </button>
                         <div class="photo-modal" @click.stop>
-                            <button class="close-modal-btn" @click="closePhotoModal()">
-                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M18 6L6 18M6 6l12 12" stroke="#fff" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-                            </button>
                             <img :src="selectedPhotoModal" alt="Full size photo" class="modal-photo" />
                         </div>
                     </div>
@@ -1264,6 +1264,7 @@ async function renderBarcode() {
     align-items: center;
     justify-content: center;
     padding: 0;
+    color: var(--text-primary);
 }
 
 .photo-upload-container {
@@ -1566,8 +1567,8 @@ async function renderBarcode() {
 
 .close-modal-btn {
     position: absolute;
-    top: -50px;
-    right: 0;
+    top: calc(20px + env(safe-area-inset-top));
+    right: 20px;
     width: 40px;
     height: 40px;
     border: none;
@@ -1657,7 +1658,7 @@ async function renderBarcode() {
 
 .close-fullscreen-btn {
     position: absolute;
-    top: 40px;
+    top: calc(20px + env(safe-area-inset-top));
     right: 20px;
     width: 40px;
     height: 40px;
