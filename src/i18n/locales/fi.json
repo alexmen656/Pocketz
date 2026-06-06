@@ -46,12 +46,10 @@
     "front": "Etupuoli",
     "back": "Takapuoli",
     "uploadPhoto": "Lataa kuva",
-    "failedToAddToWallet": "Kortin lisääminen lompakkoon epäonnistui. Yritä uudelleen.",
     "cardName": "Kortin nimi",
     "cardNumber": "Korttinumero",
     "save": "Tallenna",
     "cancel": "Peruuta",
-    "generatingPass": "Valmistellaan passia...",
     "pinCard": "Kiinnitä kortti",
     "unpinCard": "Irrota kortti"
   },

@@ -46,12 +46,10 @@
     "front": "Przód",
     "back": "Tył",
     "uploadPhoto": "Prześlij zdjęcie",
-    "failedToAddToWallet": "Nie udało się dodać karty do portfela. Spróbuj ponownie.",
     "cardName": "Nazwa karty",
     "cardNumber": "Numer karty",
     "save": "Zapisz",
     "cancel": "Anuluj",
-    "generatingPass": "Przygotowywanie przepustki...",
     "pinCard": "Przypnij kartę",
     "unpinCard": "Odepnij kartę"
   },

@@ -46,12 +46,10 @@
     "front": "Forside",
     "back": "Bagside",
     "uploadPhoto": "Upload foto",
-    "failedToAddToWallet": "Kunne ikke tilføje kort til tegnebog. Prøv igen.",
     "cardName": "Kortnavn",
     "cardNumber": "Kortnummer",
     "save": "Gem",
     "cancel": "Annuller",
-    "generatingPass": "Forbereder pas...",
     "pinCard": "Fastgør kort",
     "unpinCard": "Frigør kort"
   },

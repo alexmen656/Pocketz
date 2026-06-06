@@ -46,12 +46,10 @@
     "front": "Hadapan",
     "back": "Belakang",
     "uploadPhoto": "Muat Naik Foto",
-    "failedToAddToWallet": "Gagal menambah kad ke dompet. Sila cuba lagi.",
     "cardName": "Nama Kad",
     "cardNumber": "Nombor Kad",
     "save": "Simpan",
     "cancel": "Batal",
-    "generatingPass": "Menyediakan pas...",
     "pinCard": "Sematkan Kad",
     "unpinCard": "Nyahsemat Kad"
   },

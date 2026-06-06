@@ -46,12 +46,10 @@
     "front": "Forside",
     "back": "Bakside",
     "uploadPhoto": "Last opp bilde",
-    "failedToAddToWallet": "Kunne ikke legge til kort i lommeboken. Prøv igjen.",
     "cardName": "Kortnavn",
     "cardNumber": "Kortnummer",
     "save": "Lagre",
     "cancel": "Avbryt",
-    "generatingPass": "Forbereder pass...",
     "pinCard": "Fest kort",
     "unpinCard": "Løsne kort"
   },

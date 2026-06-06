@@ -41,7 +41,6 @@
     "front": "Frontal",
     "back": "Trasera",
     "uploadPhoto": "Subir foto",
-    "failedToAddToWallet": "No se pudo añadir la tarjeta a la billetera. Por favor, inténtelo de nuevo.",
     "generateShareDescription": "Genere un enlace seguro y encriptado para compartir esta tarjeta.",
     "generateQRCode": "Generar código QR",
     "copyLink": "Copiar enlace",
@@ -51,7 +50,6 @@
     "cardNumber": "Número de tarjeta",
     "save": "Guardar",
     "cancel": "Cancelar",
-    "generatingPass": "Preparando pass...",
     "pinCard": "Fijar tarjeta",
     "unpinCard": "Desfijar tarjeta"
   },

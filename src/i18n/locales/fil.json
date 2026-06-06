@@ -46,12 +46,10 @@
     "front": "Harap",
     "back": "Likod",
     "uploadPhoto": "Mag-upload ng Larawan",
-    "failedToAddToWallet": "Nabigong idagdag ang card sa wallet. Pakisubukang muli.",
     "cardName": "Pangalan ng Card",
     "cardNumber": "Numero ng Card",
     "save": "I-save",
     "cancel": "Kanselahin",
-    "generatingPass": "Inihahanda ang pass...",
     "pinCard": "I-pin ang Card",
     "unpinCard": "I-unpin ang Card"
   },

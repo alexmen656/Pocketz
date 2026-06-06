@@ -46,12 +46,10 @@
     "front": "Fronte",
     "back": "Retro",
     "uploadPhoto": "Carica foto",
-    "failedToAddToWallet": "Impossibile aggiungere la carta al portafoglio. Riprova.",
     "cardName": "Nome carta",
     "cardNumber": "Numero carta",
     "save": "Salva",
     "cancel": "Annulla",
-    "generatingPass": "Preparazione pass...",
     "pinCard": "Fissa carta",
     "unpinCard": "Rimuovi fissaggio"
   },

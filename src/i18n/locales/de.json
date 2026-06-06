@@ -41,7 +41,6 @@
     "front": "Vorderseite",
     "back": "Rückseite",
     "uploadPhoto": "Foto hochladen",
-    "failedToAddToWallet": "Karte konnte nicht zur Wallet hinzugefügt werden. Bitte versuchen Sie es erneut.",
     "generateShareDescription": "Generieren Sie einen sicheren, verschlüsselten Link, um diese Karte zu teilen.",
     "generateQRCode": "QR-Code generieren",
     "copyLink": "Link kopieren",
@@ -51,7 +50,6 @@
     "cardNumber": "Kartennummer",
     "save": "Speichern",
     "cancel": "Abbrechen",
-    "generatingPass": "Pass wird vorbereitet...",
     "pinCard": "Karte anpinnen",
     "unpinCard": "Karte entfernen"
   },

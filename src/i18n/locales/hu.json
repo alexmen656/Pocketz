@@ -46,12 +46,10 @@
     "front": "Elülső oldal",
     "back": "Hátoldal",
     "uploadPhoto": "Fotó feltöltése",
-    "failedToAddToWallet": "Nem sikerült hozzáadni a kártyát a tárcához. Próbálja újra.",
     "cardName": "Kártya neve",
     "cardNumber": "Kártyaszám",
     "save": "Mentés",
     "cancel": "Mégse",
-    "generatingPass": "Bérlet előkészítése...",
     "pinCard": "Kártya rögzítése",
     "unpinCard": "Rögzítés feloldása"
   },

@@ -46,12 +46,10 @@
     "front": "Front",
     "back": "Back",
     "uploadPhoto": "Upload Photo",
-    "failedToAddToWallet": "Failed to add card to wallet. Please try again.",
     "cardName": "Card Name",
     "cardNumber": "Card Number",
     "save": "Save",
     "cancel": "Cancel",
-    "generatingPass": "Preparing pass...",
     "pinCard": "Pin Card",
     "unpinCard": "Unpin Card"
   },

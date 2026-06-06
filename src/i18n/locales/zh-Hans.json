@@ -46,12 +46,10 @@
     "front": "正面",
     "back": "背面",
     "uploadPhoto": "上传照片",
-    "failedToAddToWallet": "添加卡片到钱包失败。请重试。",
     "cardName": "卡片名称",
     "cardNumber": "卡号",
     "save": "保存",
     "cancel": "取消",
-    "generatingPass": "正在准备通行证...",
     "pinCard": "固定卡片",
     "unpinCard": "取消固定"
   },

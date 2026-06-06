@@ -46,12 +46,10 @@
     "front": "表面",
     "back": "裏面",
     "uploadPhoto": "写真をアップロード",
-    "failedToAddToWallet": "ウォレットへのカード追加に失敗しました。もう一度お試しください。",
     "cardName": "カード名",
     "cardNumber": "カード番号",
     "save": "保存",
     "cancel": "キャンセル",
-    "generatingPass": "パスを準備中...",
     "pinCard": "カードを固定",
     "unpinCard": "カードの固定を解除"
   },

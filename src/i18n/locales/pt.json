@@ -46,12 +46,10 @@
     "front": "Frente",
     "back": "Verso",
     "uploadPhoto": "Carregar foto",
-    "failedToAddToWallet": "Falha ao adicionar cartão à carteira. Tente novamente.",
     "cardName": "Nome do cartão",
     "cardNumber": "Número do cartão",
     "save": "Salvar",
     "cancel": "Cancelar",
-    "generatingPass": "Preparando passe...",
     "pinCard": "Fixar cartão",
     "unpinCard": "Desafixar cartão"
   },

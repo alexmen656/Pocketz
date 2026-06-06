@@ -46,12 +46,10 @@
     "front": "Prednja strana",
     "back": "Stražnja strana",
     "uploadPhoto": "Prenesi fotografiju",
-    "failedToAddToWallet": "Nije moguće dodati karticu u novčanik. Pokušajte ponovo.",
     "cardName": "Naziv kartice",
     "cardNumber": "Broj kartice",
     "save": "Spremi",
     "cancel": "Odustani",
-    "generatingPass": "Priprema propusnice...",
     "pinCard": "Prikvači karticu",
     "unpinCard": "Otkvači karticu"
   },

@@ -46,12 +46,10 @@
     "front": "Depan",
     "back": "Belakang",
     "uploadPhoto": "Unggah Foto",
-    "failedToAddToWallet": "Gagal menambahkan kartu ke dompet. Silakan coba lagi.",
     "cardName": "Nama Kartu",
     "cardNumber": "Nomor Kartu",
     "save": "Simpan",
     "cancel": "Batal",
-    "generatingPass": "Menyiapkan pass...",
     "pinCard": "Sematkan Kartu",
     "unpinCard": "Lepas Sematan"
   },

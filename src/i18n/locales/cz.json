@@ -41,7 +41,6 @@
     "front": "Přední strana",
     "back": "Zadní strana",
     "uploadPhoto": "Nahrát fotku",
-    "failedToAddToWallet": "Nepodařilo se přidat kartu do peněženky. Zkuste to prosím znovu.",
     "generateShareDescription": "Vygenerujte bezpečný, šifrovaný odkaz na sdílení této karty.",
     "generateQRCode": "Generovat QR kód",
     "copyLink": "Kopírovat odkaz",
@@ -51,7 +50,6 @@
     "cardNumber": "Číslo karty",
     "save": "Uložit",
     "cancel": "Zrušit",
-    "generatingPass": "Pass se připravuje...",
     "pinCard": "Připnout kartu",
     "unpinCard": "Odepnout kartu"
   },

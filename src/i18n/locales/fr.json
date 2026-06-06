@@ -46,12 +46,10 @@
     "front": "Recto",
     "back": "Verso",
     "uploadPhoto": "Télécharger une photo",
-    "failedToAddToWallet": "Échec de l'ajout de la carte au portefeuille. Veuillez réessayer.",
     "cardName": "Nom de la carte",
     "cardNumber": "Numéro de carte",
     "save": "Enregistrer",
     "cancel": "Annuler",
-    "generatingPass": "Préparation du pass...",
     "pinCard": "Épingler la carte",
     "unpinCard": "Désépingler la carte"
   },

@@ -46,12 +46,10 @@
     "front": "Framsida",
     "back": "Baksida",
     "uploadPhoto": "Ladda upp foto",
-    "failedToAddToWallet": "Kunde inte lägga till kort i plånboken. Försök igen.",
     "cardName": "Kortnamn",
     "cardNumber": "Kortnummer",
     "save": "Spara",
     "cancel": "Avbryt",
-    "generatingPass": "Förbereder pass...",
     "pinCard": "Fäst kort",
     "unpinCard": "Lossa kort"
   },

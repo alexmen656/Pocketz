@@ -46,12 +46,10 @@
     "front": "קדמי",
     "back": "אחורי",
     "uploadPhoto": "העלה תמונה",
-    "failedToAddToWallet": "הוספת הכרטיס לארנק נכשלה. אנא נסה שוב.",
     "cardName": "שם הכרטיס",
     "cardNumber": "מספר כרטיס",
     "save": "שמור",
     "cancel": "ביטול",
-    "generatingPass": "מכין כרטיס...",
     "pinCard": "הצמד כרטיס",
     "unpinCard": "בטל הצמדה"
   },

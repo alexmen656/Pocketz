@@ -46,12 +46,10 @@
     "front": "앞면",
     "back": "뒷면",
     "uploadPhoto": "사진 업로드",
-    "failedToAddToWallet": "지갑에 카드 추가에 실패했습니다. 다시 시도해 주세요.",
     "cardName": "카드 이름",
     "cardNumber": "카드 번호",
     "save": "저장",
     "cancel": "취소",
-    "generatingPass": "패스 준비 중...",
     "pinCard": "카드 고정",
     "unpinCard": "카드 고정 해제"
   },

@@ -2,7 +2,6 @@
 import { onMounted, ref, computed, watch, nextTick } from 'vue'
 import { ScreenBrightness } from '@capacitor-community/screen-brightness';
 import { Filesystem, Directory } from '@capacitor/filesystem';
-import { CapacitorPassToWallet } from 'capacitor-pass-to-wallet';
 import VueJsBarcode from 'vue-jsbarcode';
 import QrcodeVue from 'qrcode.vue';
 import bwipjs from 'bwip-js';
@@ -33,59 +32,6 @@ interface Props {
         photoBack?: string
         isCustomCard?: boolean
         isPinned?: boolean
-    }
-}
-
-function blobToBase64(blob: Blob): Promise<string | ArrayBuffer | null> {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onerror = reject;
-        reader.onload = () => {
-            resolve(reader.result);
-        };
-        reader.readAsDataURL(blob);
-    });
-}
-
-async function addToWallet() {
-    try {
-        isGeneratingPass.value = true
-        const cardPayload = {
-            name: props.card.name,
-            logo: props.card.logo,
-            bgColor: props.card.bgColor,
-            textColor: props.card.textColor,
-            barcode: props.card.barcode || cardNumber.value.replace(/\s/g, ''),
-            barcodeFormat: props.card.barcodeFormat || 'CODE128B',
-            cardNumber: props.card.name,//cardNumber.value,
-            memberNumber: cardNumber.value //memberNumber.value
-        };
-
-        const response = await fetch('https://api.pocketz.app/generate-pass', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(cardPayload)
-        });
-
-        if (!response.ok) {
-            throw new Error(`Failed to generate pass: ${response.statusText}`);
-        }
-
-        const blob = await response.blob();
-        const base64 = await blobToBase64(blob);
-
-        if (!base64 || base64 instanceof ArrayBuffer) {
-            throw new Error('Unable to convert pass to base64');
-        }
-
-        await CapacitorPassToWallet.addToWallet({ base64: base64 });
-    } catch (error) {
-        console.error('Error adding to wallet:', error);
-        alert(t('cardDetail.failedToAddToWallet'));
-    } finally {
-        isGeneratingPass.value = false
     }
 }
 
@@ -122,7 +68,6 @@ const cardNumber = ref(props.card.cardNumber || '')
 const isEditMode = ref(false)
 const editedName = ref(props.card.name)
 const editedCardNumber = ref(props.card.cardNumber || '')
-const isGeneratingPass = ref(false)
 const cachedLogoUrl = ref<string>('')
 //const memberNumber = ref(props.card.memberNumber || '')
 
@@ -777,112 +722,13 @@ async function renderBarcode() {
                             </div>
                         </div>
                     </div>
-                    <div class="add-to-wallet-section">
-                        <button class="add-to-wallet-btn" @click="addToWallet">
-                            <img src="./icons/wallet.svg" alt="Add to Wallet" style="width: 200px; height: auto;" />
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
-        <transition name="fade">
-            <div v-if="isGeneratingPass" class="loading-overlay">
-                <div class="loading-popup">
-                    <div class="spinner"></div>
-                    <p>{{ t('cardDetail.generatingPass') }}</p>
-                </div>
-            </div>
-        </transition>
     </div>
 </template>
 
 <style scoped>
-.add-to-wallet-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.add-to-wallet-btn {
-    border: none;
-    background-color: transparent;
-}
-
-.loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 3000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.loading-popup {
-    background: white;
-    border-radius: 16px;
-    padding: 40px 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    max-width: 300px;
-    text-align: center;
-    color: #333;
-}
-
-.spinner {
-    width: 48px;
-    height: 48px;
-    border: 4px solid #F0F0F0;
-    border-top-color: #667eea;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.loading-popup p {
-    font-size: 16px;
-    font-weight: 500;
-    color: inherit;
-    margin: 0;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 0.2s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-    opacity: 0;
-}
-
-@media (prefers-color-scheme: dark) {
-    .loading-popup {
-        background: var(--bg-secondary);
-        color: var(--text-primary);
-    }
-
-    .loading-popup p {
-        color: var(--text-primary);
-    }
-
-    .spinner {
-        border-color: var(--border-color);
-        border-top-color: #667eea;
-    }
-}
-
 .card-detail-overlay {
     position: fixed;
     top: 0;
