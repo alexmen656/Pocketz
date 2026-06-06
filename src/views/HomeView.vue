@@ -6,6 +6,7 @@ import TouchBar from '@/components/TouchBar.vue'
 import CardsHeader from '@/components/CardsHeader.vue'
 import { useI18n } from 'vue-i18n'
 import { getCachedLogoUrl, preloadLogos } from '@/utils/logoCacheService'
+import { shouldAutoOpenCard } from '@/utils/uiTestMode'
 
 const { t } = useI18n()
 
@@ -126,6 +127,12 @@ async function loadAllLogoUrls() {
 onMounted(async () => {
   cards.value = await getCards();
   await loadAllLogoUrls();
+
+  // UI screenshot tests: auto-open the first card's barcode detail.
+  const firstCard = cards.value[0]
+  if (firstCard && await shouldAutoOpenCard()) {
+    selectedCard.value = firstCard
+  }
 });
 </script>
 

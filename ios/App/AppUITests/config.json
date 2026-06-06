@@ -1,0 +1,17 @@
+{
+  "_config": {
+    "scheme": "App",
+    "devices": [
+      "iPhone 16 Pro Max",
+      "iPad Pro (12.9-inch) (4th generation)"
+    ],
+    "languages": ["en-US", "de-DE", "es-ES"],
+    "bgColor1": "#667eea",
+    "bgColor2": "#764ba2",
+    "textColor": "#FFFFFF"
+  },
+  "testScreenshot00_home": "All your loyalty cards in one place.",
+  "testScreenshot01_cardDetail": "Scan at checkout — no plastic needed.",
+  "testScreenshot02_createCard": "Add any card in seconds by scanning it.",
+  "testScreenshot03_settings": "Dark mode and 34 languages, built in."
+}
