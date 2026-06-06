@@ -60,7 +60,7 @@ const openUrl = (url: string) => {
 
 const APP_VERSION = '1.0.0'
 const APP_BUILD = '1'
-const GITHUB_URL = 'https://github.com/alexmen656/better-stocard'
+const GITHUB_URL = 'https://github.com/alexmen656/Pocketz'
 
 const buildClickCount = ref(0)
 const buildClickTimer = ref<number | null>(null)
