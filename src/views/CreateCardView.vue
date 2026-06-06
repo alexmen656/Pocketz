@@ -3,6 +3,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { Preferences } from '@capacitor/preferences'
 import { BarcodeScanner, BarcodeFormat } from '@capacitor-mlkit/barcode-scanning'
+import { InAppReview } from '@capacitor-community/in-app-review'
 import { useI18n } from 'vue-i18n'
 import VueJsBarcode from 'vue-jsbarcode'
 import QrcodeVue from 'qrcode.vue'
@@ -31,7 +32,9 @@ interface Card extends Company {
 }
 
 const router = useRouter()
-const step = ref<'select-company' | 'enter-barcode' | 'custom-card' | 'select-format'>('select-company')
+const step = ref<'select-company' | 'enter-barcode' | 'custom-card' | 'select-format'>(
+    'select-company',
+)
 const selectedCompany = ref<Company | null>(null)
 const barcode = ref('')
 const barcodeFormat = ref<BarcodeFormatType>('CODE128B')
@@ -40,7 +43,14 @@ const searchQuery = ref('')
 const customCompanyName = ref('')
 const gs1Canvas = ref<HTMLCanvasElement | null>(null)
 const SCANNER_ACTIVE_CLASS = 'scanner-active'
-const BARCODE_FORMATS: BarcodeFormatType[] = ['EAN13', 'CODE128A', 'CODE128B', 'CODE128C', 'QR_CODE', 'GS1_DATABAR']
+const BARCODE_FORMATS: BarcodeFormatType[] = [
+    'EAN13',
+    'CODE128A',
+    'CODE128B',
+    'CODE128C',
+    'QR_CODE',
+    'GS1_DATABAR',
+]
 
 const isValidEAN13 = (value: string): boolean => {
     const cleaned = value.replace(/\s+/g, '')
@@ -89,7 +99,7 @@ const isFormatCompatible = (format: BarcodeFormatType, value: string): boolean =
 }
 
 const availableBarcodeFormats = computed(() => {
-    return BARCODE_FORMATS.filter(format => isFormatCompatible(format, barcode.value))
+    return BARCODE_FORMATS.filter((format) => isFormatCompatible(format, barcode.value))
 })
 
 const getLogoUrl = (domain: string) => `${API_BASE_URL}/logo/${domain}`
@@ -167,20 +177,24 @@ const getInitials = (name: string): string => {
         return trimmed.substring(0, 2).toUpperCase()
     }
 
-    return words.map(w => w.charAt(0)).join('').toUpperCase().substring(0, 2)
+    return words
+        .map((w) => w.charAt(0))
+        .join('')
+        .toUpperCase()
+        .substring(0, 2)
 }
 
-const companies = ref<Company[]>([]);
+const companies = ref<Company[]>([])
 
 const fetchCompanies = async () => {
     try {
-        const response = await fetch(`${API_BASE_URL}/companies`);
-        if (!response.ok) throw new Error('Failed to fetch companies');
-        companies.value = await response.json();
+        const response = await fetch(`${API_BASE_URL}/companies`)
+        if (!response.ok) throw new Error('Failed to fetch companies')
+        companies.value = await response.json()
     } catch (error) {
-        console.error('Error fetching companies:', error);
+        console.error('Error fetching companies:', error)
     }
-};
+}
 
 const sortedCompanies = computed(() => {
     return [...companies.value].sort((a, b) => a.name.localeCompare(b.name))
@@ -191,9 +205,7 @@ const filteredCompanies = computed(() => {
         return sortedCompanies.value
     }
     const query = searchQuery.value.toLowerCase()
-    return sortedCompanies.value.filter((company) =>
-        company.name.toLowerCase().includes(query)
-    )
+    return sortedCompanies.value.filter((company) => company.name.toLowerCase().includes(query))
 })
 
 const groupedCompanies = computed(() => {
@@ -225,7 +237,7 @@ const isFormValid = computed(() => {
 })
 
 onMounted(async () => {
-    await fetchCompanies();
+    await fetchCompanies()
 })
 
 onUnmounted(() => {
@@ -281,7 +293,7 @@ async function startScanning() {
             if (isFormatCompatible(detectedFormat, nextValue)) {
                 barcodeFormat.value = detectedFormat
             } else {
-                const availableFormats = BARCODE_FORMATS.filter(f => isFormatCompatible(f, nextValue))
+                const availableFormats = BARCODE_FORMATS.filter((f) => isFormatCompatible(f, nextValue))
                 barcodeFormat.value = availableFormats[0] || 'CODE128B'
             }
             step.value = 'select-format'
@@ -314,7 +326,7 @@ function goBack() {
 
 function goToFormatSelection() {
     // Ensure currently selected format is still compatible
-    const availableFormats = BARCODE_FORMATS.filter(f => isFormatCompatible(f, barcode.value))
+    const availableFormats = BARCODE_FORMATS.filter((f) => isFormatCompatible(f, barcode.value))
     if (!availableFormats.includes(barcodeFormat.value)) {
         barcodeFormat.value = availableFormats[0] || 'CODE128B'
     }
@@ -338,7 +350,7 @@ async function renderGS1Barcode() {
             text: barcode.value,
             scale: 2,
             height: 10,
-            segments: 8
+            segments: 8,
         })
     } catch (error) {
         console.error('Error rendering GS1 barcode:', error)
@@ -350,7 +362,7 @@ async function saveCard() {
 
     const isCustomCard = !selectedCompany.value.logo
 
-    const cardNumber = barcode.value;
+    const cardNumber = barcode.value
     const memberNumber = `${Math.floor(Math.random() * 900 + 100)} ${Math.floor(Math.random() * 900 + 100)} ${Math.floor(Math.random() * 9000 + 1000)}`
 
     const newCard: any = {
@@ -376,7 +388,37 @@ async function saveCard() {
         value: JSON.stringify(existingCards),
     })
 
+    // Check if we should request a review
+    await checkAndRequestReview(existingCards.length)
+
     router.push('/')
+}
+
+async function checkAndRequestReview(totalCards: number) {
+    try {
+        // Get the last time we requested a review
+        const { value: lastReviewAtValue } = await Preferences.get({ key: 'lastReviewTimestamp' })
+        const lastReviewTimestamp = lastReviewAtValue ? parseInt(lastReviewAtValue) : 0
+
+        const now = Date.now()
+        const fourteenDaysInMs = 14 * 24 * 60 * 60 * 1000 // 14 Tage in Millisekunden
+        const timeSinceLastReview = now - lastReviewTimestamp
+
+        // Request review if:
+        // 1. User has at least 3 cards AND
+        // 2. Either never requested before OR 14 days have passed since last request
+        if (totalCards >= 3 && (lastReviewTimestamp === 0 || timeSinceLastReview >= fourteenDaysInMs)) {
+            await InAppReview.requestReview()
+
+            // Save the current timestamp
+            await Preferences.set({
+                key: 'lastReviewTimestamp',
+                value: now.toString(),
+            })
+        }
+    } catch (error) {
+        console.error('Error requesting review:', error)
+    }
 }
 </script>
 
@@ -388,12 +430,17 @@ async function saveCard() {
                     <path d="M15 18L9 12L15 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
             </button>
-            <h1 class="title">{{
-                step === 'select-company' ? t('createCard.selectCompany') :
-                    step === 'custom-card' ? t('createCard.customCard') :
-                        step === 'select-format' ? t('createCard.selectFormat') :
-                            t('createCard.addCard')
-            }}</h1>
+            <h1 class="title">
+                {{
+                    step === 'select-company'
+                        ? t('createCard.selectCompany')
+                        : step === 'custom-card'
+                            ? t('createCard.customCard')
+                            : step === 'select-format'
+                                ? t('createCard.selectFormat')
+                                : t('createCard.addCard')
+                }}
+            </h1>
             <div style="width: 24px"></div>
         </header>
         <div v-if="step === 'select-company'" class="step-content">
@@ -409,7 +456,7 @@ async function saveCard() {
                             :style="{ backgroundColor: company.bgColor, color: company.textColor }"
                             @click="selectCompany(company)">
                             <img :src="getLogoUrl(company.logo)" alt=""
-                                style="max-width: 100px; max-height: 60px; object-fit: contain;">
+                                style="max-width: 100px; max-height: 60px; object-fit: contain" />
                         </button>
                     </div>
                 </div>
@@ -437,7 +484,7 @@ async function saveCard() {
                         {{ getInitials(selectedCompany?.name || '') }}
                     </div>
                     <img v-else :src="selectedCompany ? getLogoUrl(selectedCompany.logo) : ''" alt=""
-                        style="max-width: 150px; max-height: 80px; object-fit: contain;">
+                        style="max-width: 150px; max-height: 80px; object-fit: contain" />
                 </div>
             </div>
             <div class="form-section">
@@ -675,7 +722,9 @@ async function saveCard() {
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
     box-shadow: 0 2px 8px var(--shadow-light);
     padding: 20px;
     text-align: center;
@@ -798,7 +847,7 @@ async function saveCard() {
 
 .btn-primary {
     background-color: #236ed7;
-    color: #FFFFFF;
+    color: #ffffff;
 }
 
 .btn-primary:not(.disabled):active {
@@ -806,7 +855,7 @@ async function saveCard() {
 }
 
 .btn-primary.disabled {
-    background-color: #CCCCCC;
+    background-color: #cccccc;
     cursor: not-allowed;
 }
 
@@ -890,7 +939,7 @@ async function saveCard() {
 .format-button.active {
     border-color: #236ed7;
     background-color: #236ed7;
-    color: #FFFFFF;
+    color: #ffffff;
 }
 
 .format-hint {
